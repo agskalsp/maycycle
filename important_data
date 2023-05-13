@@ -11,3 +11,10 @@ Github.com
 -------------------------------------------------
 username: agskalsp
 password: Power@20223
+Personal Access Token: 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
+
+Git config for Linux CLI:
+-------------------------------------------------
+git config --global user.name "agskalsp"
+git config --global user.email "koteshagsk@aol.com"
+git push https://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@github.com/agskalsp/maycycle.git
