@@ -1,0 +1,221 @@
+=========================================================================
+POM.xml
+================
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.fresco.play</groupId>
+  <artifactId>maven-anagram-finder</artifactId>
+  <packaging>jar</packaging>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>maven-anagram-finder</name>
+  <url>http://maven.apache.org</url>
+
+  	<!-- Insert test dependency here -->
+    <dependencies>
+           <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.8.1</version>
+            <scope>test</scope>
+</dependency>
+
+    </dependencies>
+
+   
+  	<build>
+        <!-- Set the jar filename as maven-anagram-finder -->
+    
+      	<!-- Configure Shade plugin to generate an executable Uber jar.
+             Add the below entries to MANIFEST.MF 
+                Main-Class: com.fresco.play.Anagram
+                Build-Number: 10
+        -->
+         <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-shade-plugin</artifactId>
+            <version>3.4.0</version>
+            <executions>
+              <execution>
+                <phase>package</phase>
+                <goals>
+                  <goal>shade</goal>
+                </goals>
+                <configuration>
+                  <transformers>
+                    <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                      <manifestEntries>
+                        <Main-Class>com.fresco.play.Anagram</Main-Class>
+                        <Build-Number>10</Build-Number>
+                      </manifestEntries>
+                    </transformer>
+                  </transformers>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-jar-plugin</artifactId>
+              <version>2.3.2</version>
+              <configuration>
+                  <finalName>${project.artifactId}</finalName>                   
+              </configuration>
+          </plugin>
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-surefire-plugin</artifactId>
+              <version>3.0.0-M2</version>
+            </plugin>
+            <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.10.1</version>
+          <configuration>
+            <source>1.8</source>
+            <target>1.8</target>
+          </configuration>
+        </plugin>          
+        </plugins>
+        <finalName>${project.artifactId}</finalName>
+  	</build>
+</project>
+
+===================================================
+===============================================================================
+Anagram.java --------------------- WORKED CODE
+=============================================================
+package com.fresco.play;
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Anagram 
+{
+    public static void main(String a[]){
+
+        String str1=null;
+        String str2=null;
+
+        // Write code to get 2 strings/sentences from command line and check if they are Anagrams
+        System.out.println("Wanna check if your strings are anagrams???");
+        System.out.print("Enter String1 : ");
+        //Get user input in str1
+        Scanner input = new Scanner(System.in);
+        str1 = input.nextLine();
+        
+        System.out.print("Enter String2 : ");       
+        //Get user input in str2
+        str2 = input.nextLine();
+        boolean status = isAnagram(str1,str2);
+
+         if (status) {  
+            System.out.println("Whoa!!!! "+str1 + " is a perfect ANAGRAM of " + str2 ); 
+            
+        } else {  
+            System.out.println("Oh no!!! "+str1 + " and " + str2 + " do not match up to be Anagrams...");  
+            
+        }   
+       
+    }
+
+       
+     static boolean isAnagram(String in1, String in2) {  
+        char[] charactersOfFirst = in1.replaceAll("\\s", "").toLowerCase().toCharArray();
+        char[] charactersOfSecond = in2.replaceAll("\\s", "").toLowerCase().toCharArray();
+ 
+        if (charactersOfFirst.length != charactersOfSecond.length) {
+            return false;
+        }
+ 
+        Arrays.sort(charactersOfFirst);
+        Arrays.sort(charactersOfSecond);
+ 
+        return Arrays.equals(charactersOfFirst, charactersOfSecond);
+    }
+}
+
+===============================================================================
+Anagram.java
+=============================================================
+package com.fresco.play;
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Anagram 
+{
+    public static void main(String a[]){
+
+        String str1=null;
+        String str2=null;
+
+        // Write code to get 2 strings/sentences from command line and check if they are Anagrams
+        System.out.println("Wanna check if your strings are anagrams???");
+        System.out.print("Enter String1 : ");
+        //Get user input in str1
+        Scanner input = new Scanner(System.in);
+        str1 = input.nextLine();
+        
+        System.out.print("Enter String2 : ");       
+        //Get user input in str2
+        str2 = input.nextLine();
+        boolean status = isAnagram(str1,str2);
+
+         if (status) {  
+            System.out.println("Whoa!!!! "+str1 + " is a perfect ANAGRAM of " + str2 ); 
+            
+        } else {  
+            System.out.println("Oh no!!! "+str1 + " and " + str2 + " do not match up to be Anagrams...");  
+            
+        }   
+       
+    }
+
+       
+     static boolean isAnagram(String in1, String in2) {  
+        
+        in1 = in1.toLowerCase();  
+        in2 = in2.toLowerCase();  
+        int len, len1, len2, i, j, found=0, not_found=0;
+
+        //Checking for the length of strings  
+         /*Compare if in1 and in2 are Anagrams and return true or false.
+        This method should satisfy all the tests in AnagramTest.java*/
+        len1 = in1.length();
+        len2 = in2.length();
+        if(len1 == len2)
+            {
+                len = len1;
+                for(i=0; i<len; i++)
+                    {
+                        found = 0;
+                        for(j=0; j<len; j++)
+                        {
+                            if(in1.charAt(i) == in2.charAt(j))
+                            {
+                            found = 1;
+                            break;
+                            }
+                        }
+                    }
+                 if(found == 0)
+                    {
+                        not_found = 1;
+                    }
+                    if(not_found == 1)
+            {
+                return true;
+             }
+          else
+            {
+              return false;
+            }
+                    
+       }
+            else
+            {
+              return false;
+            }
+          
+      }
+}

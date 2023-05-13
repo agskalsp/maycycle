@@ -1,0 +1,30 @@
+def fib(n)
+{
+  int first_num = 1
+  int second_num = 1
+  if(n==1)
+  println first_num
+  else if(n==2)
+  println first_num + " "+second_num
+  else if (n > 2)
+  {
+    print first_num + " "+second_num
+    int i = 3
+    while(i<=n)
+    {
+      int z = first_num + second_num
+      print " "+z
+      first_num = second_num
+      second_num = z
+      i = i+1
+    }
+  }
+}
+task fibo(){
+  doLast
+  {
+    int n = Integer.parseInt(num)
+    println "First"+n+"fibonacci numbers:"
+    fib n
+  }
+}

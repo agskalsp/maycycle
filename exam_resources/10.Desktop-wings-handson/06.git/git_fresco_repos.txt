@@ -1,0 +1,9 @@
+https://github.com/frescoplaylab/ansible-script.git
+https://github.com/frescoplaylab/JenkinsDeliveryPipeline.git
+https://github.com/frescoplaylab/JenkinsPipeline.git
+https://github.com/frescoplaylab/MavenDemo.git
+https://github.com/frescoplaylab/JavaMaven.git
+https://github.com/frescoplaylab/kubernetes.git
+https://github.com/frescoplaylab/ansible_VM.git
+
+

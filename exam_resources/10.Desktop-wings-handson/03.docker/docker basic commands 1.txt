@@ -1,0 +1,73 @@
+###########     NETWORKING     #############
+
+DEFAULT bridge (( BRIDGE IS docker0_bridge))
+--net=host    ====== it takes the host network
+--net=container2:$container1    =====  container2 will have same NETWORKING Configuration as conatiner1
+--net None    ======  Isolated NETWORKING
+
+
+
+docker network ls     ==== to see the list of NETWORKS
+
+docker network inspect bridge    ===== helps us see the details of that network
+docker inspect network bridge
+
+
+docker run -itd --name=container1 busybox
+docker run -itd --name=container2 busybox     =====   Now we have 2 containers running in the default bridge network.
+
+docker network disconnect bridge CONTAINER_NAME
+
+docker network create NETWORK_NAME   ======== DEFAULTLy it connects to BRIDGE @@DRIVER@@
+docker network create -d bridge NETWORK_NAME     ========= << -d >> is for @@DRIVER@@ it can be bridge or overlay
+
+docker run -d --net NETWORK_NAME --name CONTAINER_NAME IMAGE_NAME
+ docker inspect --format='{{json .NetworkSettings.Networks}}'  CONTAINER_NAME/CONTAINER_ID
+
+ docker run -d --name CONTAINER_NAME training/webapp python app.py
+
+ ##################       TO GET IP ADDRESS OF A Container       #####################
+ docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' CONTAINER_NAME/CONTAINER_ID
+
+
+ docker exec -it IMAGE_NAME bash    ====== allows you to enter into the shell script inside the container
+ ping 172.17.0.2     (( To check this need both webapp and DB )) ===== ping IPAddress will check connection
+
+
+ CTRL-C to end the INTERACTIVE shell
+
+docker network connect NETWORK_NAME1 CONTAINER_NAME2
+docker network connect new_bridge web
+
+
+docker inspect --format='{{json .NetworkSettings.Networks.NETWORK_NAME1}}'  CONTAINER_NAME2
+
+
+
+docker network connect <<network name>> <<Container name>>
+docker run -itd --name=container1 busybox
+docker network connect myNetwork container1
+docker network ls
+
+docker network inspect <<network name>>
+docker network inspect myNetwork
+
+docker network disconnect <<network name>> <<container name>>
+docker network disconnect isolated_nw container5
+
+docker network rm <<network name>>
+
+A bridge network is used when we run a relatively small network on a single host.
+An overlay network is used when we have a significantly larger network involving multiple host.
+         There are 2 ways of creating an overlay network.
+               ** Overlay networking with an external key-value store
+               ** Overlay networking in swarm mode
+
+
+The swarm nodes exchange overlay network information using a gossip protocol.
+
+Default inet address for docker is         -- 172.17.42.1
+On Docker installation, 
+          the three networks that are automatically created are         -- bridge, host, none
+
+The virtual bridge that the Docker establishes is called     -- docker0

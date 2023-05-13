@@ -1,0 +1,53 @@
+NumberCheckApp.java
+=============================
+package numcheck;
+import java.util.Scanner;
+public class NumberCheckApp {
+
+    public static void main(String[] args){
+
+        //type your code here
+       // int num=2;
+        //NumberCheck obj = new NumberCheck();
+      //  System.out.print(obj.isEven(num) == "even" ? "even" : "odd");
+      int num;
+    Scanner in = new Scanner(System.in);
+    num = in.nextInt();
+    }
+
+}
+=============================
+NumberCheck.java
+====================
+package numcheck;
+public class NumberCheck {
+
+ public String isEven(int num){
+  //type your code here
+  if ((num & 1)!=1){
+     return "even";
+  }
+  else{
+    return "odd";
+  }
+ }
+}
+=============================
+build.gradle
+===============
+apply plugin:'application'
+
+run { standardInput = System.in }
+sourceSets { main { java { srcDir './' } } }
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    // add dependencies here as below
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.9'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+mainClassName = 'NumberCheckApp'
+

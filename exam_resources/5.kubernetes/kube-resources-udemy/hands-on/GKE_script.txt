@@ -1,0 +1,15 @@
+
+*******************************************************************
+.
+. Demo: Google Kubernetes Engine  |  Srinath Challa
+.
+
+*******************************************************************
+
+1. Create Kubernetes Cluster with three worker nodes on Google Kubernetes Engine
+
+2. Deploy sample nginx-application
+
+3. Explore GKE dashboard
+
+*******************************************************************

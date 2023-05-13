@@ -1,0 +1,48 @@
+docker swarm init --advertise-addr <<IP_address>>
+docker swarm leave
+
+docker node update --availability drain worker1
+docker node update --availability drain docker-master
+docker node inspect --pretty worker1
+
+docker node ls
+
+docker swarm join-token manager
+docker swarm join-token worker
+
+
+@@This command in Manager window only@@
+docker node promote docker-node2  
+
+
+docker swarm init --force-new-cluster
+
+
+docker service create --replicas=3 --network frontend my-web-server
+
+docker service create --replicas=3 -p 8080:80 my-web-server
+
+docker service create --replicas=3 my-web-server
+
+docker service create --replicas=3 --name webapp my-web-server
+@@it gives webapp1, webapp2, webapp3@@
+
+
+docker service create --replicas=3 --name webapp my-web-server
+@@TO UPDATE@@
+docker service update --replicas=4 webapp
+
+
+
+docker service create --mode global my-monitoring-agent
+
+
+docker service create nginx
+
+docker service --help
+docker service update --help
+
+
+docker service update NODE_ID --publish-add 8000:80
+docker service rm NODE_ID
+docker service ps NODE_NAME

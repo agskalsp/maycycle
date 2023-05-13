@@ -1,0 +1,65 @@
+https://code.fresco.me/play-content/handson-frescoplaylab-pythondemo.git
+
+handson_user
+jQdQysBiuhe4Njn8
+
+https://jQdQysBiuhe4Njn8@code.fresco.me/play-content/handson-frescoplaylab-pythondemo.git
+
+
+
+################# NEw Git
+
+https://code.fresco.me/play-content/github-frescoplaylab-jenkinswar.git 
+Git username: handson_user 
+Git password: glpat-7B41mSkUdsDJAUDMxibs
+
+
+https://code.fresco.me/play-content/github-frescoplaylab-jenkinsdeliverypipeline.git
+Git Username: handson_user
+Git Password: glpat-7B41mSkUdsDJAUDMxibs
+
+1. Tryouts - DevOps Build Pipeline using JenkinsGeneral Instructions1. Attempt the test only if your network is stable. Avoid using mobile internet.
+2. After launching jenkins, if you find errors like 'Bad Gateway' or 'no valid crumb was included in the request' kindly refresh the environment and try again with the stable internet connectivity
+3. Jenkins is already installed. Select Run -> Open Preview to launch Jenkins and open it in a new tab for better visualization.
+4. Select Run Tests to check your result and then Submit.
+5. The scenario is to build a pipeline in jenkins with 2 different jobs as described below and create a Build pipeline to trigger the jobs automatically. 
+
+Getting Started 
+
+
+1. Login to jenkins getting the admin password with the command, $ cat /var/lib/jenkins/secrets/initialAdminPassword
+
+2. Create a job named TestJob3. Configure your job to: 
+- Fetch the source code from Git Repository 
+https://code.fresco.me/play-content/github-frescoplaylabjenkinsdeliverypipeline.git
+Git Username: handson_user
+Git Password: glpat-7B41mSkUdsDJAUDMxibs 
+- Build the job to clean, compile and test using maven - Post-Build PublishJob4. Create another job named PublishJob 5. Configure the job to: - Build the job only if TestJob is success - Post-Build, publish generated test reports from TestJob (Note: copy the required test reports from TestJob workspace in PublishJob. Install all the required plugins)6. Now, create a Build Pipeline named PipelineDemo with the initial job as TestJob7. Run the pipeline and check if your build is success
+
+
+
+
+
+1. Tryouts - DevOps Deployment Pipeline using JenkinsGeneral Instructions1. Attempt the test only if your network is stable. Avoid using mobile internet.2. After launching Jenkins, if you find errors like 'Bad Gateway' or 'no valid crumb was included in the request' kindly refresh the environment and try again with the stable internet connectivity3. Select Project -> Run to start the tomcat server4. Run Jenkins on tomcat Hint: Click on web preview link to launch tomcat and append /jenkins to the tomcat URL to run Jenkins on tomcat server5. Select Run Tests to check your result 6. The scenario is to build a pipeline in Jenkins with 2 different jobs as described below and create a Build pipeline to trigger the jobs automatically Getting Started
+1. Login to jenkins getting the admin password with the command, $ cat /var/lib/jenkins/secrets/initialAdminPassword
+2. Create a job named PackageJob in Jenkins
+3. Configure the job to: - Fetch the source code from 
+Git Repository https://code.fresco.me/play-content/github-frescoplaylab-jenkinswar.git 
+Git username: handson_user 
+Git password: glpat-7B41mSkUdsDJAUDMxibs
+ - Build the job to clean, compile and package using maven to generate a war file. 
+- Post-Build DeployJob
+4. Create another job named DeployJob in Jenkins
+5. Configure the job to: - Build the job only if PackageJob is success - Post-Build, deploy the generated war file from PackageJob on tomcat container. (Note 1: copy the required war file from PackageJob workspace in DeployJob) (Note 2: Username : admin and Password : admin to login to tomcat and use version Tomcat 8.x) (Note 3: Install necessary plugins to achieve all these tasks)
+6. Now, create a Build Pipeline named PipelineDemo with the initial job as PackageJob7. Once your build is success, open a tomcat URL in a new tab, click on 'Manager App' and enter admin as both Username and Password. Now, from the available deployments, find and open your deployed war file and thereby you should see a message Welcome!!You have successfully deployed war file on tomcat!!
+
+
+
+After launching jenkins, if you find errors like 'Bad Gateway' or 'no valid crumb was included in the request' kindly refresh the environment and try again with the stable internet connectivity3. Jenkins is already installed. Select Run -> Open Preview to launch Jenkins and open it in a new tab for better visualization.4. Select Run Tests to check your result and then Submit.5. The scenario is to build a pipeline in jenkins with 2 different jobs as described below and create a Build pipeline to trigger the jobs automatically. Getting Started 1. Login to jenkins getting the admin password with the command, $ cat /var/lib/jenkins/secrets/initialAdminPassword2. Create a job named TestJob3. Configure your job to: - Fetch the source code from 
+
+
+Git Repository: https://code.fresco.me/play-content/github-frescoplaylab-jenkinsdeliverypipeline.git
+Git Username: handson_user
+Git Password: glpat-7B41mSkUdsDJAUDMxibs
+
+ - Build the job to clean, compile and test using maven - Post-Build PublishJob4. Create another job named PublishJob 5. Configure the job to: - Build the job only if TestJob is success - Post-Build, publish generated test reports from TestJob (Note: copy the required test reports from TestJob workspace in PublishJob. Install all the required plugins)6. Now, create a Build Pipeline named PipelineDemo with the initial job as TestJob7. Run the pipeline and check if your build is success

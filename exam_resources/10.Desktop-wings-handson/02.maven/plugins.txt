@@ -1,0 +1,81 @@
+Skipping a Test
+To skip the test execution, use command mvn install -DskipTests. The same can be achieved by using the plugin and set the property of skipTests as True.
+
+There are two types of plugins
+
+Build Plugin - Used while executing the build. They are included in <build> element of the POM.
+
+Reporting Plugin - Used while generating the site. They are included in <Reporting> element of the POM.
+
+Some of the frequently used Maven Plugins:
+
+clean - To clear target after the build.
+
+compiler - To compile the Java source code.
+
+jar - To generate Java jar file.
+
+war - To generate Java war file.
+
+surefire - To run Junit test and generate a report.
+
+
+
+<plugins>
+     <plugin>
+       <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.3</version>
+             <configuration>
+                <source>1.8</source>
+                <target>1.8</target>
+            </configuration>
+         </plugin>
+  </plugins>
+
+************ mvn surefire-report: report ***************
+
+
+<dependency>
+         <groupId>junit</groupId>
+         <artifactId>junit</artifactId>
+         <version>4.12</version>
+         <scope>test</scope>
+  </dependency>
+
+
+JUnit 4.7 
+Surefire supports different generations of JUnit. Some of the commonly used versions are
+
+JUnit 3.8.x
+
+JUnit 4.x - Enables serial execution of the tests
+
+JUnit 4.7 - Enables parallel execution of tests
+
+Appropriate generation of JUnit can be used with Surefire based on JUnit version being used in the project
+
+
+
+<plugin>
+   <groupId>org.apache.maven.plugins</groupId>
+   <artifactId>maven-surefire-plugin</artifactId>
+   <version>2.20</version>
+    <dependencies>
+     <dependency>
+       <groupId>org.apache.maven.surefire</groupId>
+        <artifactId>surefire-junit47</artifactId>
+        <version>2.20</version>
+     </dependency>
+   </dependencies>
+</plugin>
+
+
+ <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+       <artifactId>maven-surefire-plugin</artifactId>
+       <version>2.20</version>
+      <configuration>
+            <parallel>methods</parallel>
+            <threadCount>10</threadCount>
+     </configuration>
+  </plugin>

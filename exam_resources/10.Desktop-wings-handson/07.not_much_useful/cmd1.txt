@@ -1,0 +1,999 @@
+ 826  sudo mv apache-tomcat-9.0.63 /opt/tomcat
+  827  sudo mkdir -p /opt/tomcat
+  828  sudo mv apache-tomcat-9.0.63 /opt/tomcat
+  829  cd ~
+  830  ls -la
+  831  cd ../..
+  832  ls -la
+  833  cd opt/
+  834  ;s -la
+  835  ls -la
+  836  cd tomcat/
+  837  ls -la
+  838  cd apache-tomcat-9.0.63/
+  839  ls -la
+  840  cd conf
+  841  ls -la
+  842  cat tomcat-users.xml
+  843  cd ..
+  844  ls -la
+  845  cd conf/
+  846  ls -la
+  847  vi server.xml
+  848  cat server.xml
+  849  cd /opt/tomcat/apache-tomcat-8.5.47/bin
+  850  ls -la
+  851  cd /opt/tomcat/apache-tomcat-9.0.63/bin
+  852  ls -la
+  853  sudo chmod +x *
+  854  ls -la
+  855  /opt/tomcat/apache-tomcat-9.0.63/bin/startup.sh
+  856  cd /opt/tomcat/apache-tomcat-8.5.47/conf
+  857  cd /opt/tomcat/apache-tomcat-9.0.63/conf
+  858  ls -la
+  859  vi tomcat-users.xml
+  860  /opt/tomcat/apache-tomcat-9.0.63/bin/shutdown.sh
+  861  /opt/tomcat/apache-tomcat-9.0.63/bin/startup.sh
+  862  cd ~
+  863  sudo service jenkins start
+  864  cd /opt/tomcat/apache-tomcat-8.5.47/conf
+  865  cd /opt/tomcat/apache-tomcat-9.0.63/conf
+  866  ls -la
+  867  cat tomcat-users.xml
+  868  sudo service jenkins start
+  869  sudo service docker start
+  870  docker images
+  871  cd docker/
+  872  ls -la
+  873  cat compose-1-jenkins.yml
+  874  vi compose-jenkins-only.yml
+  875  docker-compose -f compose-jenkins-only.yml --name my-jenkins up --detach
+  876  docker-compose -f compose-jenkins-only.yml up --detach
+  877  cd ..
+  878  cd /opt/tomcat/apache-tomcat-9.0.63/
+  879  cd bin/start.sh
+  880  cd bin
+  881  ls -la
+  882  ./startup.sh
+  883  sudo service jenkins start
+  884  cd /var/lib/jenkins/jobs/PublishJob/
+  885  ls -la
+  886  cd builds/
+  887  ls -la
+  888  cd 4
+  889  ls -la
+  890  cat log
+  891  cd ..
+  892  vi config.xml
+  893  ls -la
+  894  sudo chmod 755 ./config.xml
+  895  ls -la
+  896  sudo chmod 777 ./config.xml
+  897  ls -la
+  898  vi config.xml
+  899  curl https://github.com/koteshgsk/kotesht5.git
+  900  curl ~ https://github.com/koteshgsk/kotesht5.git
+  901  gicd ..
+  902  cd ../../../
+  903  cd ~
+  904  ls -la
+  905  cd gitdemo/
+  906  ls -la
+  907  git clone https://github.com/ALSPraveen/IOT-AR-Project.git
+  908  ls -la
+  909  rm IOT-AR-Project/
+  910  sudo service jenkins start
+  911  /opt/tomcat/
+  912  cd /opt/tomcat/
+  913  ;s
+  914  ls
+  915  cd apache-tomcat-9.0.63/
+  916  ls
+  917  cd conf/
+  918  ls
+  919  cd ..
+  920  cd bin/
+  921  ls
+  922  ./startup.sh
+  923  cat $CATALINA_HOME/conf/tomcat-users.xml
+  924  sudo cat $CATALINA_HOME/conf/tomcat-users.xml
+  925  sudo cat $CATALINA_HOME/conf/
+  926  echo $CATALINA_HOME
+  927  cd ~
+  928  sudo service tomcat status
+  929  /opt/tomcat/apache-tomcat-9.0.63/bin/startup.sh
+  930  git status
+  931  ls
+  932  ls -la
+  933  cd ..
+  934  ls
+  935  cd kotesh/
+  936  git clone https://github.com/koteshgsk/kotesht5.git
+  937  cd kotesht5/
+  938  touch TestFile.txt
+  939  cat > TestFile.txt
+  940  git status
+  941  git commit -am "Trail for git"
+  942  git push
+  943  git pull
+  944  git push
+  945  git push https://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@github.com/koteshgsk/kotesht5.git
+  946  mkdir chat
+  947  cd chat
+  948  cat > scam.txt
+  949  git status
+  950  git add .
+  951  git commit -m "First chat"
+  952  git push https://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@github.com/koteshgsk/kotesht5.git
+  953  cd ..
+  954  git pull
+  955  git push https://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@github.com/koteshgsk/kotesht5.git
+  956  git status
+  957  git add TestFile.txt
+  958  git commit -m "our scam"
+  959  git status
+  960  git reset HEAD
+  961  git status
+  962  git rm chat/
+  963  cat Testfile.txt
+  964  cat TestFile.txt
+  965  rm TestFile.txt
+  966  rm -rf /chat/
+  967  ls
+  968  rm -rf ./chat/
+  969  git status
+  970  vi chat2.txt
+  971  git status
+  972  git commit -am "Personal Access Token"
+  973  git config --global user.name Git
+  974  git config --global user.email Git@gmail.com
+  975  git commit -am "Personal Access Token"
+  976  git push https://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@github.com/koteshgsk/kotesht5.git
+  977  cd ..
+  978  git config --global --list
+  979  git config --global user.name koteshgsk
+  980  git config --global user.email gopiagsk2000@gmail.com
+  981  git commit -am "Personal Access Token"
+  982  cd kotesht5/
+  983  git commit -am "Personal Access Token"
+  984  git status
+  985  git commit -am "My PAT"
+  986  git add .
+  987  git status
+  988  git commit -m "My PAT"
+  989  git push https://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@github.com/koteshgsk/kotesht5.git
+  990  git push
+  991  sudo service jenkins start~
+  992  sudo service jenkins start
+  993  sudo service docker start
+  994  sudo service jenkins start
+  995  grep docker /etc/groups
+  996  grep docker |  /etc/groups \
+  997  grep docker /etc/group
+  998  sudo usermod -a -G docker jenkins
+  999  grep docker /etc/group
+ 1000  sudo service docker restart
+ 1001  sudo service jenkins restart
+ 1002  sudo service jenkins start
+ 1003  sudo service docker start
+ 1004  ls
+ 1005  cd docker/
+ 1006  ls
+ 1007  docker-compose -f compose-jenkins-only.yml up --detach
+ 1008  docker images
+ 1009  docker ps
+ 1010  docker exec -it 5b bash
+ 1011  exit
+ 1012  sudo service docker status
+ 1013  grep docker /etc/group
+ 1014  sudo usermod -a -G docker jenkins
+ 1015  grep docker /etc/group
+ 1016  sudo usermod -a -G docker siva
+ 1017  docker ps
+ 1018  cd docker/
+ 1019  docker-compose -f compose-jenkins-only.yml up --detach
+ 1020  sudo cd /mt/c
+ 1021  cd /mnt/c
+ 1022  ls
+ 1023  cd Users/
+ 1024  ls
+ 1025  cd wings
+ 1026  cd ..
+ 1027  git push
+ 1028  git init
+ 1029  sudo cp -r ./wings/ ~/kotesht5/
+ 1030  cd ~/kotesht5
+ 1031  ls
+ 1032  git push
+ 1033  git push https://github.com/koteshgsk/kotesht5.git
+ 1034  git push https://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@github.com/koteshgsk/kotesht5.git
+ 1035  git config
+ 1036  git config --global --list
+ 1037  git status
+ 1038  git add .
+ 1039  git commit -m "ALL folders"
+ 1040  git push https://github.com/koteshgsk/kotesht5.git
+ 1041  history
+ 1042  pwd
+ 1043  ansible-doc -l
+ 1044  ansible-galaxy init fresco-nginx
+ 1045  ls
+ 1046  mv ./fresco-nginx/ ./ansible/
+ 1047  ls
+ 1048  cd ansible/
+ 1049  ls
+ 1050  cd fresco-nginx/
+ 1051  ls
+ 1052  cd tasks/
+ 1053  ls
+ 1054  cat main.yml
+ 1055  cd ..
+ 1056  ansible-galaxy install fresco-nginx
+ 1057  ls
+ 1058  sudo service jenkins start
+ 1059  pws
+ 1060  pwd
+ 1061  ls
+ 1062  cd ~
+ 1063  ls
+ 1064  cd koti-jenkins/
+ 1065  ls
+ 1066  cd /var/lib/jenkins/jobs/
+ 1067  ls
+ 1068  cd jenkins-job2/
+ 1069  ls
+ 1070  cd builds/
+ 1071  ls
+ 1072  cd 8
+ 1073  ls
+ 1074  cd ../..
+ 1075  ls
+ 1076  cd ..
+ 1077  ls
+ 1078  cd ..
+ 1079  clear
+ 1080  cd workspace/
+ 1081  ls
+ 1082  cd jenkins-job2/
+ 1083  ls
+ 1084  ls -la
+ 1085  sudo apt install openjdk-17-jdk openjdk-17-source
+ 1086  sudo apt-get update
+ 1087  sudo apt install openjdk-17-jdk openjdk-17-source
+ 1088  pwd
+ 1089  cd ..
+ 1090  pwd
+ 1091  cd ..
+ 1092  ;s
+ 1093  ls
+ 1094  pwd
+ 1095  cd ..
+ 1096  ls
+ 1097  history
+ 1098  sudo apt remove openjdk-17-jdk openjdk-17-source
+ 1099  gradle tasks
+ 1100  sudo apt install gradle
+ 1101  gradle tasks
+ 1102  ./gradlew -q parent
+ 1103  gradlew -q parent
+ 1104  gradle -q parent
+ 1105  export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
+ 1106  pwd
+ 1107  cd ~
+ 1108  pwd
+ 1109  cd ..
+ 1110  export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
+ 1111  cd /mnt/c/Users/ASUS/eclipse-workspace/gradle-parent-webapp
+ 1112  gradle -q parent
+ 1113  gradle tasks
+ 1114  chmod 777 .gradle/
+ 1115  gradle tasks
+ 1116  ./gradlew --stacktrace deploy
+ 1117  gradle tasks
+ 1118  ./gradlew --stacktrace deploy
+ 1119  export JAVA_HOME=/usr/lib/jvm/java-17-openjdk/
+ 1120  gradle tasks
+ 1121  export JAVA_HOME=D:/jdk-11.0.1
+ 1122  gradle tasks
+ 1123  sudo apt install openjdk-17-jdk openjdk-17-source
+ 1124  ls
+ 1125  gradle build
+ 1126  java -version
+ 1127  pwd
+ 1128  ls
+ 1129  mkdir gradle-gsk
+ 1130  cd gradle-gsk/
+ 1131  ls
+ 1132  ls -la
+ 1133  mkdir gradle-parent-webapp
+ 1134  cd gradle-parent-webapp/
+ 1135  gradle init
+ 1136  java -version
+ 1137  gradle --version
+ 1138  sudo service gradle start
+ 1139  sudo service gradle status
+ 1140  echo %JAVA_HOME%
+ 1141  echo JAVA_HOME
+ 1142  gradle init
+ 1143  gradle --stacktrace
+ 1144  gradle -v
+ 1145  export PATH=$PATH:/opt/gradle/gradle-4.4.1/bin
+ 1146  gradle --version
+ 1147  ls
+ 1148  cd gradle-gsk/
+ 1149  ls
+ 1150  cd gradle-parent-webapp/
+ 1151  gradle build
+ 1152  sudo remove gradle
+ 1153  sudo apt remove gradle
+ 1154  sudo apt install gradle
+ 1155  sudo apt get update
+ 1156  sudo apt-get update
+ 1157  gradle build
+ 1158  sudo apt remove gradle
+ 1159  sudo apt install gradle 7.5.1
+ 1160  cd ..
+ 1161  rm -rf gradle-parent-webapp/
+ 1162  sudo rm -rf gradle-parent-webapp/
+ 1163  root rm -rf gradle-parent-webapp/
+ 1164  sudo su -u
+ 1165  sudo su -
+ 1166  sudo service docker start
+ 1167  ls
+ 1168  cd gradle-gsk/gradle-ubuntu-demo1/
+ 1169  ls
+ 1170  tree
+ 1171  vi build.gradle
+ 1172  gradle build
+ 1173  tree
+ 1174  gradle clean build
+ 1175  tree
+ 1176  cd /home/kotesh/docker/gradle-tomcat/
+ 1177  ls
+ 1178  vi Dockerfile
+ 1179  docker build -t mygradleweb .
+ 1180  cd /home/kotesh/
+ 1181  ls
+ 1182  cd gradle-gsk/gradle-ubuntu-demo1/
+ 1183  ls
+ 1184  vi build.gradle
+ 1185  gradle clean build
+ 1186  vi build.gradle
+ 1187  gradle clean build
+ 1188  vi Dockerfile
+ 1189  ls
+ 1190  rm Dockerfile
+ 1191  sudo service docker start
+ 1192  pwd
+ 1193  cd docker/gradle-tomcat/
+ 1194  ls
+ 1195  vi Dockerfile
+ 1196  docker build -t mygradleweb .
+ 1197  vi Dockerfile
+ 1198  docker build -t mygradleweb .
+ 1199  vi Dockerfile
+ 1200  docker build -t mygradleweb .
+ 1201  cd ~
+ 1202  cd gradle-gsk/
+ 1203  ls
+ 1204  mkdir gradle-ubuntu-demo2
+ 1205  cd gradle-ubuntu-demo2
+ 1206  gradle init --type java-application
+ 1207  ls
+ 1208  tree
+ 1209  vi build.gradle
+ 1210  gradle build
+ 1211  vi build.gradle
+ 1212  gradle build
+ 1213  tree
+ 1214  cp -r ./build/libs/gradle-ubuntu-demo2-2.war /home/kotesh/docker/gradle-tomcat/demo.war
+ 1215  cd /home/kotesh/docker/
+ 1216  cd gradle-tomcat/
+ 1217  ls
+ 1218  tree
+ 1219  vi Dockerfile
+ 1220  docker build -t mygradleweb .
+ 1221  docker images
+ 1222  docker run -d --name sivagradle -p 8085:8085 mygradleweb
+ 1223  sudo service tomcat start
+ 1224  vi Dockerfile
+ 1225  docker build -t mygradleweb .
+ 1226  docker run -d --name sivagradle -p 8085:8085 mygradleweb
+ 1227  docker run -d --name sivagradle1 -p 8085:8085 mygradleweb
+ 1228  curl https://localhost:8085/demo
+ 1229  curl ~ https://localhost:8085/demo
+ 1230  curl ~ http://localhost:8085/demo
+ 1231  curl http://localhost:8085/demo
+ 1232  java -jar demo.war
+ 1233  cd docker/gradle-tomcat/
+ 1234  ls
+ 1235  cat demo.war
+ 1236  ls
+ 1237  cd /home/kotesh/
+ 1238  ls
+ 1239  cd gradle-gsk/gradle-ubuntu-demo2/
+ 1240  ls
+ 1241  tree
+ 1242  cd src/main/java/
+ 1243  ls
+ 1244  vi App.java
+ 1245  cd ..
+ 1246  cd ../..
+ 1247  ls
+ 1248  vi build.gradle
+ 1249  gradle clean build
+ 1250  tree
+ 1251  cp -r ./build/libs/gradle-ubuntu-demo2-2.war /home/kotesh/docker/gradle-tomcat/demo.war
+ 1252  cd /docker/gradle
+ 1253  cd ../..
+ 1254  pwd
+ 1255  cd docker/gradle-tomcat/
+ 1256  ls
+ 1257  ls -la
+ 1258  vi Dockerfile
+ 1259  docker images
+ 1260  docker rmi c64 d0f
+ 1261  docker ps -a
+ 1262  docker stop 60
+ 1263  docker rmi c64 d0f
+ 1264  docker rm 60
+ 1265  docker rmi c64 d0f
+ 1266  docker rm 39
+ 1267  docker rmi c64 d0f
+ 1268  docker build -t mywebapp .
+ 1269  docker run -d --name mywebapp3 -p 8111:8085 mywebapp
+ 1270  curl http://localhost:8111/demo
+ 1271  curl http://localhost:8111/
+ 1272  sudo service docker start
+ 1273  pwd
+ 1274  ls
+ 1275  cd gradle-gsk/gradle-ubuntu-demo2/
+ 1276  ls
+ 1277  tree
+ 1278  cd build/classes/java/
+ 1279  ls
+ 1280  cd main/
+ 1281  ls
+ 1282  ls -la
+ 1283  cd ../../../../src/main/java/
+ 1284  ls
+ 1285  vi App.java
+ 1286  cd ..
+ 1287  pwd
+ 1288  vi build.gradle
+ 1289  gradle clean build
+ 1290  cd /src/main/
+ 1291  ls
+ 1292  cd src/test/java/
+ 1293  vi AppTest.java
+ 1294  cd ../../
+ 1295  cd ..
+ 1296  gradle clean build
+ 1297  tree
+ 1298  cd build/libs/
+ 1299  ls
+ 1300  pwd
+ 1301  cd ../../../../docker/gradle-tomcat/
+ 1302  ls
+ 1303  rm demo.war
+ 1304  cp /home/kotesh/gradle-gsk/gradle-ubuntu-demo2/build/libs/gskweb.war
+ 1305  cp /home/kotesh/gradle-gsk/gradle-ubuntu-demo2/build/libs/gskweb.war .
+ 1306  ls
+ 1307  vi Dockerfile
+ 1308  docker build -t gskweb ,
+ 1309  docker build -t gskweb .
+ 1310  curl http://localhost:8080/gskweb
+ 1311  vi Dockerfile
+ 1312  docker build -t gskweb .
+ 1313  docker run -d --name gskweb -p 8085:8085 gskweb
+ 1314  vi Dockerfile
+ 1315  docker build -t gskweb .
+ 1316  docker run -d --name gskweb -p 8085:8085 gskweb
+ 1317  vi Dockerfile
+ 1318  docker build -t gskweb .
+ 1319  docker run -d --name gskweb1 -p 8085:8085 gskweb
+ 1320  docker ps -a
+ 1321  docker stop 97
+ 1322  docker stop b0 28
+ 1323  docker ps -a
+ 1324  docker rm 97 b0 28 5d 5c 3e 0c db 8b 1e
+ 1325  docker ps -a
+ 1326  docker rm 2c 1a
+ 1327  docker ps -a
+ 1328  docker images
+ 1329  docker rmi 4f b3 6c 95 d3 c6 f1 9f 05 83 7f
+ 1330  docker images
+ 1331  docker rmi 6f 62 5d 1a 79 37 83 7f 05 9f
+ 1332  docker images
+ 1333  docker rmi 9f
+ 1334  docker rmi -/f 9f
+ 1335  docker rmi -f 9f
+ 1336  docker rmi -f 05 83 7f 37 c7 6f
+ 1337  docker images
+ 1338  docker rmi 5c
+ 1339  docker images
+ 1340  docker ps -a
+ 1341  gradle clean build
+ 1342  cd ..
+ 1343  cd gradle-webapp-parent/
+ 1344  gradle clean build
+ 1345  pwd
+ 1346  ls
+ 1347  cd gradle-gsk/gradle-ubuntu-demo2/
+ 1348  ls
+ 1349  tree
+ 1350  gradle tasks --all
+ 1351  vi build.gradle
+ 1352  gradle clean build
+ 1353  tree
+ 1354  vi build.gradle
+ 1355  gradle clean build
+ 1356  tree
+ 1357  vi build.gradle
+ 1358  gradle clean build
+ 1359  tree
+ 1360  vi build.gradle
+ 1361  gradle clean build
+ 1362  tree
+ 1363  cd build/libs/
+ 1364  java -jar gradle-ubuntu-demo2.war
+ 1365  cd ..
+ 1366  cd src/
+ 1367  cd java
+ 1368  cd main/
+ 1369  mkdir webapp
+ 1370  gradle clean build
+ 1371  cd ../..
+ 1372  gradle clean build
+ 1373  tree
+ 1374  cd src/main/
+ 1375  cd webapp/
+ 1376  touch WEB.INF
+ 1377  vi index.jsp
+ 1378  cd ../../..
+ 1379  gradle clean build
+ 1380  tree
+ 1381  java -jar gradle-ubuntu-demo2.war
+ 1382  java -war gradle-ubuntu-demo2.war
+ 1383  tree
+ 1384  gradle war
+ 1385  cd ..
+ 1386  mkdir webapp-1-trail
+ 1387  cd webapp-1-trail/
+ 1388  vi build.gradle
+ 1389  gradle clean build
+ 1390  vi build.gradle
+ 1391  gradle clean build
+ 1392  tree
+ 1393  vi build.gradle
+ 1394  sudo service docker start
+ 1395  ls
+ 1396  cd docker/
+ 1397  ls
+ 1398  ls -la
+ 1399  cd gradle-tomcat/
+ 1400  ls
+ 1401  cd ..
+ 1402  mkdir tomcat-demo
+ 1403  cd tomcat-demo/
+ 1404  vi Dockerfile
+ 1405  docker build -t gsktom .
+ 1406  docker run -d --name gsktomrun -p 8999:8999 gsktom
+ 1407  curl http://localhost:8999
+ 1408  docker exec -it gsktomrun /bin/bash
+ 1409  docker ps -a
+ 1410  cd ..
+ 1411  ls
+ 1412  cd gradle-tomcat/
+ 1413  ls
+ 1414  vi Dockerfile
+ 1415  docker build -t gsktom .
+ 1416  docker run -d --name gsktomrun1 -p 8999:8999 gsktom
+ 1417  docker ps -a
+ 1418  docker stop gsktom 1cc
+ 1419  docker stop 27 96
+ 1420  docker rm 27 96
+ 1421  docker ps -a
+ 1422  docker images
+ 1423  docker rmi c1 1cc
+ 1424  docker images
+ 1425  docker build -t gsktom .
+ 1426  docker run -d --name gsktomrun gsktom
+ 1427  docker ps -a
+ 1428  docker exec -it gsktomrun /bin/bash
+ 1429  docker ps -a
+ 1430  docker stop 8b
+ 1431  docker rm 8b
+ 1432  docker image
+ 1433  docker images
+ 1434  docker rmi gsktom:latest
+ 1435  ls
+ 1436  vi Dockerfile
+ 1437  docker build -t con1 .
+ 1438  docker run -d --name con1im1 -p 8085:8085 con1
+ 1439  docker ps -a
+ 1440  curl localhost:8085
+ 1441  curl http://localhost:8085
+ 1442  docker exec -it con1im2 /bin/bash
+ 1443  vi Dockerfile
+ 1444  docker build -t con1 .
+ 1445  docker run -d --name con1im2 con1
+ 1446  sudo
+ 1447  git clone https://github.com/openliberty/guide-gradle-intro.git
+ 1448  cd guide-gradle-introls
+ 1449  ls
+ 1450  cp -r guide-gradle-intro/ ./gradle-gsk/
+ 1451  ls
+ 1452  rm -rf guide-gradle-intro/
+ 1453  ls
+ 1454  ls -la
+ 1455  cd gradle-gsk/
+ 1456  ls -la
+ 1457  cd guide-gradle-intro/
+ 1458  tree
+ 1459  cd finish/src/main/webapp/
+ 1460  ls
+ 1461  cat index.html
+ 1462  vi index.html
+ 1463  cd ../../../../
+ 1464  ls
+ 1465  cd ..
+ 1466  ls
+ 1467  mkdir gradle-trail2
+ 1468  ccd guide-gradle-intro/
+ 1469  cd guide-gradle-intro/
+ 1470  cp -r start/ ../gradle-trail2/
+ 1471  cd ../gradle-trail2/
+ 1472  tree
+ 1473  cd start/src/main/webapp/
+ 1474  vi index.html
+ 1475  cd ..
+ 1476  cd java/io/openliberty/guides/hello/
+ 1477  cat HelloServlet.java
+ 1478  vi HelloServlet.java
+ 1479  tree
+ 1480  cd ../../../../
+ 1481  tree
+ 1482  cd ../..
+ 1483  cd ..
+ 1484  tree
+ 1485  ls
+ 1486  rm -rf start/
+ 1487  cd ..
+ 1488  cd guide-gradle-intro/
+ 1489  cp -r finish/ ../gradle-trail2/
+ 1490  tree
+ 1491  vi finish/build.gradle
+ 1492  cd ..
+ 1493  tree
+ 1494  ls
+ 1495  cd webapp-1-trail/
+ 1496  tree
+ 1497  vi build.gradle
+ 1498  gradle clean build
+ 1499  tree
+ 1500  vi build.gradle
+ 1501  gradle init
+ 1502  rm -rf build
+ 1503  rm build.gradle
+ 1504  gradle init --type java-library
+ 1505  tree
+ 1506  cd src/main/
+ 1507  cd java/
+ 1508  mkdir webapp
+ 1509  cd webapp/
+ 1510  vi index.html
+ 1511  cd ..
+ 1512  cd ../../../
+ 1513  vi build.gradle
+ 1514  gradle clean build
+ 1515  tree
+ 1516  cp -r build/libs/webapp-1-trail.war ../../docker/gradle-tomcat/
+ 1517  cp -r build/libs/webapp-1-trail.war ../../docker/gradle-tomcat/deploy.war
+ 1518  cd ../../docker/gradle-tomcat/
+ 1519  ls
+ 1520  tree
+ 1521  vi Dockerfile
+ 1522  sudo service docker start
+ 1523  docker ps
+ 1524  docker ps -a
+ 1525  docker rm 92 ec
+ 1526  docker ps -a
+ 1527  docker images
+ 1528  docker rmi 2b 9c
+ 1529  docker build -t con1 .
+ 1530  docker run -d -p 8080:8999 con1
+ 1531  docker run -d con1
+ 1532  cd ../../gradle-gsk/
+ 1533  ls
+ 1534  mkdir webapp-1-trail2
+ 1535  cd webapp-1-trail2
+ 1536  gradle init --type java-application
+ 1537  tree
+ 1538  mkdir gsk
+ 1539  tree
+ 1540  vi settings.gradle
+ 1541  rm -rf gsk
+ 1542  tree
+ 1543  ls
+ 1544  cd gradle-gsk/
+ 1545  tree
+ 1546  ls
+ 1547  ls -la
+ 1548  cd gradle-parent-webapp/
+ 1549  ls
+ 1550  tree
+ 1551  cat settings.gradle
+ 1552  vi build.gradle
+ 1553  cd ..
+ 1554  ls -la
+ 1555  mkdir toremove
+ 1556  cp -r ./ ./toremove/
+ 1557  cp -r . ./toremove/
+ 1558  ls -la
+ 1559  rm -rf gradle-parent-webapp/
+ 1560  rm -rf gradle-trail2/
+ 1561  rm -rf gradle-ubuntu-demo1
+ 1562  rm -rf gradle-ubuntu-demo2
+ 1563  rm -rf webapp-1-trail
+ 1564  ls -la
+ 1565  cd toremove/
+ 1566  gradle init --type java-application
+ 1567  tree
+ 1568  ls
+ 1569  ls -la
+ 1570  rm .gradle/
+ 1571  rm -rf .gradle/
+ 1572  rm build.gradle
+ 1573  rm -rf gradle/
+ 1574  rm -rf gradlew
+ 1575  rm -rf gradlew.bat
+ 1576  ls -la
+ 1577  rm settings.gradle
+ 1578  rm -rf src/
+ 1579  ls -la
+ 1580  cd toremove/
+ 1581  gradle init --type java-application
+ 1582  tree
+ 1583  ls -la
+ 1584  cd ..
+ 1585  ls -la
+ 1586  rm -rf toremove/
+ 1587  ls -la
+ 1588  cd ..
+ 1589  ls -la
+ 1590  cd toremove/
+ 1591  ls -la
+ 1592  cd ..
+ 1593  rm -rf toremove/
+ 1594  ls -la
+ 1595  mkdir new
+ 1596  cd new
+ 1597  mkdir gskweb
+ 1598  cd gskweb
+ 1599  gradle init --type java-application
+ 1600  tree
+ 1601  cd src/main/java/
+ 1602  mkdir webapp
+ 1603  rm App.java
+ 1604  cd webapp/
+ 1605  vi index.jsp
+ 1606  cd ../../../
+ 1607  cd ..
+ 1608  ls
+ 1609  vi build.gradle
+ 1610  gradle clean build
+ 1611  tree
+ 1612  cd src/test/
+ 1613  cd java/
+ 1614  rm AppTest.java
+ 1615  cd ../../..
+ 1616  gradle clean build
+ 1617  tree
+ 1618  java -jar ./build/libs/gskweb.jar
+ 1619  cp -r ./build/libs/gskweb.jar ./build/tmp/jar/
+ 1620  java -jar ./build/libs/gskweb.jar
+ 1621  java -jar ./build/tmp/jar/gskweb.jar
+ 1622  cp -r ./build/libs/gskweb.war ../../../docker/gradle-tomcat/deploynew.war
+ 1623  cd ../../../docker/gradle-tomcat/
+ 1624  ls
+ 1625  vi Dockerfile
+ 1626  cat Dockerfile
+ 1627  docker ps -a
+ 1628  sudo service docker start
+ 1629  docker ps -a
+ 1630  docker rm 72 18
+ 1631  docker ps -a
+ 1632  docker images
+ 1633  docker rmi con1
+ 1634  docker build -t newweb .
+ 1635  docker run -d --name newwebcon1 -p 8085:8085 newweb
+ 1636  sudo service jenkins start
+ 1637  sudo service jenkins status
+ 1638  docker ps -a
+ 1639  docker run -d jenkins/jenkins
+ 1640  docker ps -a
+ 1641  cd ..
+ 1642  ls
+ 1643  cat compose-1-jenkins.yml
+ 1644  cat compose-jenkins-only.yml
+ 1645  sudo service jenkins start
+ 1646  docker-compose run -f compose-jenkins-only.yml --detach
+ 1647  docker-compose -f compose-jenkins-only.yml --name jenkins-compose up --detach
+ 1648  docker-compose -f compose-jenkins-only.yml up --detach
+ 1649  docker ps -a
+ 1650  tree
+ 1651  cd ..
+ 1652  ls
+ 1653  cd koti-jenkins/
+ 1654  ls
+ 1655  tree
+ 1656  cd ../
+ 1657  ls
+ 1658  cd docker/
+ 1659  cat compose-jenkins-only.yml
+ 1660  docker run -d --name hellotomcat tomcat
+ 1661  cd gradle-tomcat/
+ 1662  tree
+ 1663  docker ps
+ 1664  docker container run -p 80:8080 -ti -rm --name webappdemo newweb
+ 1665  docker container run -p 80:8080 -ti --name webappdemo newweb
+ 1666  cd gradle-gsk/
+ 1667  ls
+ 1668  cd new
+ 1669  ls
+ 1670  cd gskweb/
+ 1671  vi build.gradle
+ 1672  tree
+ 1673  cd src/main/java
+ 1674  cp -r ./webapp/ .
+ 1675  ls
+ 1676  tree
+ 1677  cp -r ./webapp/ ../.
+ 1678  rm -rf webapp/
+ 1679  cd ..
+ 1680  tree
+ 1681  cd webapp/
+ 1682  vi index.html
+ 1683  gradle gsk
+ 1684  cd ..
+ 1685  cd ..c
+ 1686  cd ../..
+ 1687  gradle gsk
+ 1688  gradle clean build
+ 1689  tree
+ 1690  cp -r ./build/libs/gskweb.war ../../../docker/gradle-tomcat/deploynew22.war
+ 1691  cd ../../../docker/gradle-tomcat/
+ 1692  ls
+ 1693  vi Dockerfile
+ 1694  docker build -t deploy22 .
+ 1695  docker run -d -it -p 8085:8085 --name con1war1 deploy22
+ 1696  docker run -d -it -p 8999:8085 --name con1war1 deploy22
+ 1697  docker run -d -it -p 8999:8085 --name con1war12 deploy22
+ 1698  docker ps -a
+ 1699  docker exec -it deploy22 /bin/bash
+ 1700  docker exec -it con1war12 /bin/bash
+ 1701  docker ps -a
+ 1702  docker stop 20 a0
+ 1703  docker rm 20 a0 e2 7c cf
+ 1704  docker stop cf
+ 1705  docker rm cf
+ 1706  docker ps -a
+ 1707  cd ..
+ 1708  ls
+ 1709  tree
+ 1710  vi compose-1-jenkins.yml
+ 1711  vi compose-jenkins-only.yml
+ 1712  cd ..
+ 1713  tree
+ 1714  ls -la
+ 1715  cd ..
+ 1716  ls -la
+ 1717  cd ..
+ 1718  ls -la
+ 1719  cd home/kotesh/
+ 1720  sudo service jenkins start
+ 1721  sudo service jenkins status
+ 1722  sudo apt remove jenkins
+ 1723  wget -q -O - http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key | sudo apt-key add -
+ 1724  sudo sh -c 'echo deb http://pkg.jenkins-ci.org/debian binary/ > /etc/apt/sources.list.d/jenkins.list'
+ 1725  sudo apt-get update
+ 1726  sudo apt-get install jenkins
+ 1727  sudo service jenkins start
+ 1728  sudo apt install openjdk-11-jdk -y
+ 1729  sudo service jenkins start
+ 1730  sudo service jenkins restart
+ 1731  cd /var/lib/jenkins/
+ 1732  ls -la
+ 1733  cd docker/gradle-tomcat/
+ 1734  ci Dockerfile
+ 1735  vi Dockerfile
+ 1736  docker ps -a
+ 1737  sudo service docker start
+ 1738  docker ps -a
+ 1739  docker images
+ 1740  docker rmi 3e 7c bf
+ 1741  docker rm 7c
+ 1742  docker rmi 3e 7c bf
+ 1743  docker images
+ 1744  docker build -t webapp1 .
+ 1745  docker run -it --name gskweb -p 80:8085 webapp1
+ 1746  docker rm d
+ 1747  docker run -it --name gskweb -p 80:8085 webapp1
+ 1748  docker rm d
+ 1749  docker run -it --name gskweb -p 80:8085 webapp1
+ 1750  docker rm 6
+ 1751  docker run -d --name gskweb -p 8999:8085 webapp1
+ 1752  docker exec -it gskweb /bon/bash
+ 1753  docker exec -it gskweb /bin/bash
+ 1754  docker rm d
+ 1755  docker run -it --name justtom -p 8991:8080 tomcat:8.0-alpine
+ 1756  docker ps -a
+ 1757  docker rm f
+ 1758  docker run -d --name justtom -p 8991:8080 tomcat:8.0-alpine
+ 1759  docker exec -it justtom /bin/bash
+ 1760  vi Dockerfile
+ 1761  cat Dockerfile
+ 1762  docker build -t final .
+ 1763  docker run -it --name final1 -p 8085:8080 final
+ 1764  cd ../..
+ 1765  cd gradle-gsk/
+ 1766  ls
+ 1767  cd new/
+ 1768  ls
+ 1769  cd gskweb/
+ 1770  ls
+ 1771  tree
+ 1772  cd src/main/webapp/
+ 1773  cat index.jsp
+ 1774  cat index.html
+ 1775  cd data-jenkins/jenkins/
+ 1776  ls -la
+ 1777  ls
+ 1778  mkdir maven-gsk
+ 1779  cd maven-gsk/
+ 1780  mkdir webapp-trail-1
+ 1781  which mvn
+ 1782  maven archetype:generate -DgroupId=org.wings.siva -DartifactId=webapp-trail-11 -DarchetypeArtifactId=maven-archetype-webapp -DinteractiveMode=false
+ 1783  maven -version
+ 1784  maven -v
+ 1785  maven --version
+ 1786  sudo apt install maven
+ 1787  sudo apt update maven
+ 1788  sudo apt-get update maven
+ 1789  sudo apt-get update
+ 1790  maven archetype:generate -DgroupId=org.wings.siva -DartifactId=webapp-trail-11 -DarchetypeArtifactId=maven-archetype-webapp -DinteractiveMode=false
+ 1791  mvn -v
+ 1792  mvn archetype:generate -DgroupId=org.wings.siva -DartifactId=webapp-trail-11 -DarchetypeArtifactId=maven-archetype-webapp -DinteractiveMode=false
+ 1793  ls
+ 1794  rm -rf webapp-trail-1
+ 1795  tree
+ 1796  cd webapp-trail-11/src/main/webapp/
+ 1797  vi index.html
+ 1798  cd ../../..
+ 1799  ls
+ 1800  maven compile
+ 1801  mvn compile
+ 1802  mvn package
+ 1803  tree
+ 1804  cd target/
+ 1805  ls
+ 1806  cp -r ./webapp-trail-11.war /opt/tomcat/apache-tomcat-9.0.63/webapps/mvn-webapp.war
+ 1807  cd /opt/tomcat/apache-tomcat-9.0.63/webapps/
+ 1808  ls
+ 1809  cat Dockerfile
+ 1810  cd ..
+ 1811  ls
+ 1812  tree /lib
+ 1813  ls
+ 1814  cd lib/
+ 1815  ls
+ 1816  cd ..
+ 1817  cd apache-tomcat-9.0.63/
+ 1818  cd conf/
+ 1819  ls
+ 1820  cd ..
+ 1821  ls
+ 1822  cd bin/
+ 1823  ls
+ 1824  sudo ls

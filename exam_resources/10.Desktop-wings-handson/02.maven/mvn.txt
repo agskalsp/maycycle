@@ -1,0 +1,113 @@
+       <dependency>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-compiler-plugin</artifactId>
+      <version>3.10.1</version>
+      </dependency>
+         <dependency>
+    <groupId>org.codehaus.mojo</groupId>
+    <artifactId>exec-maven-plugin</artifactId>
+    <version>3.1.0</version>
+</dependency>
+
+-------------------   QUESTION    ---------------
+
+1. Maven Plugins - 2
+Note: Maven project structure is already defined and so proceed with the following steps 
+and do not make any changes to the pre-existing structure of PrimeSum.java and do not modify PrimeSumTest.java
+
+ - Configure your pom.xml file to include maven compiler and execution plugin 
+and also add dependencies to generate junit test reports.- Create a java application to calculate the sum of prime numbers. 
+Also, print the sum as zero if the variable maxNum is less than or equal to zero.
+
+
+
+----------------------------------------
+
+
+/////////////////
+
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>PrimeSum</groupId>
+    <artifactId>PrimeSum</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <!--Insert your code here-->
+    <dependencies>
+       <dependency>
+          <groupId>junit</groupId>
+           <artifactId>junit</artifactId>
+          <version>4.13.2</version>
+          <scope>test</scope>
+      </dependency>
+    </dependencies>
+   <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.10.1</version>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
+      <plugin>
+	    	<groupId>org.codehaus.mojo</groupId>
+	    	<artifactId>exec-maven-plugin</artifactId>
+	    	<version>1.6.0</version>
+	    	<configuration>
+	   		<mainClass>javaApp.PrimeSum</mainClass>
+	   	</configuration>
+    </plugin>
+    </plugins>
+  </build>
+</project>
+
+
+
+
+
+
+
+
+
+
+//////////////////
+package javaApp;
+
+import java.util.Arrays;
+
+public class PrimeSum {
+   public static void main(String[] args) {
+        System.out.println(primesum(20));
+    }
+
+    static long primesum(int maxNum) {
+        int sum = 0, num;
+        //insert your code here
+        num = maxNum;
+        if (maxNum <= 0) {
+          return sum;
+        } 
+        else {
+             boolean isPrime[] = new boolean[num+1];
+             Arrays.fill(isPrime, true);
+
+             for (int p = 2; p * p <= num; p++) {
+                if (isPrime[p]) {
+                   for (int i = p * p; i <= num; i += p)
+                      isPrime[i] = false;
+                    }
+             }
+             for(int i = 2; i < isPrime.length; i++) {
+               if(isPrime[i]) {
+                  sum += i;
+               }
+            }
+            return sum;
+            }
+     } 
+}

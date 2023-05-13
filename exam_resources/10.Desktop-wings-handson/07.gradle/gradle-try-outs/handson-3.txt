@@ -1,0 +1,12 @@
+task circle {
+  doLast {
+    double area = (22/7)*Double.parseDouble(radius)*Double.parseDouble(radius)
+    println 'area of circle is = '+area
+  }
+}
+task square {
+  doLast {
+    double area = Double.parseDouble(side)*Double.parseDouble(side)
+    println 'area of circle is = '+area
+  }
+}

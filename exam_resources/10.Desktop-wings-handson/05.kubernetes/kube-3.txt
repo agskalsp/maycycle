@@ -1,0 +1,157 @@
+kubectl version
+minikube version
+https://kubernetes.io/docs/reference/kubectl/cheatsheet/
+kubectl create configmap my-config --from-literal=key1=value1 --from-literal=key2=value2
+kubectl get configmaps my-config -o yaml
+kubectl create secret generic userpassword --from-literal=password=loginpassword
+
+cd ..
+kubectl create configmap fresco-config --from-file=fresco/
+
+kubectl create configmap fresco-config-3 --from-file=fresco.props --from-file=fresco.ids
+
+kubectl create configmap fresco-literal-config --from-literal=fresco.props='this is fresco props'  --from-literal=fresco.ids='this is fresco ids'
+Verify the ConfigMaps creation using this command.
+
+kubectl get configmap fresco-literal-config -o yaml
+
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: imageName
+data:
+        image data
+
+The YAML file
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fresco-config
+data:
+  SERVER_URL: https://www.frescome
+
+
+###   The YAML file   ### for Secret
+apiVersion: v1
+kind: Secret
+metadata:
+  name: userpassword
+type: Opaque
+data:
+  password: bXlzcWxwYXNzd29yZAo=
+
+
+
+
+env:
+   - name: fresco-config
+     valueFrom:
+         configMapKeyRef:
+             name: fresco-config
+             key: SERVER_URL
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod
+spec:
+  containers:
+  - name: mypod
+    image: redis
+    volumeMounts:
+    - name: foo
+      mountPath: "/etc/test"
+  volumes:
+  - name: foo
+    secret:
+      secretName: fresco-secret
+      defaultMode: 0400
+
+
+Create a ConfigMap.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: fresco-config
+    namespace: default
+data:
+    LOG_LEVEL: debug
+    SERVER_PORT: '8007'
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: config-test-pod
+spec:
+  containers:
+    - name: config-test-container
+      image: k8s.gcr.io/busybox
+      command: [ '/bin/sh', '-c', 'sleep 1000000' ]
+      volumeMounts:
+      - name: config-test-volume
+        mountPath: /etc/config
+  volumes:
+    - name: config-test-volume
+      configMap:
+        name:  fresco-config
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: env-conf-test-pod
+spec:
+  containers:
+    - name:  env-conf-test-container
+      image: k8s.gcr.io/busybox
+      command: [ "/bin/sh", "-c", "sleep 100000" ]
+      env:
+        - name: SERVER_PORT_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: fresco-config
+              key: SERVER_PORT
+  restartPolicy: Never
+
+
+
+
+
+
+
+
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: secret-env-pod
+spec:
+  containers:
+  - name: mycontainer
+    image: redis
+    env:
+      - name: SECRET_USERNAME
+        valueFrom:
+          secretKeyRef:
+            name: mysecret
+            key: username
+            optional: false # same as default; "mysecret" must exist
+                            # and include a key named "username"
+      - name: SECRET_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: mysecret
+            key: password
+            optional: false # same as default; "mysecret" must exist
+                            # and include a key named "password"
+  restartPolicy: Never
+
+
+
+
+

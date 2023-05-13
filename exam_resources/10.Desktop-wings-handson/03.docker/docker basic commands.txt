@@ -1,0 +1,70 @@
+docker version
+docker info
+
+
+docker pull <<image_name>>
+docker pull <<username/image_name>>
+
+docker images
+docker histroy <<IMAGE_NAME>>   ---- to see the commands that were run during run a container
+docker run <<IMAGE_NAME>>     --- to remove the images 
+docker rmi <<IMAGE_NAME>>
+
+
+docker pull busybox:1.24
+docker pull IMAGE_NAME: version_Number    --- defualt is latest
+docker search IMAGE_NAME | head -n  ---> n can be No. of searches u want
+
+
+# CONTAINER_NAME / CONTAINER_ID
+
+docker ps 
+docker ps -a 
+docker inspect <<CONTAINER_NAME>>
+docker stats <<CONTAINER_NAME>>
+docker pause <<CONTAINER_NAME>>
+docker unpause <<CONTAINER_NAME>>
+
+docker kill <<CONTAINER_NAME>>
+docker start <<CONTAINER_NAME>>
+docker stop <<CONTAINER_NAME>>
+docker rm <<CONTAINER_NAME>>   ---- to remove a particular container 
+docker container prune      ---- removes all stopped containers
+
+docker export <<Container Name>> <<file_Name>>.tar
+docker import <<file_Name>>.tar
+service docker start
+service docker stop
+service docker status
+service docker restart
+
+##########     Installation       ###########
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+sudo apt-get update
+apt-cache policy docker-ce
+sudo apt-get install -y docker-ce
+sudo docker --version
+
+
+#########     SHORTCUT FOR INSTALLATION    #######
+sudo curl -sSL https://get.docker.io/ | sh
+
+##########     UN - Installation       ###########
+sudo apt-get purge docker-ce
+
+docker run --name newnginxservice -d nginx
+docker run --name newnginxservice --detach nginx
+
+
+docker image inspect IMAGEID | more  --> Gives more details about the docker image
+
+
+
+#NEW
+docker build --no-cache=true .    --> builds new even though there is already existing build
+docker build --no-cache=true -f PATH/Dockerfile .    --> can give Dockerfile path and . PERIOD or DOT is necessary for CONTEXT
+
+# For squash to work we need to have EXPERIMENTAL_Feature must be enabled
+docker build --squash -f Dockerfile .  --> it will squash the top layers into a single layer
+docker image history IMAGENAME --> will give u the commands it run

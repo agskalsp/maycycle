@@ -1,0 +1,1000 @@
+   98  sudo systemctl status jenkins
+   99  ls -al
+  100  cd ..
+  101  ls -al
+  102  cd var/lib/jenkins/
+  103  ls -al
+  104  cd .groovy/
+  105  ls -al
+  106  cd ~
+  107  ls -al
+  108  cd home
+  109  pwd
+  110  mkdir ansible
+  111  ls -al
+  112  sudo systemctl enable jenkins
+  113  sudo systemctl start jenkins
+  114  sudo systemctl status jenkins
+  115  sudo systemctl restart jenkins
+  116  service jenkins start
+  117  sudo service jenkins start
+  118  sudo service docker restart
+  119  docker --version
+  120  docker ps
+  121  sudo systemctl start docker
+  122  sudo service docker start
+  123  docker ps
+  124  docker pull busybox
+  125  sudo service docker status
+  126  sudo service docker start
+  127  sudo ls -la /var/run/docker.sock
+  128  sudo chown kotesh:docker /var/run/docker.sock
+  129  sudo ls -la /var/run/docker.sock
+  130  sudo service docker status
+  131  sudo usermod -aG docker kotesh
+  132  sudo service docker status
+  133  sudo service docker start
+  134  sudo service docker status
+  135  systemctl start docker
+  136  sudo systemctl start docker
+  137  sudo service status --all
+  138  sudo service --allstatus
+  139  sudo service --all status
+  140  sudo service --all-status
+  141  whoami
+  142  sudo dockerd
+  143  sudo systemctl start docker
+  144  sudo service docker status
+  145  sudo service docker start
+  146  sudo service docker status
+  147  sudo service docker restart
+  148  sudo service docker status
+  149  docker ps
+  150  sudo apt-get remove docker docker-engine docker.io containerd runc
+  151  sudo apt-get update
+  152  sudo apt-get install     ca-certificates     curl     gnupg     lsb-release
+  153  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+  154  echo   "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+  155    $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  156  sudo apt-get update
+  157  sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+  158  sudo docker run hello-world
+  159  sudo service docker status
+  160  sudo dockerd
+  161  sudo service docker start
+  162  sudo service docker status
+  163  docker ps
+  164  sudo docker ps
+  165  sudo usermod -aG docker kotesh
+  166  sudo docker ps
+  167  gpasswd -a $USER docker
+  168  sudo gpasswd -a $USER docker
+  169  sudo docker ps
+  170  sudo chown kotesh /var/run/docker.sock
+  171  sudo docker ps
+  172  sudo service docker restart
+  173  sudo docker ps
+  174  sudo chkconfig docker on
+  175  service docker status
+  176  sudo apt install maven
+  177  docker ps
+  178  sudo service jenkins start
+  179  sudo service docker start
+  180  sudo service docker status
+  181  sudo dockerd
+  182  sudo docker ps
+  183  sudo cat /var/log/docker.log
+  184  sudo chmod 666 /var/run/docker.sock
+  185  sudo docker ps
+  186  sudo dockerd
+  187  OPTIONS='--selinux-enabled --log-driver=journald --signature-verification=false -G dockerroot'
+  188  sudo systemctl restart dockersudo systemctl restart docker
+  189  sudo service docker restart
+  190  sudo service docker status
+  191  sudo usermod -aG dockerroot kotesh
+  192  sudo service jenkins start
+  193  sudo service docker start
+  194  sudo service docker status
+  195  sudo dockerd
+  196  sudo docker ps
+  197  ifconifg
+  198  ifconfig
+  199  /usr/bin/docker daemon --debug --bip=172.24.32.1/24
+  200  sudo docker ps
+  201  sudo dockerd
+  202  sudo apt-get update
+  203  sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common libssl-dev libffi-dev git wget nano
+  204  sudo groupadd docker
+  205  sudo usermod -aG docker kotesh
+  206  Id username
+  207  ld username
+  208  curl -fsSl https://download.docker.com/linux/ubu...  | sudo apt-key add
+  209  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  210  echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+  211  echo "sudo service docker start" &gt&gt ~/.profile
+  212  docker ps
+  213  sudo apt-get update
+  214  sudo apt-get upgrade -y
+  215  sudo apt-get autoremove -y
+  216  sudo apt-get install -y docker-ce containerd.io
+  217  sudo apt-get install -y kubectl
+  218  sudo docker ps
+  219  sudo dockerd
+  220  docker ps
+  221  ls ll
+  222  ls -ll
+  223  ls /var/run/docker.sock
+  224  ls ../../var/run/docker.sock
+  225  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  226  curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add
+  227  sudo apt-get update
+  228  sudo apt-get upgrade -y
+  229  sudo apt-get update
+  230  sudo apt-get install -y docker-ce containerd.io
+  231  sudo docker
+  232  docker -v
+  233  docker run hello-world
+  234  docker run --help
+  235  sudo service docker start
+  236  sudo service docker enable
+  237  sudo service docker status
+  238  docker run hello-world
+  239  docker ps
+  240  docker run -d -p 8010:8080 --name jenkins-docker jenkins/jenkins
+  241  docker exec -it jenkins-docker
+  242  docker ps -a
+  243  docker exec -it jenkins-docker bash
+  244  exit
+  245  sudo
+  246  docker ps
+  247  docker ps -a
+  248  sudo docker-compose -v
+  249  sudo curl -L https://github.com/docker/compose/releases/download/1.29.2/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+  250  sudo chmod +x /usr/local/bin/docker-compose
+  251  docker-compose --version
+  252  pwd
+  253  ls -al
+  254  mkdir docker
+  255  cd docker
+  256  vi compose-1-jenkins.yml
+  257  cd ..
+  258  mkdir koti-jenkins
+  259  cd koti-jenkins/
+  260  mkdir koti-jenkins-data
+  261  cd //
+  262  cd ..
+  263  cd ~
+  264  pwd
+  265  ls -al
+  266  cd docker
+  267  ls -al
+  268  vi compose-1-jenkins.yml
+  269  docker-compose -f compose-1-jenkins.yml up
+  270  docker-compose
+  271  docker-compose -d -f compose-1-jenkins.yml up
+  272  docker-compose -d up
+  273  docker-compose run -d -f compose-1-jenkins.yml up
+  274  cat compose-1-jenkins.yml
+  275  docker-compose --version
+  276  docker-compose -d compose-1-jenkins.yml up
+  277  docker-compose -d -f compose-1-jenkins.yml up
+  278  docker-compose -f compose-1-jenkins.yml
+  279  cat compose-1-jenkins.yml
+  280  vi compose-1-jenkins.yml
+  281  docker-compose -f compose-1-jenkins.yml up
+  282  vi compose-1-jenkins.yml
+  283  docker-compose -f compose-1-jenkins.yml up
+  284  sudo service docker status
+  285  sudo service docker start
+  286  sudo service docker status
+  287  docker-compose -f compose-1-jenkins.yml up
+  288  docker-compose -df compose-1-jenkins.yml up
+  289  docker-compose -d -f compose-1-jenkins.yml up
+  290  sudo service docker status
+  291  docker-compose -d -f compose-1-jenkins.yml up
+  292  docker-compose -f compose-1-jenkins.yml up --detach
+  293  docker ps -a
+  294  docker describe 99e
+  295  docker rm 99e
+  296  docker ps -a
+  297  cd ..
+  298  cd ~
+  299  ansible --version
+  300  sudo apt install ansible
+  301  sudo service jenkins start
+  302  ansible --version
+  303  ls -al
+  304  cd .ansible/
+  305  ls -al
+  306  cd ..
+  307  cd ansible/
+  308  vi myhosts
+  309  vi playbook-1-nginx.yml
+  310  ansible-playbook -i myhosts playbook-1-nginx.yml
+  311  vi myhosts
+  312  ansible-playbook -i myhosts playbook-1-nginx.yml
+  313  vi playbook-1-nginx.yml
+  314  ansible-playbook -i myhosts playbook-1-nginx.yml
+  315  sudo service docker status
+  316  sudo service docker start
+  317  sudo service jenkins start
+  318  docker ps -a
+  319  cd docker/
+  320  ls
+  321  cd ..
+  322  docker-compose -d -f compose-1-jenkins.yml up
+  323  cd docker/
+  324  docker-compose -d -f compose-1-jenkins.yml up
+  325  sudo service docker-compose status
+  326  sudo service docker-compose start
+  327  sudo service docker.compose start
+  328  docker-compose -f compose-1-jenkins.yml up --detach
+  329  docker ps -a
+  330  cd ..
+  331  cd /var
+  332  ls
+  333  cd lib
+  334  ls
+  335  cd je
+  336  cd jenkins/
+  337  ls
+  338  cd workspace/
+  339  ls -al
+  340  cd jenkins-job2/
+  341  ls -al
+  342  cd ..
+  343  cd jenkins-one/
+  344  ls -al
+  345  ls -ll
+  346  cd ../../../..
+  347  ls
+  348  cd ..
+  349  ls
+  350  cd ss
+  351  cd ssh
+  352  cd .ssh
+  353  cd usr/
+  354  ls -al
+  355  cd sbin/
+  356  ls -al
+  357  cd ..
+  358  cd root/
+  359  sudo cd root
+  360  pwd
+  361  ls -al
+  362  docker ps -a
+  363  cd home/kotesh/docker/
+  364  docker-compose --detach -f compose-1-jenkins.yml up
+  365  docker-compose -f compose-1-jenkins.yml up --detach
+  366  cd ..
+  367  docker ps -a
+  368  docker exec -it jenkins-compose bash
+  369  sudo service jenkis status
+  370  sudo service jenkins status
+  371  sudo service jenkins start
+  372  sudo docker jenkins status
+  373  sudo service docker status
+  374  sudo service docker start
+  375  sudo service docker status
+  376  env
+  377  echo $JAVA_HOME
+  378  echo $JRE_HOME
+  379  cat etc/environment
+  380  cat ~/etc/environment
+  381  cat /etc/environment
+  382  cat >> /etc/environment << EOL
+  383  JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+  384  JRE_HOME=/usr/lib/jvm/java-8-openjdk=amd64/jre
+  385  EOL
+  386  sudo cat >> /etc/environment << EOL
+  387  JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+  388  JRE_HOME=/usr/lib/jvm/java-8-openjdk=amd64/jre
+  389  EOL
+  390  ls -ll /etc
+  391  chmod +x /etc/environment
+  392  env
+  393  sudoexit
+  394  sudo service docker status
+  395  docker ps
+  396  sudo service docker start
+  397  sudo service docker status
+  398  sudo service jenkins start
+  399  docker ps -a
+  400  docker jenkins-compose start
+  401  docker start jenkins-compose
+  402  pwd
+  403  sudo su -
+  404  ls -al
+  405  cd koti-jenkins/
+  406  ls -l
+  407  cd koti-jenkins-data/
+  408  ls-a
+  409  ls -al
+  410  sudo service jenkins enable
+  411  sudo service jenkins start
+  412  sudo service docker start
+  413  docker ps -a
+  414  docker rmi hello-world:latest
+  415  docker rm b74
+  416  docker rmi hello-world:latest
+  417  docker ps -a
+  418  docker start f3
+  419  pwd
+  420  cd ansible/
+  421  ls -al
+  422  clr
+  423  clear
+  424  ls
+  425  vi playbook-1-nginx.yml
+  426  ansible-playbook -i myhosts playbook-1-nginx.yml
+  427  vi playbook-1-nginx.yml
+  428  ansible-playbook -i myhosts playbook-1-nginx.yml
+  429  vi playbook-1-nginx.yml
+  430  ansible-playbook -i myhosts playbook-1-nginx.yml
+  431  vi playbook-1-nginx.yml
+  432  ansible-playbook -i myhosts playbook-1-nginx.yml
+  433  vi playbook-1-nginx.yml
+  434  ansible-playbook -i myhosts playbook-1-nginx.yml
+  435  vi playbook-1-nginx.yml
+  436  ansible-playbook -i myhosts playbook-1-nginx.yml
+  437  vi playbook-1-nginx.yml
+  438  ansible-playbook -i myhosts playbook-1-nginx.yml
+  439  vi playbook-1-nginx.yml
+  440  ansible-playbook -i myhosts playbook-1-nginx.yml
+  441  vi playbook-1-nginx.yml
+  442  ansible-playbook -i myhosts playbook-1-nginx.yml
+  443  cd ansible/
+  444  vi playbook-1-nginx.yml
+  445  ansible-playbook -i myhosts playbook-1-nginx.yml
+  446  ansible-playbook -i myhosts playbook-1-nginx.yml --ask-sudo-pass
+  447  vi playbook-1-nginx.yml
+  448  ansible-playbook -i myhosts playbook-1-nginx.yml
+  449  ansible-playbook -i myhosts playbook-1-nginx.yml --ask-sudo-pass
+  450  vi playbook-1-nginx.yml
+  451  ansible-playbook -i myhosts playbook-1-nginx.yml --ask-sudo-pass
+  452  ls -al
+  453  cd ..
+  454  cd docker/
+  455  ls -al
+  456  vi compose-1-jenkins.yml
+  457  cd an
+  458  cd ansible/
+  459  vi playbook-1-nginx.yml
+  460  ansible-playbook -i myhosts playbook-1-nginx.yml ansible-playbook playbook.yml --extra-vars "ansible_sudo_pass=ghks0127"
+  461  ansible-playbook -i myhosts playbook-1-nginx.yml --extra-vars "ansible_sudo_pass=ghks0127"
+  462  mvn
+  463  mvn version
+  464  whichmvn
+  465  mvn -version
+  466  sudo service docker start
+  467  sudo service docker status
+  468  docker ps -a
+  469  docker search jenkins
+  470  docker search busybox
+  471  docker search busybox | head -5
+  472  docker search jenkin | head -5
+  473  docker pull busybox
+  474  docker run busybox
+  475  docker ps -a
+  476  docker inspect 94
+  477  docker stats 94
+  478  docker pause 94
+  479  docker rm 94
+  480  docker rmi busybox:latest
+  481  sudo service docker start
+  482  docker run busybox
+  483  docker run busybox --name busyme
+  484  docker run --name busyme busybox
+  485  docker ps -a
+  486  docker export busyme siva.tar
+  487  docker export busyme > siva.tar
+  488  docker import siva.tr
+  489  ls -al
+  490  cat siva.tar
+  491  ;211R
+  492  docker ps
+  493  docker ps -a
+  494  docker container prune
+  495  ls -al
+  496  rm siva.tar
+  497  exit
+  498  sudo
+  499  sudo docker service start
+  500  sudo service docker start
+  501  pwd
+  502  cd etc/docker/
+  503  cd /etc/docker/
+  504  ls -la
+  505  cat key.json
+  506  sudo cat key.json
+  507  cd .
+  508  cd ~
+  509  pwd
+  510  docker ps -a
+  511  docker ps
+  512  ls -la
+  513  cd docker/
+  514  docker-compose -f compose-1-jenkins.yml --detach up
+  515  docker-compose -f compose-1-jenkins.yml up --detach
+  516  docker ps -a
+  517  docker atop b6
+  518  docker stop b6
+  519  docker ps -a
+  520  .code
+  521  cd ..
+  522  cd .code
+  523  vi .code
+  524  cat .code
+  525  docker ps -a
+  526  docker network ls
+  527  docker inspect network bridge
+  528  docker network inspect bridge
+  529  docker network ls
+  530  docker network create sivanw1
+  531  docker network ls
+  532  docker network create -d host sivanw1
+  533  docker network create -d host sivanw2
+  534  docker network create -d overlay sivanw2
+  535  docker network ls
+  536  docker run -d --net sivanw1 --name nwcon1 busybox
+  537  docker inspect 78
+  538  docker inspect --format='{{json .NetworkSettings.Networks}}' 78
+  539  docker run -d --name web training/webapp python app.py
+  540  docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' web
+  541  docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' 78
+  542  docker stop 5e
+  543  docker ps -a
+  544  docker rm 78
+  545  docker start 5e
+  546  docker stop 5e
+  547  docker info 5e
+  548  docker container prune
+  549  docker ps -a
+  550  docker info
+  551  ls -al
+  552  cd /etc/docker/daemon.json
+  553  cd /etc/docker/
+  554  ls -la
+  555  cat key.json
+  556  sudo cat key.json
+  557  docker run debian /bin/sh
+  558  docker rmi debian:latest
+  559  docker rm fe
+  560  docker rmi debian:latest
+  561  docker ps -a
+  562  sudo docker service status
+  563  sudo service docker status
+  564  sudo service docker start
+  565  docker ps -al
+  566  docker swarm
+  567  docker swarm init
+  568  exit
+  569  maven -v
+  570  mvn -v
+  571  echo $MAVEN_PATH
+  572  echo $MAVEN_HOME
+  573  cd /usr/local/
+  574  ls -al
+  575  cd ~
+  576  echo $JAVA_HOME
+  577  echo $JAVA_PATH
+  578  echo "$JAVA_PATH"
+  579  export MAVEN_HOME=/usr/local/apache-maven/apache-maven-3.6.0
+  580  echo $MAVEN_HOME
+  581  export MAVEN=$MAVEN_HOME/bin
+  582  export PATH=$MAVEN:$PATH
+  583  mvn -v
+  584  mvn archetype:generate -DgroupId=com.maven.gopi -DartifactId=gopiartifact1 -Dversion=1.0-SNAPSHOT -DarchetypeArtifactId=maven-archetype-helloworld
+  585  sudo
+  586  ansible --version
+  587  pwd
+  588  ls -al
+  589  cd ansible/
+  590  ls -al
+  591  ansible localhost -m ping
+  592  man Dockerfile
+  593  sudo jenkins start
+  594  sudo service jenkins start
+  595  sudo docker service start
+  596  sudo service docker start
+  597  ls -la
+  598  cd koti-jenkins/
+  599  ls -la
+  600  cd .
+  601  cd ~
+  602  sudo apt update
+  603  sudo groupadd tomcat
+  604  sudo useradd -s /bin/false -g tomcat -d /opt/tomcat tomcat
+  605  cd /tmp
+  606  curl -O paste_the_copied_link_here
+  607  sudo service jenkins status
+  608  sudo service docker status
+  609  docker ps -a
+  610  cd ..
+  611  docker ps -a
+  612  sudo useradd -r -m -U -d /opt/tomcat -s /bin/false tomcat
+  613  wget http://www-eu.apache.org/dist/tomcat/tomcat-9/v9.0.27/bin/apache-tomcat-9.0.27.tar.gz -P /tmp
+  614  cd /tmp
+  615  wget http://www-eu.apache.org/dist/tomcat/tomcat-9/v9.0.27/bin/apache-tomcat-9.0.27.tar.gz -P /tmp
+  616  sudo tar xf /tmp/apache-tomcat-9*.tar.gz -C /opt/tomcat
+  617  cd ..
+  618  ls -la
+  619  cd home/
+  620  ls -la
+  621  cd kotesh/
+  622  ls -la
+  623  cd docker/
+  624  vi comp-tomcat.yml
+  625  wget http://www-eu.apache.org/dist/tomcat/tomcat-9/v9.0.27/bin/apache-tomcat-9.0.27.tar.gz -P /tmp
+  626  sudo tar xf /tmp/apache-tomcat-9*.tar.gz -C /opt/tomcat
+  627  sudo ln -s /opt/tomcat/apache-tomcat-9.0.27 /opt/tomcat/latest
+  628  ls -la
+  629  cd /user
+  630  cd ..
+  631  ls -la
+  632  cd usr/
+  633  ls -la
+  634  cd local/
+  635  ls -la
+  636  cd ..
+  637  cd ~
+  638  java -version
+  639  sudo useradd -s /bin/false -g tomcat -d /opt/tomcat tomcat
+  640  cd /opt
+  641  sudo wget https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.21/bin/apache-tomcat-9.0.21.tar.gz
+  642  sudo tar -xvzf apache-tomcat-9.0.21.tar.gz
+  643  sudo mv apache-tomcat-9.0.21 /opt/tomcat
+  644  sudo chown -R tomcat: tomcat
+  645  sudo chmod o+x /opt/tomcat/bin/
+  646  sudo nano /etc/systemd/system/tomcat.service
+  647  sudo systemctl daemon-reload
+  648  sudo service daemon-reload
+  649  sudo service start tomcat
+  650  s
+  651  cd ~
+  652  ls -la
+  653  sudo service tomcat start
+  654  cd ../..
+  655  ls -la
+  656  cd usr/local/
+  657  ls -la
+  658  cd ../../opt/
+  659  sudo service tomcat restart
+  660  sudo systemctl daemon-reload
+  661  cd ~
+  662  pwd
+  663  ls -la
+  664  cd docker/
+  665  cd ../koti-jenkins/
+  666  ls -l
+  667  cd ..
+  668  cd ~
+  669  sudo service docker status
+  670  docker ps -a
+  671  docker exec -it 0cddf bash
+  672  sudo service jenkins status
+  673  sudo service restart
+  674  cd docker
+  675  ls -la
+  676  nano compose-1-jenkins.yml
+  677  docker-compose up -f compose-1-jenkins.yml --detach
+  678  docker-compose up compose-1-jenkins.yml --detach
+  679  cat compose-1-jenkins.yml
+  680  docker-compose up compose-1-jenkins.yml -d
+  681  docker-compose run -d -f compose-1-jenkins.yml
+  682  docker-compose --help
+  683  docker-compose build -d -f compose-1-jenkins.yml
+  684  docker-compose build -f compose-1-jenkins.yml --detach
+  685  docker-compose build -f compose-1-jenkins.yml --detach --no-cache
+  686  docker-compose -f compose-1-jenkins.yml up --detach
+  687  vi compose-1-jenkins.yml
+  688  docker run -d -p 8085:8080 tomcat:latest
+  689  docker run -d -p 8090:8080 tomcat:latest
+  690  docker ps -a
+  691  docker exec -it 0cdd
+  692  docker exec -it 0cdd bash
+  693  sudo service jenkins start
+  694  sudo service docker start
+  695  ls -ll
+  696  cd docker/
+  697  ls
+  698  docker-compose -f compose-1-jenkins.yml up --detach
+  699  docker ps -a
+  700  docker run 0cdd
+  701  docker run -d -p 8085:8080 --name mytomcat tomcat:latest
+  702  docker ps -a
+  703  docker ps
+  704  docker exec -it mytomcat bash
+  705  sudo service docker start
+  706  docker ps
+  707  docker pull 1928891/myapp:latest
+  708  docker inspect myapp
+  709  docker rmi myapp
+  710  docker images
+  711  docker images 1928891/myapp
+  712  docker rmi tomcat
+  713  sudo service jenkins start
+  714  git --version
+  715  git pull origin
+  716  ls -al
+  717  cd ~
+  718  ls -al
+  719  cd ..
+  720  ls -al
+  721  cd ..
+  722  ls -al
+  723  cd ~
+  724  ls -al
+  725  mkdir gitdemo
+  726  cd /gitdemo
+  727  cd gitdemo
+  728  git clone https://github.com/koteshgsk/kotesht5.git
+  729  sudo service docker status
+  730  sudo service docker start
+  731  ls -al
+  732  cd kotesht5
+  733  ls -al
+  734  docker build . -t sivaapp1 .
+  735  docker build -f Dockerfile -t sivaapp1 .
+  736  git pull
+  737  git diff
+  738  git diff origin HEAD
+  739  docker build -f Dockerfile -t sivaapp1 .
+  740  cd ..
+  741  docker build -f gitdemo/kotesht5/Dockerfile -t sivaapp2 .
+  742  docker build -f ./gitdemo/kotesht5/Dockerfile -t sivaapp2 .
+  743  docker build -f ~/gitdemo/kotesht5/Dockerfile -t sivaapp2 .
+  744  sudo docker build -f ~/gitdemo/kotesht5/Dockerfile -t sivaapp2 .
+  745  docker images
+  746  docker rmi af3
+  747  docker container ls
+  748  docker ps
+  749  docker rmi sivaapp1
+  750  docker rmi sivaapp2
+  751  docker rmi sivaapp1
+  752  docker rmi sivaapp1:latest
+  753  docker ps
+  754  docker images
+  755  sudo service jenkins start
+  756  ls -la
+  757  cd gitdemo/
+  758  ls
+  759  cd kotesht5/
+  760  ls -la
+  761  cd ..
+  762  git clone https://code.fresco.me/play-content/handson-frescoplaylab-javademo.git
+  763  git clone https://jQdQysBiuhe4Njn8@code.fresco.me/play-content/handson-frescoplaylab-pythondemo.git
+  764  cd ..
+  765  cd ~\
+  766  cd ~
+  767  service jenkins start
+  768  ls -al
+  769  pwd
+  770  cd koti-jenkins/
+  771  ls
+  772  pwd
+  773  sudo useradd -m -d /opt/tomcat -U -s /bin/false tomcat
+  774  sudo apt update
+  775  sudo apt install default-jdk
+  776  java -version
+  777  cd /tmp
+  778  wget https://dlcdn.apache.org/tomcat/tomcat-10/v10.0.20/bin/apache-tomcat-10.0.20.tar.gz
+  779  sudo service jenkins start~
+  780  sudo service jenkins start
+  781  sudo apt install unzip wget
+  782  wget http://mirrors.estointernet.in/apache/tomcat/tomcat-8/v8.5.47/bin/apache-tomcat-8.5.47.zip
+  783  unzip apache-tomcat-*.zip
+  784  sudo mkdir -p /opt/tomcat
+  785  sudo mv apache-tomcat-8.5.47 /opt/tomcat/sudo apt install unzip wget
+  786  cd /tmp
+  787  wget http://mirrors.estointernet.in/apache/tomcat/tomcat-8/v8.5.47/bin/apache-tomcat-8.5.47.zip
+  788  unzip apache-tomcat-*.zip
+  789  sudo mkdir -p /opt/tomcat
+  790  sudo mv apache-tomcat-8.5.47 /opt/tomcat/
+  791  wget http://mirrors.estointernet.in/apache/tomcat/tomcat-8/v8.5.47/bin/apache-tomcat-8.5.47.zip
+  792  sudo apt-get update
+  793  cd ~
+  794  sudo apt-get update
+  795  sudo apt-get install default-jdk
+  796  sudo apt install unzip wget
+  797  wget http://mirrors.estointernet.in/apache/tomcat/tomcat-8/v8.5.47/bin/apache-tomcat-8.5.47.zip
+  798  unzip apache-tomcat-*.zip
+  799  sudo mkdir -p /opt/tomcat
+  800  sudo apt install unzip
+  801  sudo apt install unzip wget
+  802  cd /tmp
+  803  wget http://mirrors.estointernet.in/apache/tomcat/tomcat-8/v8.5.47/bin/apache-tomcat-8.5.47.zip
+  804  unzip apache-tomcat-*.zip
+  805  sudo mkdir -p /opt/tomcat
+  806  sudo mv apache-tomcat-8.5.47 /opt/tomcat/
+  807  wget http://mirrors.estointernet.in/apache/tomcat/tomcat-8/v8.5.47/bin/apache-tomcat-8.5.47.zip
+  808  wget https://mirrors.estointernet.in/apache/tomcat/tomcat-9/v9.0.63/bin/apache-tomcat-9.0.63.zip
+  809  unzip apache-tomcat-*.zip
+  810  sudo mkdir -p /opt/tomcat
+  811  sudo mv apache-tomcat-8.5.47 /opt/tomcat/
+  812  cd ..
+  813  sudo mv apache-tomcat-8.5.47 /opt/tomcat/
+  814  /opt/tomcat/apache-tomcat-8.5.47/conf/server.xml file
+  815  cat /opt/tomcat/apache-tomcat-8.5.47/conf/server.xml
+  816  cat ~/opt/tomcat/apache-tomcat-8.5.47/conf/server.xml
+  817  sudo service jenkins start
+  818  sudo mv apache-tomcat-9.0.63 /opt/tomcat
+  819  sudo apt install unzip wget
+  820  cd /tmp
+  821  wget https://mirrors.estointernet.in/apache/tomcat/tomcat-9/v9.0.63/bin/apache-tomcat-9.0.63.zip
+  822  unzip apache-tomcat-*.zip
+  823  sudo mkdir -p /opt/tomcat
+  824  sudo mv apache-tomcat-9.0.63 /opt/tomcat
+  825  sudo mkdir -p /opt/tomcat
+  826  sudo mv apache-tomcat-9.0.63 /opt/tomcat
+  827  sudo mkdir -p /opt/tomcat
+  828  sudo mv apache-tomcat-9.0.63 /opt/tomcat
+  829  cd ~
+  830  ls -la
+  831  cd ../..
+  832  ls -la
+  833  cd opt/
+  834  ;s -la
+  835  ls -la
+  836  cd tomcat/
+  837  ls -la
+  838  cd apache-tomcat-9.0.63/
+  839  ls -la
+  840  cd conf
+  841  ls -la
+  842  cat tomcat-users.xml
+  843  cd ..
+  844  ls -la
+  845  cd conf/
+  846  ls -la
+  847  vi server.xml
+  848  cat server.xml
+  849  cd /opt/tomcat/apache-tomcat-8.5.47/bin
+  850  ls -la
+  851  cd /opt/tomcat/apache-tomcat-9.0.63/bin
+  852  ls -la
+  853  sudo chmod +x *
+  854  ls -la
+  855  /opt/tomcat/apache-tomcat-9.0.63/bin/startup.sh
+  856  cd /opt/tomcat/apache-tomcat-8.5.47/conf
+  857  cd /opt/tomcat/apache-tomcat-9.0.63/conf
+  858  ls -la
+  859  vi tomcat-users.xml
+  860  /opt/tomcat/apache-tomcat-9.0.63/bin/shutdown.sh
+  861  /opt/tomcat/apache-tomcat-9.0.63/bin/startup.sh
+  862  cd ~
+  863  sudo service jenkins start
+  864  cd /opt/tomcat/apache-tomcat-8.5.47/conf
+  865  cd /opt/tomcat/apache-tomcat-9.0.63/conf
+  866  ls -la
+  867  cat tomcat-users.xml
+  868  sudo service jenkins start
+  869  sudo service docker start
+  870  docker images
+  871  cd docker/
+  872  ls -la
+  873  cat compose-1-jenkins.yml
+  874  vi compose-jenkins-only.yml
+  875  docker-compose -f compose-jenkins-only.yml --name my-jenkins up --detach
+  876  docker-compose -f compose-jenkins-only.yml up --detach
+  877  cd ..
+  878  cd /opt/tomcat/apache-tomcat-9.0.63/
+  879  cd bin/start.sh
+  880  cd bin
+  881  ls -la
+  882  ./startup.sh
+  883  sudo service jenkins start
+  884  cd /var/lib/jenkins/jobs/PublishJob/
+  885  ls -la
+  886  cd builds/
+  887  ls -la
+  888  cd 4
+  889  ls -la
+  890  cat log
+  891  cd ..
+  892  vi config.xml
+  893  ls -la
+  894  sudo chmod 755 ./config.xml
+  895  ls -la
+  896  sudo chmod 777 ./config.xml
+  897  ls -la
+  898  vi config.xml
+  899  curl https://github.com/koteshgsk/kotesht5.git
+  900  curl ~ https://github.com/koteshgsk/kotesht5.git
+  901  gicd ..
+  902  cd ../../../
+  903  cd ~
+  904  ls -la
+  905  cd gitdemo/
+  906  ls -la
+  907  git clone https://github.com/ALSPraveen/IOT-AR-Project.git
+  908  ls -la
+  909  rm IOT-AR-Project/
+  910  sudo service jenkins start
+  911  /opt/tomcat/
+  912  cd /opt/tomcat/
+  913  ;s
+  914  ls
+  915  cd apache-tomcat-9.0.63/
+  916  ls
+  917  cd conf/
+  918  ls
+  919  cd ..
+  920  cd bin/
+  921  ls
+  922  ./startup.sh
+  923  cat $CATALINA_HOME/conf/tomcat-users.xml
+  924  sudo cat $CATALINA_HOME/conf/tomcat-users.xml
+  925  sudo cat $CATALINA_HOME/conf/
+  926  echo $CATALINA_HOME
+  927  cd ~
+  928  sudo service tomcat status
+  929  /opt/tomcat/apache-tomcat-9.0.63/bin/startup.sh
+  930  git status
+  931  ls
+  932  ls -la
+  933  cd ..
+  934  ls
+  935  cd kotesh/
+  936  git clone https://github.com/koteshgsk/kotesht5.git
+  937  cd kotesht5/
+  938  touch TestFile.txt
+  939  cat > TestFile.txt
+  940  git status
+  941  git commit -am "Trail for git"
+  942  git push
+  943  git pull
+  944  git push
+  945  git push https://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@github.com/koteshgsk/kotesht5.git
+  946  mkdir chat
+  947  cd chat
+  948  cat > scam.txt
+  949  git status
+  950  git add .
+  951  git commit -m "First chat"
+  952  git push https://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@github.com/koteshgsk/kotesht5.git
+  953  cd ..
+  954  git pull
+  955  git push https://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@github.com/koteshgsk/kotesht5.git
+  956  git status
+  957  git add TestFile.txt
+  958  git commit -m "our scam"
+  959  git status
+  960  git reset HEAD
+  961  git status
+  962  git rm chat/
+  963  cat Testfile.txt
+  964  cat TestFile.txt
+  965  rm TestFile.txt
+  966  rm -rf /chat/
+  967  ls
+  968  rm -rf ./chat/
+  969  git status
+  970  vi chat2.txt
+  971  git status
+  972  git commit -am "Personal Access Token"
+  973  git config --global user.name Git
+  974  git config --global user.email Git@gmail.com
+  975  git commit -am "Personal Access Token"
+  976  git push https://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@github.com/koteshgsk/kotesht5.git
+  977  cd ..
+  978  git config --global --list
+  979  git config --global user.name koteshgsk
+  980  git config --global user.email gopiagsk2000@gmail.com
+  981  git commit -am "Personal Access Token"
+  982  cd kotesht5/
+  983  git commit -am "Personal Access Token"
+  984  git status
+  985  git commit -am "My PAT"
+  986  git add .
+  987  git status
+  988  git commit -m "My PAT"
+  989  git push https://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@github.com/koteshgsk/kotesht5.git
+  990  git push
+  991  sudo service jenkins start~
+  992  sudo service jenkins start
+  993  sudo service docker start
+  994  sudo service jenkins start
+  995  grep docker /etc/groups
+  996  grep docker |  /etc/groups \
+  997  grep docker /etc/group
+  998  sudo usermod -a -G docker jenkins
+  999  grep docker /etc/group
+ 1000  sudo service docker restart
+ 1001  sudo service jenkins restart
+ 1002  sudo service jenkins start
+ 1003  sudo service docker start
+ 1004  ls
+ 1005  cd docker/
+ 1006  ls
+ 1007  docker-compose -f compose-jenkins-only.yml up --detach
+ 1008  docker images
+ 1009  docker ps
+ 1010  docker exec -it 5b bash
+ 1011  exit
+ 1012  sudo service docker status
+ 1013  grep docker /etc/group
+ 1014  sudo usermod -a -G docker jenkins
+ 1015  grep docker /etc/group
+ 1016  sudo usermod -a -G docker siva
+ 1017  docker ps
+ 1018  cd docker/
+ 1019  docker-compose -f compose-jenkins-only.yml up --detach
+ 1020  sudo cd /mt/c
+ 1021  cd /mnt/c
+ 1022  ls
+ 1023  cd Users/
+ 1024  ls
+ 1025  cd wings
+ 1026  cd ..
+ 1027  git push
+ 1028  git init
+ 1029  sudo cp -r ./wings/ ~/kotesht5/
+ 1030  cd ~/kotesht5
+ 1031  ls
+ 1032  git push
+ 1033  git push https://github.com/koteshgsk/kotesht5.git
+ 1034  git push https://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@github.com/koteshgsk/kotesht5.git
+ 1035  git config
+ 1036  git config --global --list
+ 1037  git status
+ 1038  git add .
+ 1039  git commit -m "ALL folders"
+ 1040  git push https://github.com/koteshgsk/kotesht5.git
+ 1041  history
+ 1042  pwd
+ 1043  ansible-doc -l
+ 1044  ansible-galaxy init fresco-nginx
+ 1045  ls
+ 1046  mv ./fresco-nginx/ ./ansible/
+ 1047  ls
+ 1048  cd ansible/
+ 1049  ls
+ 1050  cd fresco-nginx/
+ 1051  ls
+ 1052  cd tasks/
+ 1053  ls
+ 1054  cat main.yml
+ 1055  cd ..
+ 1056  ansible-galaxy install fresco-nginx
+ 1057  ls
+ 1058  sudo service jenkins start
+ 1059  pws
+ 1060  pwd
+ 1061  ls
+ 1062  cd ~
+ 1063  ls
+ 1064  cd koti-jenkins/
+ 1065  ls
+ 1066  cd /var/lib/jenkins/jobs/
+ 1067  ls
+ 1068  cd jenkins-job2/
+ 1069  ls
+ 1070  cd builds/
+ 1071  ls
+ 1072  cd 8
+ 1073  ls
+ 1074  cd ../..
+ 1075  ls
+ 1076  cd ..
+ 1077  ls
+ 1078  cd ..
+ 1079  clear
+ 1080  cd workspace/
+ 1081  ls
+ 1082  cd jenkins-job2/
+ 1083  ls
+ 1084  ls -la
+ 1085  sudo apt install openjdk-17-jdk openjdk-17-source
+ 1086  sudo apt-get update
+ 1087  sudo apt install openjdk-17-jdk openjdk-17-source
+ 1088  pwd
+ 1089  cd ..
+ 1090  pwd
+ 1091  cd ..
+ 1092  ;s
+ 1093  ls
+ 1094  pwd
+ 1095  cd ..
+ 1096  ls
+ 1097  history

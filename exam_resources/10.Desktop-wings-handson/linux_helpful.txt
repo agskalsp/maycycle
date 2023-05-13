@@ -1,0 +1,133 @@
+learn Linux
+mkdir NEWDIRNAME
+ls -al
+sudo apt-get install jenkins
+sudo apt update
+sudo apt remove jenkins
+echo
+etc/init.d/apache2 restart
+./atlassian/cjkcbajcankja
+sudo chmod +x #path#    ---gives access to executble commands
+
+func init FOR AZURE FUNCTION APPS
+
+&> ~/output.txt &
+
+curl URL?parameter=VALUE -w "\n"
+get-command *AzWebApp*
+
+get-command *KEYWORD*
+
+
+###################
+Check for every Linux Command Over Here
+################
+https://nuvepro.com/free-labs/devops-free-labs/
+###################
+#########
+###
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+
+cat FOLDER-NAME
+
+ls -lt
+
+cd
+
+cd..
+
+mvn clean install
+| grep 
+chmod
+-version
+echo $
+echo from mcr.microsoft.com/hello-world > Dockerfile
+mvn -version
+which git
+
+
+
+cat for showing folder
+cd for adding folder
+sudo for admin access
+ls -lt shows list  
+git clone URL LINK
+
+
+
+HTTP 401 Unauthorized 
+HTTP 403 Forbidden
+
+400 Bad Request
+The server could not understand the request due to invalid syntax.
+
+401 Unauthorized
+
+402 Payment Required 
+
+403 Forbidden
+
+404 Not Found
+
+405 Method Not Allowed
+The request method is known by the server but is not supported by the target resource. For example, an API may not allow calling DELETE to remove a resource.
+
+406 Not Acceptable
+This response is sent when the web server, after performing server-driven content negotiation, doesn't find any content that conforms to the criteria given by the user agent.
+
+407 Proxy Authentication Required
+This is similar to 401 Unauthorized but authentication is needed to be done by a proxy.
+
+408 Request Timeout
+This response is sent on an idle connection by some servers, even without any previous request by the client. It means that the server would like to shut down this unused connection.
+
+409 Conflict
+This response is sent when a request conflicts with the current state of the server.
+
+410 Gone
+
+--output tsv
+mkdir htmlapp
+cd htmlapp
+git clone https://github.com/Azure-Samples/html-docs-hello-world.git
+
+
+
+# Step 3: Configure Nginx environment
+CMD service nginx start
+
+# Step 4: Configure Nginx environment
+COPY ./default /etc/nginx/sites-available/default
+
+# STEP 5: Configure work directory
+WORKDIR /app
+
+# STEP 6: Copy website code to container
+COPY ./website/. .
+
+# STEP 7: Configure network requirements
+EXPOSE 80:8080
+
+# STEP 8: Define the entry point of the process that runs in the container
+ENTRYPOINT ["dotnet", "website.dll"]
+
+
+############
+whatever u do in jenkins build it happens within the container environment
+
+
+NAME= Riccardo
+echo "Hello, $NAME. Current date and time is $(date)"
+
+for creating the path
+
+echo "Hello, $NAME. Current date and time is $(date)" > #/PATH/#
+echo "Hello, $NAME. Current date and time is $(date)" > /tmp/info
+
+removing the folder or path
+rm -rf /tmp/info
+
+vi docker-compose.yml
+
+vi is a text editor
+it won't be in container

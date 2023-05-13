@@ -1,0 +1,30 @@
+# Write your ansible-playbook here
+-  name: My first Play
+   hosts: localhost
+   become: true
+   become_method: sudo
+   tasks:
+    - name: Checking sample.sh file
+      file:
+          path: /projects/challenge/sample.sh
+      #register: stat_result
+      #when: not stat_result.stat.exists
+      retries: 10
+      delay: 5
+      
+    
+    - name: Replace sample
+      replace:
+        path: sample.sh
+        regexp: 'sample'
+        replace: 'sample_directory'
+
+    - name: executing sample.sh
+      shell: bash ./sample.sh
+      
+
+
+https://git-rba.hackerrank.com/git/71cd71be-9151-4a39-b5fa-f031af83b3f1
+Auto save changes before Run Tests
+
+

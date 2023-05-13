@@ -1,0 +1,96 @@
+-
+  name: 'Create simplefile'
+  hosts: localhost 
+  tasks:
+  - stat:
+       path: /home/user/test/simplefile.txt 
+    register: p
+  -
+    name: 'Move the files'
+    command: mv /projects/challenge/simplefile.txt /home/user/test 
+    when: p.stat.exists == False
+
+
+---
+-
+  name: 'Install Apache SQL Git'
+  hosts: localhost
+  become: yes
+  tasks:
+  -
+    name: 'Install Apache SQL Git'
+    action: apt pkg: {{item}} state=present update_cache=yes
+    with_items: 
+      - apache2
+      - sqllite3
+      - git
+
+
+---
+-
+  name: 'Install Apache SQL Git'
+  hosts: localhost
+  connection: local
+  become: yes
+  become_method: sudo
+  mongo_packages:
+     -apache2
+     -sqlite3
+     -git
+  tasks:
+  -
+    name: 'Install Apache SQL Git'
+    action: apt pkg:{{item}} state=present update_cache=yes
+    with_items: "{{mongo_packages}}"
+
+---
+#installing nginx and postgresql
+-
+  name: 'installing nginx and postgresql'
+  hosts: localhost
+  become: yes
+  become_method: sudo
+  connection: local
+  tasks:
+  -
+    name: 'install nginx'
+    apt: 
+      name: nginx
+      state: latest
+  -
+    name: 'start nginx'
+    apt:
+      name: nginx
+      state: present
+  -
+    name: 'install postgresql'
+    apt: 
+      name: postgresql
+      state: latest
+  -
+    name: 'start postgresql'
+    apt:
+      name: postgresql
+      state: present
+
+
+---
+- name: install nginx
+  apt: 
+    name: nginx 
+    state: latest
+    update_cache: yes
+
+- name: start nginx
+  service:
+    name: nginx
+    state: started
+
+- name: template code
+  template:
+    src: sites-enabled.j2
+    dest: /etc/nginx/sites-enabled/default
+
+    ---
+- hosts: all
+  tasks:

@@ -1,0 +1,87 @@
+package com.fresco.play;
+import java.util.Scanner;
+import java.util.logging.*;
+public class Mystery 
+{
+    
+    
+    public static void main(String a[]){
+
+        
+       // Write code to get input number from command line and check if it is a Mystery Number
+        int you = 0;
+        System.out.println("Wanna check if you have entered a Mystery number???");
+        System.out.print("Enter your number here : ");
+        
+        //Get user input in variable 'you'
+        Scanner in = new Scanner(System.in);
+        Logger logger = Logger.getLogger(Mystery.class.getName());
+        you = in.nextInt();
+        logger.log(Level.INFO,"User input : "+ you);
+        boolean result = areYouMystery(you);
+
+         if (result) {  
+            logger.log(Level.INFO," Mystery::main() - Result: Whoa!!!! "+ you +" is a perfect MYSTERY number");
+            System.out.println("Whoa!!!! "+you + " is a perfect MYSTERY number" ); 
+            
+        } else {  
+            logger.log(Level.INFO," Mystery::main() - Result: Ummm !!!! No hidden MYSTERY in "+ you);
+            System.out.println("Ummm !!! No hidden MYSTERY in " + you );  
+            
+        }       
+       
+       /*log messages to mystery-finder.log in the below format
+        
+        2019-04-04 13:38:21 DEBUG Mystery::main()#21 - User input : 166
+        ...
+        2019-04-04 13:38:21 INFO  Mystery::main()#28 - Result: Whoa!!!! 77 is a perfect MYSTERY number
+        ...
+        2019-04-04 13:38:21 INFO  Mystery::main()#31 - Result: Ummm !!! No hidden MYSTERY in 166
+
+        */  
+    }
+
+       static int reverseNum(int x)
+    {
+        String s = Integer.toString(x);
+        String str="";
+        for(int i=s.length()-1;i>=0;i--)
+        {
+             
+            str=str+s.charAt(i);
+        }
+         
+        int rev=Integer.parseInt(str);
+        return rev;
+    }
+     static boolean areYouMystery(int you) { 
+        Logger logger1 = Logger.getLogger(Mystery.class.getName());
+        for (int i=1; i <= you/2; i++)
+        {
+            
+            int j = reverseNum(i);
+            if (i + j == you)
+            {
+                System.out.println( i + " " + j);
+                 logger1.log(Level.INFO,"DEBUG Mystery::areYouMystery() - Found the Mystery: "+you +" = "+i+" + "+j);
+                return true;
+            }
+        }
+        logger1.log(Level.INFO,"DEBUG Mystery::areYouMystery() - Mystery not Found in "+you );
+        return false;
+        /*
+        Write code to find if int 'you' is a mystery number or not.
+        A mystery number is that number which can be expressed as sum of two numbers and those two numbers should be reverse of each other.
+        This method should satisfy all the tests in MysteryTest.java
+        
+        If it is a mystery number, log message in the below format.
+        2019-04-04 13:38:21 DEBUG Mystery::areYouMystery()#42 - Found the Mystery: 77 = 16 + 61
+
+        If it is not a mystery number, log message in the below format.
+        2019-04-04 13:38:21 DEBUG Mystery::areYouMystery()#46 - Mystery not Found in 166
+        */
+    }  
+
+   
+      
+}

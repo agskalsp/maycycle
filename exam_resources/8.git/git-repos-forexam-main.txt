@@ -1,10 +1,21 @@
 FOR GRADLE BY BHARATH: https://github.com/bharaththippireddy/gradleforjavadevelopers.git
 
-FOR ANSIBLE:
+FOR ANSIBLE & Kubernetes :
 
     https://github.com/mmumshad/ansible-training-answer-keys.git
     https://github.com/mmumshad/ansible-training-answer-keys-2.git
     https://github.com/AutomationWithScripting/Automation_with_Ansible.git
     https://github.com/AutomationWithScripting/AWS-Provisioning-using-Ansible.git
     https://github.com/mmumshad/ansible-examples.git
+
+
+    https://github.com/mmumshad/kubernetes-training-answers.git
+    https://github.com/mmumshad/kubernetes-example-voting-app.git
     
+
+FOR DOCKER:
+
+    https://github.com/mmumshad/docker-training-answer-keys.git
+    https://github.com/mmumshad/docker-advanced-training-answers.git
+    https://github.com/mmumshad/docker-node-mongo-ansible-redis.git
+    https://github.com/mmumshad/docker-node-mongo-ansible.git

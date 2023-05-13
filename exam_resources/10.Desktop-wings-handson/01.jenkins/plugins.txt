@@ -6,10 +6,6 @@ Maven Integration
 CloudBees Docker Build and Publish
 Docker plugin
 Delivery Pipeline
-Parameterized Trigger
 Blue Ocean
 Green balls
-*Pipeline*
-*SSH Agent*
-Sonarqube scanner
-Jacoco
+

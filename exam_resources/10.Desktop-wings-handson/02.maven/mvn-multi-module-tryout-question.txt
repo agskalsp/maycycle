@@ -1,0 +1,112 @@
+1. Maven Multi Module Project- This scenario is based on 3 maven modules named business, data and service.
+Note: Do not make any changes to the pre-existing structure of all the pom.xml files. 
+There are some pre-defined java files in all the 3 modules and ensure that they are error-free by configuring respective pom.xml files as stated below
+- Configure the pom.xml file present in root directory such that it should be the parent pom of all the listed 3 modules
+- Configure the pom.xml file present in data folder such that it depends on business module and parent as root pom
+- Configure the pom.xml file present in business folder such that it depends on service module and parent as root pom
+- Configure the pom.xml file present in service folder such that it's parent is root pom
+- Finally click on Run tests to know your result
+
+
+
+
+PARENT-POM
+==================================
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>MavenMultiModule</groupId>
+	<artifactId>MavenMultiModule</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+	<modules>
+      <module>business</module>
+      <module>data</module>
+      <module>service</module>
+  </modules>
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+</project>
+==================================
+BUSINESS-POM
+==================================
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+     	<groupId>MavenMultiModule</groupId>
+      <artifactId>MavenMultiModule</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <artifactId>business</artifactId>
+  <packaging>jar</packaging>
+  <dependencies>
+    <dependency>
+        <groupId>MavenMultiModule</groupId>
+        <artifactId>service</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+</project>
+==================================
+DATA-POM
+==================================
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	  <parent>
+     	<groupId>MavenMultiModule</groupId>
+      <artifactId>MavenMultiModule</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+  </parent>
+	<artifactId>data</artifactId>
+	<packaging>jar</packaging>
+  <dependencies>
+    <dependency>
+        <groupId>MavenMultiModule</groupId>
+        <artifactId>business</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+</project>
+==================================
+SERVICE-POM
+==================================
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+    <parent>
+     	<groupId>MavenMultiModule</groupId>
+      <artifactId>MavenMultiModule</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+    </parent>
+  <artifactId>service</artifactId>
+  <packaging>jar</packaging>
+  <dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+</project>
+==================================

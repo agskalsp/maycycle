@@ -1,0 +1,86 @@
+///////
+
+*************          WORKED CODE      ***********
+package javaApp;
+
+public class EvenSum {
+
+    public static void main(String[] args) {
+        int num = Integer.parseInt(args[0]);
+        int even[] = new int[num];
+        int sum = 0,j = 0;
+        String evennums = "";
+        //Insert your code here
+        for(j=1; j<=num; j++) {
+            if(j%2==0) {
+                sum=sum+j;
+                evennums=evennums+","+j;
+            }
+        }
+        evennums=evennums.replaceFirst(",","");
+        System.out.println(evennums);
+        System.out.println(sum);
+    }
+}    
+
+
+
+
+///////
+for(j=0; j< num; j++) {
+            if(num%2==0) {
+                even[j]=num;
+                sum=sum+num;
+                args[j]= Integer.toString(num);
+            }
+            evennums=String.join(",", args);
+        }
+
+package com.umapathy.java.learning.programs;
+import java.util.ArrayList;
+import java.util.List;
+public class EvenSum 
+{
+    public static void main(String[] args)
+{   
+    int num = 20; //Initialize the user-defined value for the loop execution
+    int sum = 0 ; //Initialize the Sum Value as 0
+    List<Integer> evenlist = new ArrayList<Integer>(); //Define an integer 
+    Array list
+    for (int i=2; i<=num; i++) //Begin the loop from the value of 2 
+    {
+      if(i%2==0) //Logic to find whether a given number is Even Number or not
+      {
+      sum = sum + i;  // If the logic returns true, Calculate the Sum Value 
+      evenlist.add(i); // Add the Integer to the previous defined Integer 
+                       // Arraylist by calling add method
+       }        
+    }
+    System.out.println(evenlist); // Print the Output outside the loops
+    System.out.println(sum);
+     }
+  }  
+
+
+
+
+package javaApp;
+
+public class EvenSum {
+
+    public static void main(String[] args) {
+        int num = 20;
+        int even[] = new int[num];
+        int sum = 0,j = 0;
+        String evennums = "";
+        for(j=1; j<=num; j++) {
+            if(j%2==0) {
+                sum=sum+j;
+                evennums=evennums+","+j;
+            }
+        }
+        evennums=evennums.replaceFirst(",","");
+        System.out.println(evennums);
+        System.out.println(sum);
+    }
+}

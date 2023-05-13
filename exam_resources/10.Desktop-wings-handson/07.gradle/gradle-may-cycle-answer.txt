@@ -1,0 +1,29 @@
+apply plugin: 'java'
+apply plugin: 'war'
+repositories {
+    // Use 'jcenter' for resolving your dependencies.
+    // You can declare any Maven/Ivy/file repository here.
+    mavenCentral()
+    jcenter()
+}
+
+// In this section you declare the dependencies for your production and test code
+dependencies {
+    testCompile 'junit:junit:4.12'
+}
+
+task taskA{
+     println 'Hello from independent A'
+}
+
+task taskB(dependsOn: 'taskA'){
+    doLast{
+        println 'Hello from dependent B'
+          }
+}
+
+
+/home/kotesh/docker/gradle-tomcat
+FROM tomcat:9.0
+COPY /home/kotesh/gradle-gsk/gradle-ubuntu-demo1/build/libs/gradle-war.war /usr/local/tomcat/webapps/
+EXPOSE 8085

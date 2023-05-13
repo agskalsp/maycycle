@@ -1,0 +1,73 @@
+Execute the below commands to start installing nagios
+-----------------------------------------------------
+1. Install apache2 and php libraries
+sudo apt-get install apache2 -y
+sudo apt-get install php libapache2-mod-php php-mcrypt php-mysql -y
+sudo apt-get install build-essential libgd2-xpm-dev openssl libssl-dev unzip -y
+
+2. Move index.php to the first position
+sudo sed -i 's/index.html index.cgi index.pl index.php/index.php index.html index.cgi index.p1/g' /etc/apache2/mods-enabled/dir.conf
+
+3. Change the default port to 8000
+sudo sed -i 's/80/8000/g' /etc/apache2/ports.conf
+sudo sed -i 's/80/8000/g' /etc/apache2/sites-enabled/000-default.conf
+
+4. Add nagios as a user and to the group
+sudo useradd nagios
+sudo groupadd nagcmd
+sudo usermod -a -G nagcmd nagios
+
+5. Download and extract nagios 
+curl -L -O https://assets.nagios.com/downloads/nagioscore/releases/nagios-4.3.4.tar.gz
+tar zxf nagios-*.tar.gz
+cd nagios-*
+./configure --with-nagios-group=nagios --with-command-group=nagcmd
+make all
+sudo make install
+sudo make install-commandmode
+sudo make install-init
+sudo make install-config
+sudo /usr/bin/install -c -m 644 sample-config/httpd.conf /etc/apache2/sites-available/nagios.conf
+sudo usermod -G nagcmd www-data
+sudo a2enmod rewrite
+sudo a2enmod cgi
+sudo ln -s /etc/apache2/sites-available/nagios.conf /etc/apache2/sites-enabled/
+
+Move to step-2
+
+Add nagios as a service and start
+----------------------------------
+echo "[Unit]
+Description=Nagios
+BindTo=network.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=simple
+User=nagios
+Group=nagios
+ExecStart=/usr/local/nagios/bin/nagios /usr/local/nagios/etc/nagios.cfg" | sudo tee -a /etc/systemd/system/nagios.service
+sudo systemctl enable /etc/systemd/system/nagios.service
+
+1. Install nagios plugins
+
+sudo apt-get install nagios-plugins -y
+sudo cp /usr/lib/nagios/plugins/check_* /usr/local/nagios/libexec
+
+
+Learn to setup Nagios 
+1. Open the terminal and execute the commands given in step-1 and step-2 to complete nagios installation.
+2. Setup apache authentication for the nagios user by executing the below command in your terminal and do remember the password $sudo htpasswd -c /usr/local/nagios/etc/htpasswd.users nagiosadmin 
+3. Now, select Run -> Run to start nagios(Note: Append /nagios to the web preview URL and enter the login credentials that you created earlier and you will be redirected to the Nagios home page. If you get any error in launching nagios home page, check the URL which should be like 'https://serverz5urt7pa-ws-dev-server-8000.in-dc-5.projects.hackerrank.net/nagios/' and not like 'https://serverz5urt7pa-ws-dev-server-8000.in-dc-5.projects.hackerrank.net:8000/nagios/'. Please not that URL might differ when you launch the web preview link. The one which is given here is just an example for reference.)
+4. Define a service to check the status the apache2 with the check command named check_apache (Note: Make sure that apache2 is in running state and you are supposed to configure the command with the name check_apache)
+5. Use the command $sudo service nagios restart to restart your nagios 
+6. Finally click on Run Tests to check your resultGit InstructionsUse the following commands to work with this project
+RunCopy
+sudo service apache2 restart;
+sudo service nagios restart
+TestCopy
+if (($(grep -o -e "check_command=check_apache" -e "plugin_output=\*\sapache2\sis\srunning" /usr/local/nagios/var/status.dat | wc -l) >= 2)) && (($(grep "nagiosadmin" /usr/local/nagios/etc/htpasswd.users | wc -l) ==1));then echo "pass";else echo "fail";fi
+InstallCopybash install.sh
+

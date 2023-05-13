@@ -1,0 +1,115 @@
+-
+    name: 'Stop the web services on web server nodes'
+    hosts: web_nodes
+    tasks:
+        -
+            name: 'Stop the web services on web server nodes'
+            command: 'service httpd stop'
+-
+    name: 'Shutdown the database services on db server nodes'
+    hosts: db_nodes
+    tasks:
+        -
+            name: 'Shutdown the database services on db server nodes'
+            command: 'service mysql stop'
+-
+    name: 'Restart all servers (web and db) at once'
+    hosts: all_nodes
+    tasks:
+        -
+            name: 'Restart all servers (web and db) at once'
+            command: '/sbin/shutdown -r'
+-
+    name: 'Start the database services on db server nodes'
+    hosts: db_nodes
+    tasks:
+        -
+            name: 'Start the database services on db server nodes'
+            command: 'service mysql start'
+-
+    name: 'Start the web services on web server nodes'
+    hosts: web_nodes
+    tasks:
+        -
+            name: 'Start the web services on web server nodes'
+            command: 'service httpd start'
+-
+    name: 'Execute command to display date on web_node1'
+    hosts: web_node1
+    tasks:
+        -
+            name: 'Execute a date command'
+            command: date
+-
+    name: 'Execute a command to display hosts file contents on web_node2'
+    hosts: web_node2
+    tasks:
+        -
+            name: 'Execute a command to display hosts file'
+            command: 'cat /etc/hosts'
+
+
+-
+    name: 'Add name server entry if not already entered'
+    hosts: localhost
+    tasks:
+        -
+            shell: 'cat /etc/resolv.conf'
+            register: command_output
+        -
+            shell: 'echo "nameserver 10.0.250.10" >> /etc/resolv.conf'
+            when: 'command_output.stdout.find("10.0.250.10") == -1'
+
+
+-
+  name: Deploy a web application
+  hosts: db_and_web_server
+  vars:
+    db_name: employee_db
+    db_user: db_user
+    db_password: Passw0rd
+  tasks:
+    - name: Install dependencies
+      apt: name={{ item }} state=present
+      with_items:
+       - python
+       - python-setuptools
+       - python-dev
+       - build-essential
+       - python-pip
+       - python-mysqldb
+
+    - name: Install MySQL database
+      apt:
+        name: "{{ item }}"
+        state:  present
+      with_items:
+       - mysql-server
+       - mysql-client
+
+    - name: Start Mysql Service
+      service:
+        name: mysql
+        state: started
+        enabled: yes
+
+    - name: Create Application Database
+      mysql_db: name={{ db_name }} state=present
+
+    - name: Create Application DB User
+      mysql_user: name={{ db_user }} password={{ db_password }} priv='*.*:ALL' host='%' state='present'
+
+    - name: Install Python Flask dependencies
+      pip:
+        name: '{{ item }}'
+        state: present
+      with_items:
+       - flask
+       - flask-mysql
+
+    - name: Copy web-server code
+      copy: src=app.py dest=/opt/app.py
+
+    - name: Start web-application
+      shell: FLASK_APP=/opt/app.py nohup flask run --host=0.0.0.0 &
+

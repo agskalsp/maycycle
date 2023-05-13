@@ -1,0 +1,34 @@
+2. Configure Maven executable jar to find Mystery Number
+
+Configure a maven executable jar which prompts user to enter a number and verifies if it is a Mystery number or not, and log the messages using log4j. 
+1. In Mystery.java, 
+
+a) code main() method to get input number from command line and check if it is a Mystery number . 
+Log messages to mystery-finder.log in the below format 
+2019-04-04 13:38:21 DEBUG Mystery::main()#21 - User input : 77 ... 
+2019-04-04 13:38:21 INFO Mystery::main()#28 - Result: Whoa!!!! 77 is a perfect MYSTERY number ... 
+2019-04-04 13:38:21 DEBUG Mystery::main()#21 - User input : 166 ... 
+2019-04-04 13:38:21 INFO Mystery::main()#31 - Result: Ummm !!! No hidden MYSTERY in 166 
+
+b) In areYouMystery() method, write code to find if input is a mystery number or not. 
+(A mystery number is that number which can be expressed as sum of two numbers and those two numbers should be reverse of each other.) 
+
+If it is a mystery number, log message in the below format. 
+2019-04-04 13:38:21 DEBUG Mystery::areYouMystery()#42 - Found the Mystery: 77 = 16 + 61 
+
+If it is not a mystery number, log message in the below format. 
+2019-04-04 13:38:21 DEBUG Mystery::areYouMystery()#46 - Mystery not Found in 166 .
+(This method should satisfy all the tests in MysteryTest.java) 
+
+2. Configure log4j.properties to log messages to log file 'mystery-finder.log'. 
+3. In pom.xml, package the project as an executable jar, with file name as "are-you-a-mystery.jar ". 
+4. Configure appropriate maven plugin to download the dependency jars( junit, log4j,..) in the /target/classes/lib folder. Configure it to overwrite the existing jars only if a newer version is available. 
+5. Execute the jar and verify the output as follows 
+$mvn clean install 
+$java -jar target/are-you-a-mystery.jar 
+Wanna check if you have entered a Mystery number??? 
+Enter your number here : 126 Ummm !!! No hidden MYSTERY in 126 
+
+General Instructions 
+1. Select 'Project -> Run' to execute maven package phase 
+2. Select 'Run Tests' to execute test cases and view the test results

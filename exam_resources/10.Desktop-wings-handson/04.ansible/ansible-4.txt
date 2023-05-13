@@ -1,0 +1,52 @@
+-  name: INCLUDE files
+   hosts: localhost
+   become: yes
+   tasks:
+   - include: apache.yml
+   - include: content.yml
+   - include: create_folder.yml
+
+
+APACHE.yml
+
+---
+  - name: install apache2
+    apt: name=apache2 update_cache=yes state=latest      
+  - name: displaying message
+    debug: msg="you are awesome!!"
+
+
+CONTENT.yml
+
+---
+  - name: list contents of directory in host
+    command: ls /home/user
+    register: contents
+
+  - name: check dir is empty
+    debug: msg="Directory is empty"
+    when: contents.stdout == ""
+
+  - name: check dir has contents
+    debug: msg="Directory is not empty"
+    when: contents.stdout != ""
+
+
+CREATE_FOLDER.yml
+---
+- name: creating folder
+  file: path=/home/user/folder1 state=directory
+
+
+
+-  name: copy the files dir
+   copy: 
+     src: /projects/challenge/fresco_roles/sample_role/files/examplefile1.txt 
+     dest: /home/user/example.txt
+
+-  name:
+   template: 
+     src: /projects/challenge/fresco_roles/sample_role/templates/templateexample.txt.j2
+     dest: /home/user/newexample.txt
+
+-  include: nginx.yml

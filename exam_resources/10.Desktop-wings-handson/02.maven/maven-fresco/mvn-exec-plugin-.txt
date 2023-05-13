@@ -1,0 +1,162 @@
+1. Configure Maven Exec Plugin to load profile properties
+Configure Maven Exec plugin to display Profile Properties using Java goal. 
+1. Configure the below 3 Maven profiles dev, qa and prod with 4 properties each as given below 
+1. dev - should be active by default 
+db.env - dev 
+db.url - jdbc:mysql://localhost:3306/dev 
+db.username - devuser 
+db.password - devpwd 
+
+
+2. qa 
+db.env - qa 
+db.url - jdbc:mysql://serv01:3306/qa 
+db.username - qauser 
+db.password - qapwd
+
+3. prod 
+db.env - prod 
+db.url - jdbc:mysql://live01:3306/prod 
+db.username - produser 
+db.password - ****** 
+
+
+2. Configure Resource filtering to dynamically populate db.properties with profile specific db values.
+3. Configure Exec plugin to execute Java program App.java which displays the property values from db.properties 
+Example: 
+> mvn package -Pqa 
+> mvn exec:java ......... 
+Loading DB Properties for active profile 
+db.password : qapwd 
+db.env : qa 
+db.username : qauser 
+db.url : jdbc:mysql://serv01:3306/qa 
+........... 
+
+General Instructions Select Run -> Test to execute test cases and view the test results
+============================================================================
+POM.xml
+============================
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.fresco.play</groupId>
+  <artifactId>maven-profile-env</artifactId>
+  <packaging>jar</packaging>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>maven-plugin-exec</name>
+  <url>http://maven.apache.org</url>
+
+  <!-- Insert dependencies here -->
+    <dependencies>
+    <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.8.1</version>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+    <groupId>org.codehaus.mojo</groupId>
+    <artifactId>exec-maven-plugin</artifactId>
+    <version>3.1.0</version>
+</dependency>
+
+</dependencies>
+   
+  <build>
+     <!--  Configure Resource filtering here -->
+     <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+     <!--  Configure Plugins here -->
+     <plugins>
+     <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.1</version>
+        <executions> 
+            <execution>               
+                <id>id.package</id>
+                <phase>package</phase>
+                <goals><goal>run</goal></goals>
+          <configuration>
+            <tasks>
+              <echo>Loading DB Properties for active profile</echo>
+              <echo>db.password : ${db.password}</echo>
+              <echo>db.env: ${db.env}</echo>
+              <echo>db.username : ${db.username}</echo> 
+              <echo>db.url : ${db.url}</echo>
+            </tasks>
+          </configuration>                
+          </execution>
+      </executions>              
+      </plugin>    
+      <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>exec-maven-plugin</artifactId>
+          <version>1.6.0</version>
+          <configuration>
+            <mainClass>com.fresco.play.App</mainClass>
+          </configuration>
+      </plugin>
+    <plugin>    
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+            <source>1.8</source>
+            <target>1.8</target>
+        </configuration>
+    </plugin>
+      </plugins>
+  </build>
+  
+  <profiles>
+      <!-- Configure Profiles here -->
+      <profile>
+        <id>dev</id>     
+        <activation>
+          <activeByDefault>true</activeByDefault>
+        </activation>    
+        <properties>
+              <db.env>dev</db.env>
+              <db.url>jdbc:mysql://localhost:3306/dev</db.url>
+              <db.username>devuser</db.username>
+              <db.password>devpwd</db.password>
+        </properties>
+    </profile>
+    <profile>
+         <id>qa</id>
+         <activation>
+              <property>
+                <name>env</name>
+                <value>qa</value>
+              </property>
+          </activation>          
+        <properties>
+              <db.password>qapwd</db.password>
+              <db.env>qa</db.env>
+              <db.username>qauser</db.username>
+              <db.url>jdbc:mysql://serv01:3306/qa</db.url>
+        </properties>
+    </profile>
+    <profile>
+    <id>prod</id>  
+    <activation>
+              <property>
+                <name>env</name>
+                <value>prod</value>
+              </property>
+     </activation>       
+        <properties>
+              <db.password>******</db.password>
+              <db.env>prod</db.env>
+              <db.username>produser</db.username>
+              <db.url>jdbc:mysql://live01:3306/prod</db.url>
+        </properties>
+    </profile>
+  </profiles>
+</project>
+============================================================================

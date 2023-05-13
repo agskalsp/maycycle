@@ -1,0 +1,8 @@
+1. Task Dependency in Gradle
+Getting started,
+Select Run Tests to execute test cases and know your test results once you finish the challenge. 
+
+Create a Gradle java application named gradleApp in the path /projects/challenge.
+In gradleApp, create a custom task named copyReports which copies the build reports into a folder named Reports. 
+Create another custom task named generateZip for packaging the reports into a zip file named reports, and store it in a folder named Archives. The generateZip task should be dependent on task copyReports.
+Build the application and run the generateZip task.
