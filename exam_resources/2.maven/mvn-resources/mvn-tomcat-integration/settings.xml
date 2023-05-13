@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This should be added in .m2/settings.xml code-->
+ <settings>
+   <servers>
+     <server>
+           <id>TomcatServer</id>
+           <username>admin</username>
+           <password>admin</password>
+     </server>
+   </servers>
+ </settings>

@@ -1,0 +1,47 @@
+kubectl set image deployment myapp-deployment nginx=nginx:1.18-perl --record=true
+
+kubectl expose deployment my-simple-deployment --name=webapp-service --target-port=8080 --port 8080 --node-port=30090 --type=NodePort --dry-run=client -o yaml > MY-SVC.yml
+
+kubectl rollout status deployment/myapp-deployment
+kubectl rollout history deployment/myapp-deployment
+kubectl rollout undo deployment/myapp-deployment
+kubectl rollout undo deployment myapp-deployment
+kubectl delete deployment/myapp-deployment
+kubectl delete deployment myapp-deployment
+
+kubectl create -f deployment.yaml --record
+kubectl edit deployment myapp-deployment --record
+
+
+
+kubectl scale --replicas=3 replicaset/myapp-replicaset
+
+kubectl get svc
+kubectl get services
+
+@@Service.yaml@@ -----> DEFAULT_TYPE: ClusterIP     
+other Type --> LoadBalancer
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 30000-32767
+  selector:
+     matchLabels:
+         app: nginx
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: image-processing
+  labels:
+    app: myapp
+spec:
+  # type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 8080
+  selector:
+    tier: backend

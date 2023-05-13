@@ -1,0 +1,169 @@
+url1 : 'https://maven.apache.org/plugins/index.html'
+url2 : 'https://www.baeldung.com/maven-relativepath'
+
+mvn help:describe -Dplugin=<PLUGIN-NAME>
+mvn help:describe -Dplugin=archetype
+
+mvn help:effective-pom
+  ..... >> IMP >> packaging type of the parent pom is "POM" 
+
+
+// CMD for running a  JAR file
+java -cp <PATH of JAR> <PACKAGE-NAME>
+java -cp target/nameOfJar.jar com.lynda.App
+
+***
+----
+In the plugins we have goals So open the url1 above and find the goals associated with a PLUGIN
+And also u can have USAGE in the Plugins which help u understand it's USAGE
+
+mvn install
+mvn test
+mvn package 
+mvn clean package site
+
+---
+--
+site goal give us a document in the PATH
+/target/site/index.html ->> which can give us more info on the project
+
+
+******************************************************************
+
+** IMP **>>/----  for MULTI-Module builds in maven
+Refer : resource-t5\2.maven\mvn-resources-LinkedIn\Detailedly-explained-guy\Chapter 1\01_07\01_07_begin
+     and also mydemo : >> resource-t5\2.maven\mvn-resources\my-multi-module-demo 
+       /// below statement is the most IMPORTANT
+    >> here if we have dependencies in between child you need to add it in the <dependency> tag
+    >> For a Project we can have only one "POM" as packaging remaining will be based on project
+    >> And even <modules> are to be added in only parent and not for subparents
+compare childs and parents POM and figure out for urself
+    >> Child POM's need not have GROUP_ID and VERSION, they inherit from PARENT 
+And "Reactor" is used for managing MULTI-Module Projects in the background
+
+******************************************************************
+ 
+
+*** *** need to have module tag in parent and parent tag in Module
+*** there is a reporting tag in the above path check that as well
+    When building a reactor, packaging type of the parent pom is "POM" 
+
+    different tags
+      >> parent, module, reporting, properties, 
+
+Lifecycles in maven
+    >> URL2: 'https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html'
+    >> default : clean : site
+    >> default has: validate - checks if the project is correct and all information is available.
+                    compile - compiles the source code in binary artifacts.
+                    test - executes the tests.
+                    package - takes the compiled code and packages it as, a war or jar or an ear file.
+                    integration-test - takes the packaged result and executes additional tests required for packaging.
+                    verify - checks if the package is valid.
+                    install - installs the result of the package phase into the local Maven repository.
+                    deploy - deploys the package to a target, i.e. a remote repository.
+    >> clean has: preclean, clean, postclean
+    >> site has: pre-site, site, post-site, site-deploy
+
+>>If you need anything with a Plugins
+    just go to the url1: 'https://maven.apache.org/plugins/index.html' 
+    and see the details and usage of a particular plugin and use the documentation perfectly
+
+// <dependencies> <GROUP_ID: ARTIFACT_ID: VERSION>
+    In Maven we have Scopes they are:
+       --compile --provided --runtime --test
+       less used scopes are --system --import
+
+       >> provided scope makes war, jar to be not included for that dependencies when packaged
+
+mvn clean verify -->> checks if the package is valid.
+
+---** VERY IMPORTANT **---
+
+In  Parent POM we have dependenyManagement and pluginManagement
+Where u give all the dependencies and plugins needed for ur sub module projects
+and in that specific sub module projects u can remove VERSION, SCOPE and such things
+** You can even add the properties needed in the PARENT POM and sub projects can GET THEM
+    >>Because They are automatically done using pluginManagement
+    >> Refer : resource-t5\2.maven\mvn-resources-LinkedIn\Detailedly-explained-guy\Chapter 3\03_03\03_03_end
+
+
+mvn dependency:analyze
+mvn dependency:resolve
+mvn dependency:tree
+
+--Which version of an artifact will be chosen when both are transitive of dependencies or specified in the POM.xml file?
+    Ans: The one closest to the final artifact.
+--Analyze dependency goal shows you the usage of listed and unlisted dependencies.
+--  An uber jar is a jar file that includes all transitive dependency classes and 
+    defined dependency classes, unless excluded, in addition to your source code.
+
+mvn archetype:generate -DarchetypeArtifactId=maven-archetype-site-skin
+// maven-archetype-site-skin check documentation in offical Maven page 
+
+// check Reporting plugins as well in offical Maven page
+
+mvn javadoc:javadoc
+
+// Profiles  // Archetype: -> Mojo is for CustomPlugin Development
+
+>> mvn install --> creates JAR or repo in the .M2 folder as well
+
+for interactively creating maven projects
+    >> mvn archetype:generate choose the ID for below and create 
+    >> mvn archetype:generate | grep maven-archetype-quickstart 
+    >> mvn archetype:generate | grep maven-archetype-webapp
+
+mvn archetype:generate -DgroupId=com.fresco.play -DartifactId=First-WebApp -DarchetypeArtifactId=maven-archetype-webapp -DinteractiveMode=false
+mvn archetype:generate -DgroupId=com.fresco.play -DartifactId=First-JavaApp -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
+
+//   *** For tomcat deployment  ***
+        >> mvn clean tomcat7:deploy
+
+For Skipping Tests in the lifecycle 
+    >>mvn install -DskipTests
+    >>mvn install -DskipTests=true
+
+
+>> MAVEN Profiles
+        mvn install -p<PROFILE-ID>
+        mvn install -pdev
+        mvn install -ptest
+        mvn install -pprod
+
+>> JaCoCo code test coverage plugin 
+        >> it is used for generating test coverages
+        >> test reports will be in target/sites/jacoco/
+        Refer : resource-t5\2.maven\mvn-resources-udemy\bharath-thippireddy-resources\jacoco.xml
+
+
+>> Sonarqube
+     >> set the .m2/settings.xml
+     Refer : resource-t5\2.maven\mvn-resources-udemy\bharath-thippireddy-resources\settings(for-sonar).xml
+     mvn clean verify sonar:sonar -Dsonar.login=<TOKEN-LOGIN-string>
+
+
+>> Nexus
+    >> docker run -d -p 8081:8081 --name nexus sonartype/nexus3
+       |--> Login as admin
+       |--> Repository Types: (Based on Releases or Snapshots)
+             -- hosted    -- proxy   --group 
+    >> set the .m2/settings.xml
+     Refer : resource-t5\2.maven\mvn-resources-udemy\bharath-thippireddy-resources\settings(for-nexus).xml
+  >> mvn deploy --> for nexus
+
+
+>> CustomPlugin
+      Mojo
+      >> Refer : \resource-t5\2.maven\mvn-resources\mvn-Custom-plugin
+    <packaging>maven-plugin</packaging>
+    for POM.xml of CustomPlugin refer : resource-t5\2.maven\mvn-resources\mvn-Custom-plugin\pluginhelpfiles\pluginpom.xml
+    >> need to have a Mojo.java file
+       refer: \\wsl$\Ubuntu-18.04\home\resource-t5\2.maven\mvn-resources\mvn-Custom-plugin\pluginhelpfiles\src\main\java\com\bharath\Mojo.java
+
+
+>> Maven Ant Run Plugin
+      |--> can print properties
+      refer: resource-t5\2.maven\mvn-resources-udemy\bharath-thippireddy-resources\plugins.xml
+
+>> project.build.directory = **/target

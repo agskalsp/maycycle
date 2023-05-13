@@ -1,0 +1,5 @@
+---
+
+ - hosts: all
+   connection: local  # the connection LOCAL is useful for getting better performance out of a system
+   

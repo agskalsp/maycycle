@@ -1,0 +1,94 @@
+kubectl run tomcat --image=tomcat
+kubectl describe pod tomcat | grep -i image
+
+@@Important@@
+kubectl run redis --dry-run=client -o yaml > Pod.yaml
+kubectl delete pod redis
+kubectl edit pod redis
+kubectl replace -f replicaset.yaml
+kubectl scale --replicas=6 -f replicaset.yaml
+kubectl scale --replicas=6 replicaset myapp-replicaset
+
+kubectl get replicaset.apps
+kubectl describe replicaset myapp-replica-set
+
+
+kubectl get all
+kubectl get replicaset
+kubectl get 
+
+
+Pods , Services, ReplicationController  -----> v1
+ReplicaSets, Deployments  --------> apps/v1
+
+
+
+ReplicaController outdated and dont have matchLabels.
+
+
+
+
+
+
+
+@@Pods.yaml@@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: postgres
+  labels:
+    tier: db-tier
+spec:
+  containers:
+    - name: postgres
+      image: postgres
+      env:
+        - name: POSTGRES_PASSWORD
+          value: mysecretpassword
+
+@@ReplicaSet.yaml@@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: frontend
+  labels:
+    app: mywebsite
+    tier: frontend
+spec:
+  replicas: 4
+  template:
+    metadata:
+      name: myapp-pod
+      labels:
+        app: myapp
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+  selector:
+    matchLabels:
+      app: myapp
+
+
+@@Deployment.yaml@@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  labels:
+    app: mywebsite
+    tier: frontend
+spec:
+  replicas: 4
+  template:
+    metadata:
+      name: myapp-pod
+      labels:
+        app: myapp
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+  selector:
+    matchLabels:
+      app: myapp

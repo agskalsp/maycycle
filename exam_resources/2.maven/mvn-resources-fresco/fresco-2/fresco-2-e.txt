@@ -1,0 +1,222 @@
+======================================================================================
+
+Understanding Maven Multi-Module Projects
+Module
+
+A child or subproject, which is part of a larger project.
+
+Reactor
+
+A mechanism in Maven that handles multi-module projects
+
+Reactor responsibilities
+
+Collects all the available modules to build
+Sorts the projects into the correct build order
+Executes a goal on a set of modules
+
+======================================================================================
+
+Understanding Project Inheritance
+Understanding Project Inheritance
+Project Inheritance
+
+Parent-child project relationship
+Parent POM - present in the parent folder of the child has <packaging> type pom
+Child POM has its parents GAV coordinates declared in <parent> element.
+Child inherits few POM elements from the parent POM.
+Parent is oblivious to the fact that there is a child project.
+
+======================================================================================
+
+Understanding Project Aggregation
+Understanding Project Aggregation
+Project Aggregation
+
+Aggregator Project is a collection of modules
+Aggregator POM - present in parent folder of modules, lists all the modules in <modules> element
+By convention, the module name is identical to the sub-folder name.
+A maven command run on the aggregate POM will also apply to all the modules that it contains.
+Module is oblivious to the fact that there is an aggregator POM
+
+======================================================================================
+
+Combining Inheritance and Aggregation
+Combining Inheritance and Aggregation
+Inheritance
+
+Specify the <parent> element in the child pom to indicate who the parent is
+Parent is not aware of the child
+share common build attributes
+Aggregation
+
+Specify the child project as a <module> in the parent POM.
+Each module is not aware of the aggregation.
+Maven builds on a parent, and triggers build on all its modules as well.
+Multi-Module Project combines both project Inheritance and Aggregation to avail all the benefits mentioned above.
+
+======================================================================================
+
+Dependency Management in Multi-Modules
+Mechanism to centralize Dependency information
+Parent POM has all dependency information
+Child project has simple references to the required dependency
+Easy to maintain the dependencies across multiple projects
+Reduces issues that typically arise due to multiple versions of the same dependency.
+Parent POM
+
+<dependencyManagement>
+  <dependencies>
+    <dependency>
+       <groupId>junit</groupId>
+       <artifactId>junit</artifactId>
+       <version>3.8.1</version>
+       <scope>test</scope>
+    </dependency>
+  </dependencies>
+</dependencyManagement>
+Child POM
+
+<dependencies>
+  <dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+  </dependency>
+</dependencies>
+
+======================================================================================
+
+Multi-Module Project Example
+Project Structure
+
+Project my-parent
+	|_________ Module my-child1
+	|_________ Module my-child2
+my-parent's POM.xml
+
+<project>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.fresco.play</groupId>
+	<artifactId>MyParent</artifactId>
+	<packaging>pom</packaging>
+	<version>1.0-SNAPSHOT</version>
+	<name>myproject</name>
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	<pluginManagement>
+<plugins>
+<plugin>
+<groupId>org.apache.maven.plugins</groupId>
+<artifactId>maven-compiler-plugin</artifactId>
+<version>3.2</version>
+<configuration>
+	<source>1.8</source>
+ <target>1.8</target>
+</configuration>
+</plugin>
+<plugin>
+</pluginManagement>
+	<modules>
+		<module>my-child1</module>
+		<module>my-child2</module>
+	</modules>
+</project>
+
+======================================================================================
+
+Multi-Module Project Example
+my-child1's pom.xml
+
+<project>
+   <modelVersion>4.0.0</modelVersion>
+   <parent>
+       <groupId>com.fresco.play</groupId>
+       <artifactId>my-parent</artifactId>
+       <version>1.0</version>
+   </parent>
+   <artifactId>my-child1</artifactId>
+   <dependencies>
+       <dependency>
+           <groupId>junit</groupId>
+           <artifactId>junit</artifactId>
+       </dependency>
+       <dependency>
+           <groupId>org.apache.commons</groupId>
+           <artifactId>commons-lang3</artifactId>
+           <version>3.6</version>
+       </dependency>
+   </dependencies>
+<build>
+  <plugins>
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-compiler-plugin</artifactId>
+    </plugin>
+  </plugins>
+</build>
+</project>
+
+======================================================================================
+
+Multi-Module Project Example
+my-child2's pom.xml
+
+<project>
+   <modelVersion>4.0.0</modelVersion>
+   <parent>
+       <groupId>com.fresco.play</groupId>
+       <artifactId>my-parent</artifactId>
+       <version>1.0</version>
+   </parent>
+   <artifactId>my-child2</artifactId>
+   <dependencies>
+       <dependency>
+           <groupId>junit</groupId>
+           <artifactId>junit</artifactId>
+       </dependency>
+   </dependencies>
+<build>
+  <plugins>
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-compiler-plugin</artifactId>
+    </plugin>
+  </plugins>
+</build>
+</project>
+
+
+======================================================================================
+
+Maven Build Connoisseur - Course Summary
+Dependency: jar/zip artifact that the project depends on
+
+Dependency Scope - compile, provided, runtime, test, system, import
+Dependency Management - Transitive, Optional, Excluded Dependency
+Plugin: Heart of Maven which executes tasks for Maven Build
+
+Exec Plugin: Run Java main class in the same JVM or spawn a new process for any executable.
+AntRun Plugin - Run any Ant Task, useful for copy/echo tasks.
+Shade Plugin - Create an executable fat/Uber jar with all dependencies included.
+Multi Module: Combines Project Inheritance and Aggregation to build projects composed of multiple modules.
+
+<Management> - Used in base pom.xml to Minimize declaration
+<DependencyManagement> - Inheritance for Dependency versions
+<PluginManagement> - Inheritance for Plugin versions and config
+Hope you enjoyed this Maven course and also wish you enjoy using it too!
+
+If you have any questions, consult:
+
+Website: http://maven.apache.org/
+
+Reference documentation: http://maven.apache.org/ref/3.5.0/
+
+Happy learning.
+
+======================================================================================

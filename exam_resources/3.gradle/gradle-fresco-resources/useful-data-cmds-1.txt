@@ -1,0 +1,239 @@
+https://gradle.org/install/
+
+Set Environment variables – JAVA_HOME pointing to JDK, GRADLE_HOME pointing to Gradle. 
+Add GRADLE_HOME/bin to PATH environment variable.
+
+The Gradle build has the following three configuration files:
+    The Gradle build script (build.gradle) specifies a project and its tasks.
+    The Gradle properties file (gradle.properties) is used to configure the properties of the build.
+    The Gradle Settings file (settings.gradle) is optional in a build which has only one project. 
+    If Gradle build has more than one project, it is necessary as it explains which projects engage to the build. 
+    Each multi-project build should include a settings file in the project hierarchy's root project.
+
+build.gradle
+   task hello {
+        doLast {
+            String text = 'Hello world!'
+            println "Original: " + text
+            println "Upper case: " + text.toUpperCase()
+        }
+    }
+
+
+// Skipping the Tasks
+taskName.onlyIf { !project.hasProperty('skip_hello') }
+gradle taskName -Pskip_hello
+
+        task hello {
+            doLast {
+                println 'hello world'
+            }
+        }
+
+        hello.onlyIf { !project.hasProperty('skip_hello') }
+        Output of gradle hello -Pskip_hello
+
+        >gradle hello -Pskip_hello
+        :hello SKIPPED
+
+
+task hello {
+doLast {
+    String text = 'Hello world!'
+    println "Original: " + text
+    println "Upper case: " + text.toUpperCase()
+}
+}
+task greeting(dependsOn: hello) {
+     doLast {
+       println 'This is executed after hello!'
+     }
+}
+
+
+task hello{
+ext.myProperty = "Hello world!"
+}
+
+task greeting{
+doLast {
+    println hello.myProperty
+}
+}
+
+
+defaultTasks 'hello', 'greeting'
+
+task hello{
+    doLast {
+       println 'Default Hello!'  
+    }
+}
+
+task greeting{
+  doLast {
+      println 'Default Greeting!'
+  }
+}
+
+
+
+Example: The entry apply plugin:'com.android.application' makes the Android plug-in available for a Gradle build.
+
+Gradle also provides a registry for plug-ins via https://plugins.gradle.org/
+Applying plugins
+
+Plugins are applied using the Project.apply() method.
+
+The same plugin can be applied multiple times.
+
+------
+----------
+------------
+
+Customizing the Project
+Changing properties and adding a JAR header
+
+The subsequent code snippet shows the way to include a header attribute to the JAR manifest and to configure default values in the build script.
+
+Customization of MANIFEST.MF
+
+version = '1.0'
+sourceCompatibility = 1.7
+jar {
+manifest {
+attributes 'Main-Class': 'HelloGradle'
+}
+}
+A version number for the project is specified, and the Java source compatibility is indicated.
+
+The jar task automatically adds a manifest file to the JAR file it creates.
+
+Jar task’s manifest property is used to add new entries to the manifest file. Here, a Main-Class header is added to jar file's manifest.
+
+Changing the project default layout
+
+    sourceSets {
+    main {
+    java.srcDirs=['src']
+    }
+    }
+In the above code, we have told Gradle where the source code is.
+
+The Location of source code is at the root level, in the source directory (src -name of directory).
+
+
+Publishing the JAR file
+In Gradle, JAR files are published to repositories.
+
+In the example below, JAR file is published to a local directory.
+
+It can also be published to a remote location or multiple locations.
+
+Example: Publishing the JAR file
+
+uploadArchives {
+repositories {
+   flatDir {
+       dirs 'repos'
+   }
+}
+}
+To publish the JAR file, run gradle uploadArchives.
+-----------------
+------
+
+------
+
+
+
+
+
+
+
+A source set is considered as a group of source files (Java source files and resource files) that can be compiled and executed together.
+
+The Java plugin defines two standard source sets - main and test.
+
+src/main/java contains the Java production source code.
+
+src/test/java contains the Java test source code.
+
+Non-Java source files that are included in the JAR file are placed in src/main/resources.
+
+Non-Java source files needed for testing are placed in src/test/resources.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---------
+-------
+Building Android Project with Gradle
+Android Studio has automatically generated two build files for the project:
+
+one in the root folder of the project
+
+other in the app directory.
+
+The build.gradle file of the app folder is used to build the Android application.
+
+This build.gradle file has the following content:
+
+apply plugin: 'com.android.application'
+android {
+  compileSdkVersion 22
+  buildToolsVersion "22.0.1"
+
+  defaultConfig {
+    applicationId "ch10.androidsampleapp"
+    minSdkVersion 15
+    targetSdkVersion 22
+    versionCode 1
+    versionName "1.0"
+  }
+
+  buildTypes {
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    }
+  }
+}
+
+dependencies {
+  compile fileTree(dir: 'libs', include: ['*.jar'])
+  compile 'com.android.support:appcompat-v7:22.1.1'
+}
+With these configurations, the application is ready to get build with Gradle.
+
+---
+----\
+buildTypes
+The buildTypes configuration is used to define types or environments of build, such as debug, release, QA.
+
+By default, both the debug and release versions of the Android project are in the build/outputs/apk directory.
+
+You can customize both build and release build types and also extend the build types by adding your own build types, as follows:
+
+buildTypes {
+  release {
+    minifyEnabled false
+    proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+  }
+
+  staging.initWith(buildTypes.release)
+  staging {
+    debuggable true
+  }
+}
+Here, one more build type staging is added and configured it to be a copy of the release build type and added debuggable true.

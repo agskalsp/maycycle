@@ -1,0 +1,278 @@
+=================================================================================
+
+Docker Introduction
+Docker Introduction
+Docker is a tool intended to make the process of creating, deploying and running applications easier by using container based virtualization technology.
+Docker is an open source container technology that provisions far more apps running on the same old servers compared to traditional VMs.
+
+=================================================================================
+
+Docker Engine
+Docker engine is the Docker core component that is responsible for creating Docker Images and running them as services.
+Docker Engine Core Components:
+    Docker Daemon
+        Continuous running program (daemon process) that manages the service and other docker objects tied to it.
+    REST API
+        Specifies interfaces, that programs can utilize to speak to the daemon and direct it what to do.
+    Docker Client
+        CLI is utilized to interact with the daemon (docker command).
+
+=================================================================================
+
+Docker Networking
+Docker Networking
+The concept of networking in Docker comes into picture when working with Docker in a real time scenario at a large scale.
+Docker Networking helps us to share data across various containers.
+Host and containers in Docker are tied with 1:N relationship, which means one host can command multiple containers.
+
+=================================================================================
+
+More on Docker
+In this course, you will learn
+
+What is Cluster Management system
+What is Docker Swarm
+Need for Docker Swarm and Key features
+Swarm Architecture
+Load Balancing, Service Discovery and High Availability
+Swarm Networking and Security
+
+=================================================================================
+
+Swarm - Benefits
+Swarm does not require any additional installation. This comes as an in-built feature in Docker itself.
+With the decentralised service discovery, Swarm v2 supports clusters with multi thousand nodes.
+Swarm mode works out-of-the-box. You need no changes to the existing container system to adapt to this tool.
+Easy to use tool with few simple commands
+
+=================================================================================
+
+Cluster Management
+Before we get into Docker Swarm in detail, let us understand some basic concepts of cluster.
+Cluster Management is a technique to manage one or more cluster nodes. This is done using Cluster manager and agent.
+Cluster Manager is nothing but a GUI or CLI software.
+
+=================================================================================
+
+Clustering Tool
+Clustering tool is a software that manages a set of resources through a single point of command. In our case, these set of resources are nothing but containers.
+
+For e.g,
+Workload distribution management across a distributed system/ cluster is very tedious for the large enterprise systems. Clustering tool comes as a rescue by automating this task.
+The instructor will just specify the details such as cluster size, settings, and some advanced features. Rest everything is taken care by the clustering tool.
+Docker Swarm is one such example of a clustering tool for Containers.
+
+=================================================================================
+
+Why Container Orchestration System?
+Container management becomes very tough, in case of a large scale distributed system which involves hundreds of containers.
+
+Few of the key activities are,
+Scaling number of containers based on the peak load
+Perform rolling updates for containers
+Perform health check on containers
+
+=================================================================================
+
+Docker Swarm - Evolution
+Docker Swarm - Evolution
+In the early 2014, Docker came up with a cluster management system with a communication protocol known as Beam.
+Later with Docker API, they introduced as daemon to communicate with a distributed system. This was named as libswarm. The daemon is called Swarmd.
+In November 2014, Docker team retained the concept of cluster communication with additional Remote APIs and named this as Swarm. This first generation is called Swarm v1.
+
+=================================================================================
+
+Docker Swarm - Evolution (Contd...)
+In February 2016, Swarm v1 system was completely redesigned to overcome the limitations of Swarm v1 and named as Swarm v2.
+In June 2016, SwarmKit came into limelight which is an orchestration toolkit within Docker Engine for distributed service. This version is also known as "Swarm mode".
+
+=================================================================================
+
+Docker Swarm - Introduction
+Docker Swarm - Introduction
+Docker Swarm is a Cluster Management and orchestration tool which is available inbuilt in Docker engine.
+
+A swarm is a cluster of docker engines, or nodes, where you deploy services.
+You can build this using Swarm kit (A toolkit to orchestrate system).
+Swarm mode can be enabled by either initializing a swarm or joining an existing swarm.
+
+=================================================================================
+
+Decentralized design
+1.You can manage the nodes in the Swarm cluster through Swarm commands. This gives a single point of access to build the entire Swarm.
+=================================================================================
+Scaling
+2.You can specify the number of tasks for every service. This is automatically done through commands to scale the service.
+=================================================================================
+Multi-host networking
+3.When you specify an overlay network to connect your services, the swarm manager assigns addresses to the containers on the overlay network once you create/update the containers.
+=================================================================================
+Desired state reconciliation
+4.The Swarm manager keeps track of the cluster state so that the actual and the desired state is always the same.
+=================================================================================
+Service discovery
+5.Swarm manager nodes allocates a unique DNS name for the services. You will be able to find containers in the swarm via the DNS server embedded in the swarm.
+=================================================================================
+Load balancing
+6.Swarm Kit has an internal load balancer which distributes the service containers within nodes. You can also include an external load balancer as well.
+=================================================================================
+Rolling updates
+7.Service updates can be done incrementally. Swarm manager lets you specify a time delay between every update without any downtime.
+=================================================================================
+Secure by default
+8.Swarm nodes include TLS mutual authentication and encryption to secure all communications. You can either use a self-signed root certificates or certificates from a custom root CA.
+
+=================================================================================
+
+Swarm - Key Concepts
+Before we dive into the Swarm Architecture, let's look into some of the key concepts in Docker Swarm.
+
+Docker Node
+Docker Service
+Docker Tasks
+
+=================================================================================
+
+Docker Node
+Docker Node is a Docker Engine instance that is included in the Docker Swarm.
+In Real time, these docker nodes are distributed across multiple cloud as well as physical machines.
+There are 2 kinds of Docker nodes.
+        Manager Node
+        Worker Node
+
+=================================================================================
+
+Docker Node (Contd...)
+Manager Node:  Manager Node is responsible for all Orchestration and container management activities required to keep up the desired system state.
+Worker Node:   Worker node executes the tasks assigned by Manager node.
+
+=================================================================================
+
+Drain Node
+You can set the availability of any node to Drain, if you do not want to execute any task on the node.
+Suppose you do not want manager node to process any task, you can set this as Drain node. The scheduler gracefully terminates any more task allocation and moves the node to Drain mode.
+
+=================================================================================
+
+Docker Service
+Docker Service:
+
+Service is nothing but a task definition that has to be executed.
+You will have to create a service specifying the image name and other additional parameters.
+In most cases, service is a image for a microservice of some large application.
+Few Examples: HTTP server or a database, any kind of executable program that you would run in a distributed system.
+
+=================================================================================
+
+Docker Swarm - Architecture (Contd 1..)
+Node is the Key member of a Docker Swarm.
+A Swarm can have more than one Manager Node. In this case, they elect their leader using Raft algorithm to conduct the Orchestration tasks.
+Manager nodes are also worker nodes. But you can configure them as Manager only nodes thereby restricting them from working on any tasks.
+
+=================================================================================
+
+Docker Swarm - Architecture (Contd 2...)
+Docker Swarm API is one another key component of the Docker Swarm architecture.
+Swarm has a list of remote APIs similar to Docker. This enables all kinds of Docker clients to connect to Swarm. In addition, Swarm API provides the cluster information as well.
+Docker API info is restricted to one single docker engine whereas Docker Swarm API provides the info on the cluster of engines, no. of nodes available in a cluster, and node details.
+
+=================================================================================
+
+Raft Consensus
+Raft Consensus
+Manager nodes use the Raft Consensus Algorithm to internally manage the cluster state.
+This is to ensure that all manager nodes that are scheduling and controlling tasks in the cluster maintain/store consistent state.
+
+=================================================================================
+
+Raft Consensus - In detail
+In case of any failure on the leader manager node, any of the available manager node should be able to easily pick it up and assign tasks maintaining a stable state.
+This algorithm can tolerate up to (N-1)/2 failures. Also it requires a majority or quorum of (N/2)+1 members to agree on values proposed to the cluster.
+
+=================================================================================
+
+Raft Consensus - In Detail (Contd..)
+Assume there is a cluster of 5 Managers running. If 3 upon 5 nodes fail, the system will stop scheduling any more tasks. This can tolerate a maximum loss of two manager.
+The existing tasks will continue to run but the scheduler will not be able to re balance tasks and cope with any failures.
+
+Docker recommendations:
+Have more than one Master node as well as odd number of Master nodes for High Availability.
+Have maximum of seven manager nodes for a Swarm.
+
+=================================================================================
+
+Scheduling Tasks
+Scheduling Tasks
+Consider an example shown in the picture. The diagram shows 3 replicas of redis server running in 3 containers. You want to load balance between three instances of an redis server.
+Each of the three instances is a task in the swarm.
+The container is an isolated process.
+In this model, each task invokes one container. You can assume a task to be a slot where the scheduler places a container. The scheduler identified the task to be in a running state when the container comes up.
+Tasks automatically terminate, when there is a failure in the container.
+
+=================================================================================
+
+Swarm Tasks - States
+Here are the list of states that a task progresses through.
+
+NEW : Task is initialized.
+PENDING : Resources for the task are allocated.
+ASSIGNED : Swarm assigned the task to nodes.
+ACCEPTED : The task was accepted by a worker node. If a worker node rejects the task, the state changes to REJECTED.
+PREPARING : Docker is preparing the task.
+STARTING : Docker is starting the task.
+RUNNING : The task is executing.
+COMPLETE : The task exited without an error code.
+FAILED : The task exited with an error code.
+SHUTDOWN : Docker requested the task to shut down.
+REJECTED : The worker node rejected the task.
+ORPHANED : The node was down for too long.
+
+=================================================================================
+
+Scheduling Tasks - Workflow
+When you create a service, orchestrator realises the desired state by scheduling tasks.
+Every task is uni- directional and progresses through a series of states.
+The Scheduler instructs the worker nodes to run the task
+An executor in the worker node executes the task on be-half of the worker node.
+
+=================================================================================
+
+Swarm Workflow (End-to-End)
+To summarize, here is the complete workflow.
+
+Step 1: Create a service by using docker service create or the UCP web UI or CLI.
+Step 2: The request goes to a Docker manager node.
+Step 3: The Docker manager node schedules the service to run on particular nodes.
+Step 4: Each service can start multiple tasks.
+Step 5: Each task has a life cycle, with states like NEW, PENDING, and COMPLETE.
+Step 6: Tasks are execution units that run once to completion. When a task stops, it isn’t executed again, but a new task may take its place.
+
+=================================================================================
+
+Pending Services
+If you do not want a service task to be executed currently, then you can configure to place the service state in pending.
+
+Ways to achieve this:
+Scale the service to 0 to prevent the service from being deployed.
+Configure the memory allocation for the service in such a way that no node in the swarm has this required amount of memory.
+Add placement constraints on service which will not be honoured at that moment.
+
+=================================================================================
+
+Replicated and Global Services
+Replicated and Global Services
+There are two types of service deployments.
+        Replicated
+        Global
+
+=================================================================================
+
+Replicated and Global Services
+Replicated Service:
+
+In this type, you will specify the number of replicas (identical tasks) that you would run as tasks on the containers.
+Global Service:
+This service runs one task per worker node. You need not specify any number of replicas. Swarm automatically adds or removes tasks based on the total number of active nodes at a given time.
+Few examples are monitoring agents and anti-virus scanners.
+
+=================================================================================

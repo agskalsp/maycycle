@@ -1,0 +1,308 @@
+===================================================
+
+Dynamic Provisioning
+We can enable dynamic provisioning using the following steps,
+
+Define a Storage class which specifies the provisioner to be used.
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: class_name
+provisioner: kubernetes.io/gce-pd
+parameters:
+  type: pd-standard
+The above description instructs Kube API to create a Storage class for gce-pd(Google Persistent Disk).
+
+===========================================================
+
+Dynamic Provisioning
+Use PVC to claim the provisioning.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: test-claim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: class_name
+  resources:
+    requests:
+      storage: 10Gi
+Note that we are using google's persistent disk as storage volume and creating Storage class with gce-pd as the provisioner. Moreover, later we're claiming that storage (10 GB)using PVC.
+
+Parameters change from provisioner to provisioner. Refer this link for more details.
+
+===========================================================
+
+PVs and PVCs Workflow
+In this illustration, we'll create a Persistent Volume with hostPath and claim it using a Persistent Volume Claim.
+
+Now let's deploy a Nginx pod and mount its working directory (/usr/share/nginx/html) to local directory /mnt/test.
+
+Steps:
+
+Decide mount path in the host and create a directory for it.
+mkdir /mnt/test
+Create index.html page required for nginx.
+echo "Hello from Fresco" > /mnt/test/index.html
+This index.html page will be available at path /usr/share/nginx/html , once you mount the PV.
+
+===========================================================
+
+PVs and PVCs Workflow
+PVCs used by pods to Consume PVs that are created by cluster admin.
+
+Steps continued...
+
+Create a Persistent Volume.
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: test-pv-volume
+  labels:
+    type: host-local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 100Mi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/test"
+The above description will create a 100MB PV with accessMode ReadWriteOnce.
+
+Remember hostPath only works with a single node cluster. If you are using a multi-node cluster, you either need to use cloud storage or use your own NFS storage.
+
+===========================================================
+
+PVs and PVCs Workflow
+Create a Persistent Volume Claim.
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: test-pv-claim
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Mi
+After you create the PVC, Kubernetes looks for satisfying PVs(based on StorageClass and Storage Space requirement), and if any match found, It will allocate that storage to the PVC (50MB in this case).
+
+Run kubectl get pv to make sure its status is BOUND and it is bound to test-pv-claim.
+
+===========================================================
+
+PVs and PVCs Workflow
+Let's use PVCs Created in Step 4 to consume PV that we created at step 3.
+
+Steps continued...
+
+Finally, create a pod that consumes PVC that we created earlier.
+kind: Pod
+apiVersion: v1
+metadata:
+  name: test-pv-pod
+spec:
+  volumes:
+    - name: test-pv-storage
+      persistentVolumeClaim:
+       claimName: test-pv-claim
+  containers:
+    - name: test-pv-container
+      image: nginx
+      ports:
+        - containerPort: 80
+          name: "nginx-server"
+      volumeMounts:
+        - mountPath: "/usr/share/nginx/html"
+          name: test-pv-storage
+The above Pod description uses test-pv-claim to request for the physical storage that is described by Persistent Volume test-pv-volume.
+
+===========================================================
+
+PVs and PVCs Workflow
+You have been waiting for this moment.
+
+Volume creation by using the following commands.
+
+# Enter into the pod shell
+$ kubectl exec -it  test-pv-pod sh
+# cat index file content
+$ cat /usr/share/nginx/html/index.html
+Following the above steps will show Hello from Fresco as output which we have added to our local file system at step 2.
+
+===========================================================
+
+Authentication Strategies
+Kubernetes supports multiple Authentication Strategies. We will discuss a few.
+
+X509 Client Certs: To use Client certificates Cluster Admin has to
+create a certificate file and get it signed by Kubernetes-CA.
+Then pass signed certificate to Kube server on startup using --client-ca-file=SOMEFILE.
+The client needs to update his/her kubeconfig file with this certificate to access the cluster using kubectl.
+Follow this link to learn more about certificate signing.
+
+===========================================================
+
+Authentication Strategies
+2 .Static Token File: If you don't prefer certificates you can you can use tokens to authenticate users.
+
+Steps:
+
+Create a csv file containing token,user,uid,"group1,group2,group3" . Where token is auth-token, user is username , uid is user id and group1,group2.. are groups to authenticate.
+Pass the file on master startup using --token-auth-file=<YOUR_CSV_FILE>.
+Client should use the same credentials while applying kubectl commands.
+
+===========================================================
+
+Authentication Strategies
+Static Password File: A static combination of username and password can be used for authentication as well. To use Static Authentication,
+Create a CSV file with password,user,uid,"group1,group2,group3".
+Pass it while starting the server using --basic-auth-file=SOMEFILE.
+The client should use the same file to authenticate itself using kubeconfig file.
+
+===========================================================
+
+Authentication Strategies
+OpenID Connect Tokens: OpenID Connect is an extension of Oauth2 , which is supported by few providers. To follow this strategy,
+You connect with any OpenID Connect provider. The user should be authenticated by the provider first.
+Then the user will get id_token from the provider which should be appended as Bearer Token in Authorization Header.
+
+===========================================================
+
+Service Accounts
+Kubernetes uses Service Accounts to provide identity to processes running inside the pods.
+
+When a normal user like you access the Kube API using kubectl, you are authenticated using a User Account by default admin. Whereas, processes while contacting API server use Service Account to authenticate themselves. By default, they use service account named default.
+
+===========================================================
+
+Service Account Creation
+As discussed, every namespace is assigned with an initial service account named default. You can create additional service accounts, if you are willing to assign different rights to different Service Accounts.
+
+Create a Service Account
+
+kubectl create -f - <<EOF
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: fresco-svc
+EOF
+You can assign a pod to any service account using pod's spec.serviceAccountName field.
+
+===========================================================
+
+ImagePull Secrets
+You can add ImagePull Secrets to service accounts so that only required pods can use your registry credentials.
+
+Steps :
+
+Create a Secret.
+kubectl create secret docker-registry regkey --docker-server=REGISTRY_SERVER --docker-username=USER_NAME docke-password=PASSWORD --docker-email=EMAIL
+It will create regkey secret.
+
+===========================================================
+
+Image Pull Secrets
+Add secret to your Service Account.
+kubectl patch serviceaccount fresco-svc -p '{"imagePullSecrets": [{"name": "fresco-secret"}]}'
+This will add fresco-secret Image pull secret to fresco-svc Service Account.
+
+===========================================================
+
+Role and Cluster Role
+RBAC binds roles to subjects such as users/processes.
+
+A Role defines a set of permissions in the form of rules.
+A Role can be either namespace Role (or simply Role) or Cluster Role.
+The difference is the scope to which they can be applied.
+A Role is applied only to a namespace (Namespace Scope).
+A ClusterRole is applicable to entire cluster (Cluster Scope).
+
+===========================================================
+
+Role Definition
+We can define a Role using,
+
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  namespace: default
+  name: fresco-reader
+rules:
+- apiGroups: [""] 
+  resources: ["pods"]
+  verbs: ["get", "watch"]
+The above Role issues get and watch (verbs) right on pods (resources) belonging to default namespace to any Subject that is bound to this rule (fresco-reader).
+apiGroups refer to Kube API endpoints to which this rule is applicable.
+You can find more values applicable to rules object here.
+
+===========================================================
+
+Cluster Role Definition
+Cluster Role Definition is similar to Roles except namespace: parameter is omitted and kind: will be ClusterRole.
+
+This is how a ClusterRole definition looks like,
+
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: secret-reader
+rules:
+- apiGroups: [""]
+  resources: ["secrets"]
+  verbs: ["get"]
+Note that we omit namespace field under metadat because ClusterRoles are Cluster Scoped not namespace scoped.
+The above given role issues get (verbs) right on secrets (resources) belonging to the entire cluster.
+
+===========================================================
+
+Binding Roles
+Now we have Roles and Subjects(Users, Service Accounts), we need a bridge to connect them both, to achieve this we use Role Binding.
+
+Just like Roles, Role binding can be RoleBinding or ClusterRoleBinding, based on the Role that it is binding to the Subject.
+
+===========================================================
+
+Role Binding
+This is how you can bind a Role to a User (Subject).
+
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: fresco-read-pods
+  namespace: default
+subjects:
+- kind: User
+  name: user_name # Name is case sensitive
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role #this has to be Role or ClusterRole
+  name: fresco-reader # this must match the name of the Role or ClusterRole you wish to bind to
+  apiGroup: rbac.authorization.k8s.io
+The above RoleBinder binds user user_name (subjects) to fresco-reader (roleref:) role.
+
+
+===========================================================
+
+ClusterRole Binding
+This is how ClusterRole Binding can be used to bind cluster role to a Group.
+
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: fresco-secrets-binder
+subjects:
+- kind: Group
+  name: ops # case sensitive
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: fresco-secret
+  apiGroup: rbac.authorization.k8s.io
+The above description binds ops (subjects) groups to fresco-secret (roleRef) Cluster Role.
+kind: ServiceAccount enables you to tag a binding to a service account.
+
+===========================================================

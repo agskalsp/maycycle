@@ -1,0 +1,301 @@
+================================================================================
+Docker Compose
+Docker Compose
+Docker Compose is a tool used to define and run applications containing multiple containers.
+Why docker Compose?
+When an application is built to have many services/containers , its difficult to manage them separately. Every container will have its own dockerfile and to bring it up individual run commands are to be executed. Whereas with Docker compose, we can bring all services up with a single command.
+Docker compose simplifies the process to run services on a real time large scale applications.
+
+=================================================================================
+
+Installing Docker Compose
+Installation on Ubuntu:
+Docker compose version : 1.14.0
+Run the following command as super user (Run sudo -i command to execute as super user)
+
+curl -L https://github.com/docker/compose/releases/download/1.14.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+Applying executable permission to binary.
+
+sudo chmod +x /usr/local/bin/docker-compose
+Verify by running version command.
+
+docker-compose --version
+
+=================================================================================
+
+Dockerize an Application using Compose
+Here is an example in Katacoda to run a Node.js application connecting to Redis using Docker Compose tool.
+
+=================================================================================
+
+Docker Inspect
+This docker command is used to display low-level information on docker objects such as Images, Containers, volume, network, node, service, and task.
+These objects can be identified by either object name or ID.
+The default output will be a JSON array.
+
+=================================================================================
+
+Docker Inspect - Syntax
+
+docker inspect [--help] [-f|--format[=FORMAT]] [-s|--size] [--type] NAME|ID [NAME|ID...]
+--help: prints usage statement
+-f, --format="" :Format the output using the given Go template
+-s, --size : Display total file sizes if the type is container
+--type: container|image|network|node|service|task|volume
+Return JSON for specified type, permissible values are "image", "container",
+"network", "node", "service", "task", and "volume"
+
+=================================================================================
+
+Docker Inspect - Example
+Let's pull an image from docker hub and run Inspect command.
+
+docker pull tomcat
+Docker inspect command to display the information on the Image.
+
+docker inspect tomcat
+When there is a name conflict with the image name and the corresponding container name lets add the type option and specify the object as image or container.
+
+docker inspect --type=image tomcat
+
+=================================================================================
+
+Display Container Information
+We already have a Tomcat image pulled from docker hub. Let's run the same Image as below.
+
+docker run -d --name tomcatContainer tomcat
+Let's now run docker inspect command on the new container created.
+
+docker inspect tomcatContainer
+
+=================================================================================
+
+Display Size information on a container
+
+docker inspect -s tomcatContainer
+
+Highlighted below the size section of the output.
+        "SizeRw": 37433,
+        "SizeRootFs": 292398179
+
+
+=================================================================================
+
+Formatting Docker Inspect Output
+Let's understand more on formatting looking into the below example.
+
+Display IP address of Container instance
+docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' tomcatContainer
+
+=================================================================================
+
+More Examples
+Display MAC address of the container
+docker inspect --format='{{range .NetworkSettings.Networks}}{{.MacAddress}}{{end}}' tomcatContainer
+
+Display log path of the container
+docker inspect --format='{{.LogPath}}' tomcatContainer
+
+Display Image name of the container
+docker inspect --format='{{.Config.Image}}' tomcatContainer
+
+Display a subsection in JSON format
+docker inspect --format='{{json .Config}}' tomcatContainer
+
+=================================================================================
+
+Docker Security
+Docker Security
+Creating services using docker is gaining traction when compared to the virtual machine set up.
+To use services effectively and securely, We need to be aware of potential threats and security issues to docker.
+
+=================================================================================
+
+Security threats to Docker Container
+Security threats to Docker Container
+Let's look into few of the security issues.
+
+Risk of privilege escalation via containers.
+For example, if an attacker gets inside a containerized app, it becomes easy to gain root access to the host system.
+A potential attack on one container can compromise data or resources used by a different container. This can happen even without root access.
+Simple DoS attacks where one container gets all available system resources which stop other containers from functioning properly.
+Pulling insecure or invalidated images from the public repository.
+
+=================================================================================
+
+Container Isolation - Kernel Namespaces
+Container Isolation - Kernel Namespaces
+LXC containers are similar to Docker Containers and hence the security features remain similar.
+
+Docker creates a namespace and control groups for the container when it is started.
+Namespace provide a isolation between containers running on the same host machine.
+Every container owns an individual network stack. Containers interact with rest others as if they interact with external hosts. Every container is like a physical machine connected to rest through a common Ethernet switch.
+
+=================================================================================
+
+Container Based DoS Attacks - Control Groups
+Container Based DoS Attacks - Control Groups
+Control groups are responsible for accounting and limiting of resources.
+They ensure that all containers receive fair share of available resources (CPU, memory and disk space)
+Prevent Container based Dos attacks (Denial of Service). i.e. it ensures that one container cannot exhaust all the resources available which might bring the whole system down.
+
+=================================================================================
+
+Docker Daemon Attack
+Only trusted users should be given access to control the docker daemon since this user will have root privilege to the host system to run docker daemon.
+Also, Docker gives the flexibility to share files/ directories between the host system and the container.
+By this way, a running container can directly access the host directory and modify the files.
+
+=================================================================================
+
+Docker Daemon Attack (Contd...)
+Parameter checking is very important when we use the web server to provision containers since malicious users can easily create arbitrary containers.
+Rest API endpoint was modified to use UNIX socket instead of TCP socket since the TCP sockets are prone to cross site forgery attacks.
+When we expose the REST API over HTTP, we should ensure that we have enough security using client stunnel, SSL certificates, HTTPS and certificates.
+
+=================================================================================
+
+Securing Images
+Securing Images
+Poisoned images cause a serious problem since the attacker can take control over the complete host system as well as the data.
+With Docker 1.3.2, images are extracted in chrooted subprocess. This is a major step towards privilege separation.
+With Docker 1.10.0, cryptographic checksums of their Image contents are used to store and access them. This prevents the attacker from colliding with the existing images.
+
+=================================================================================
+
+Linux Kernel Capabilities
+Bunch of processes listed below needs root access on Linux system to run. But the infrastructure around the container takes care of almost all of these tasks.
+
+        SSH
+        Cron
+        Log Management
+        Hardware Management
+        Network Management
+Containers do not need root privileges in most of the cases. Hence containers will have a limited root privilege rather than the complete root access.
+
+=================================================================================
+
+Linux Kernel Capabilities
+Docker follows a whitelist approach by allowing only the capabilities listed.
+Docker also supports addition and removal of capabilities. With the reduction in capabilities, docker becomes more secure and with the addition of capabilities, it becomes less secure.
+The complete list of capabilities is​ listed here.
+http://man7.org/linux/man-pages/man7/capabilities.7.html
+
+=================================================================================
+
+Docker Features - User Namespace
+With Docker 1.10, User Namespaces are supported by the Docker daemon.
+User Namespaces allows users to work on daemon commands on containers with root access but without root privilege on the host.
+The container root user is mapped to another non uid-0 outside the container. This will reduce the risk of Container breakout.
+
+=================================================================================
+
+Why User Namespace?
+Let consider the below example.
+User 100 in container 1 is mapped to User 501 outside the container.
+User 150 in container 2 is mapped to User 502 outside the container.
+This is something similar to network port mapping. This mapping is done to enable the administrator to set privilege to the users. Admin can set uid 0 (root) to a user inside container 1 without giving root access to the host system.
+
+=================================================================================
+
+Secure Docker
+To summarize,
+
+Add -u flag to Docker run command while starting a container to run as a normal user instead of root user
+Remove SUID flags from container images to make privilege escalation attack harder
+Add Docker Control groups and configure them to set limits on resource usage for a container
+Add user namespace in Docker to create an isolation between the containers as well as the container and the host
+
+=================================================================================
+
+Secure Docker (Contd...)
+Use only trusted images or images from official source from Docker repository
+Use software for static analysis of vulnerabilities in application containers e.g.Clair
+Apart from the capabilities, leverage systems like TOMOYO, AppArmor, SELinux, GRSEC, etc. with docker
+
+=================================================================================
+
+Other Security features
+Apart from the capabilities, systems like TOMOYO, AppArmor, SELinux, GRSEC, etc. can be leveraged with docker.
+Running a kernel with GRSEC and PAX, will add more security at both compile and run time.
+Security model templates that work with docker can be used.
+For e.g. AppArmor and Red Hat offers SELinux policies for Docker. These provide additional security on top of capabilities.
+Users can themselves define policies with their access control mechanism.
+
+=================================================================================
+
+Best Practices -1
+Avoid storing data in containers.
+Use Volumes to store data if needed, since a container can be stopped or application running can be re-version-ed.
+
+=================================================================================
+
+Best Practices - 2
+Avoid creating large images which is difficult to manage across multiple containers.
+
+=================================================================================
+
+Best Practices -3
+Always create multi-layered Image.
+It is easier to manage and distribute across multiple containers.
+
+=================================================================================
+
+Best Practice -4
+Always use Dockerfile to create an image.
+This process is reproducible and changes to this file can be tracked through any version control.
+
+=================================================================================
+
+Best Practices -5
+Tag images with correct version.
+Avoid generic tags like 'Latest' to the image.
+
+=================================================================================
+
+Best Practices - 6
+Always run one process per containers.
+This will be easier to manage, trouble shoot issues and update processes individually.
+
+=================================================================================
+
+Best Practices -7
+Use Environment variables to store credentials.
+Do not store directly in the image.
+
+=================================================================================
+
+Best Practices - 8
+Run processes with non-root user id.
+
+=================================================================================
+
+Best Practices -9
+Communicate between containers using environmental variables.
+Do not use IP address, since it changes for every container restart.
+
+=================================================================================
+
+Best Practices -10
+Keep Container interactions minimal.
+
+Do not accept any connection on exposed ports through any network interface.
+
+=================================================================================
+
+Best Practices - 11
+Use tools to monitor and identify vulnerabilities in images.
+
+=================================================================================
+
+Best Practices -12
+Wherever feasible, Run containers in Read -only mode.
+
+=================================================================================
+
+Best Practices -13
+Do not install unnecessary packages.
+This improves performance and reduces complexity.
+
+=================================================================================
+

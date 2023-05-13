@@ -1,0 +1,227 @@
+=================================================================================
+
+Multi-Host Networking
+Docker Engine provides out-of-the-box support to multi-host networking using overlay network driver.
+
+A bridge network is used when we run a relatively small network on a single host.
+An overlay network is used when we have a significantly larger network involving multiple host.
+
+=================================================================================
+
+Overlay Network
+There are 2 ways of creating an overlay network.
+
+        Overlay networking with an external key-value store
+        Overlay networking in swarm mode
+
+=================================================================================
+
+Overlay networking with an external key-value store
+We need a valid key-value store service to create a Overlay network.
+Before creating a network in this way, you must install and configure your chosen key-value store service.
+
+Pre-requisites:
+A key-value store (Docker supports Consul, Etcd, and ZooKeeper)
+A cluster of hosts that connects to key-value store
+Host with Docker Engine configured properly
+Host within cluster must have a unique hostname because key-value store uses host name to identify cluster members
+
+=================================================================================
+
+Overlay networks in swarm mode
+What is Swarm?
+A swarm is a cluster of Docker engines, or nodes, where you deploy services.
+The cluster management and orchestration features embedded in the Docker Engine are built using SwarmKit.
+Docker engines participating in a cluster are running in swarm mode.
+Source: docker.com
+You can initialize a swarm or join an already existing swarm.
+
+=================================================================================
+
+Overlay Network in Swarm Mode
+The swarm nodes exchange overlay network information using a gossip protocol.
+By default the nodes encrypt and authenticate information they exchange via gossip using the AES algorithm in GCM mode.
+Manager nodes in the swarm rotate the key used to encrypt gossip data every 12 hours.
+
+=================================================================================
+
+How Images are stored ?
+Lets assume that we pull nginx image using docker pull command as below.
+docker pull nginx
+Docker will download this image from the docker hub to host directory which is managed by docker engine running in the host machine.
+
+=================================================================================
+
+Container - Data Architecture
+Container - Data Architecture
+Docker Images have a series of in-build layers within. All the subsequent layers except for the last one is read- only.
+When we create a container from the image built, a new layer which is writable is added on top. This is called container layer.
+Changes done on the running container gets stored in the thin writable layer.
+
+=================================================================================
+
+Containers - Data Storage
+Containers - Data Storage
+The underlying image layer is shared between containers whereas the thin writable layer is separate for every individual containers.
+
+=================================================================================
+
+Storage Drivers
+Storage Drivers
+Storage drivers manage the contents of the image layers as well as the thin writable container layer.
+
+Storage drivers supported for Ubuntu systems are
+        aufs
+        devicemapper
+        overlay2
+        overlay
+        zfs
+
+=================================================================================
+
+Storage Driver (Contd...)
+Lets run the following command in Katacoda Docker playground to view the Storage driver used.
+
+docker info
+Lets consider only the below set of information in the terminal output to understand the current storage driver configured.
+
+Server Version: 1.13.1
+Storage Driver: overlay
+Backing Filesystem: extfs
+
+=================================================================================
+
+Modify Storage Driver
+Current Storage driver configured can be modified as below.
+
+Step:1
+
+Stop the docker service.
+
+service docker stop
+Step 2:
+
+In a Ubuntu machine, add the following to daemon.json file in /etc/docker/ directory to modify the driver to 'devicemapper'
+
+{
+  "storage-driver": "devicemapper"
+}
+If you do not find this file, please go ahead and add it.
+
+=================================================================================
+
+Modify Storage Driver (Contd...)
+Step 3:
+Once you add it, restart docker service using command
+service docker start
+Note: This cannot be tried out in Katacoda playground since this requires a root access.
+
+Step 4:
+You can verify using command
+docker info
+
+=================================================================================
+
+Docker Volumes
+Docker Volumes
+Docker Volumes are directories that store data outside of the container’s filesystem in the host machine.
+Data stored on Volumes are reusable and are shareable even when the container is stopped.
+Data in the volumes can be reused by the same service on redeployment, or shared with other services.
+In Docker Cloud, you can define one or more data volumes for a service.
+Containers directly read and write data on to the volumes.
+Storage drivers do not have any control on the data volumes.
+
+=================================================================================
+
+Docker Volumes - Commands
+Add a Data Volume:
+
+docker run -d -P --name web -v /webapp training/webapp python app.py
+Note: You can add one or more volumes to a single container
+
+Locate a volume:
+
+docker inspect web
+ "Mounts": [
+            {
+                "Type": "volume",
+                "Name": "dbfa40d8080a2e467c91567109ce124683747afcf1511562f77d6dd006733f4f",
+                "Source": "/var/lib/docker/volumes/dbfa40d8080a2e467c91567109ce124683747afcf1
+511562f77d6dd006733f4f/_data",
+                "Destination": "/webapp",
+                "Driver": "local",
+                "Mode": "",
+                "RW": true,
+                "Propagation": ""
+            }
+        ],
+Mounts section of the output trace displays the source and destination as well as Read/write mode if enabled or not.
+
+=================================================================================
+
+Data Volumes - Commands
+Create a Volume:
+
+docker volume create --name new_volume
+Display detailed information on Volumes:
+
+docker volume inspect new_volume
+List volumes:
+
+docker volume ls
+Remove unused volumes
+
+docker volume prune
+This will remove 'new_volume'.
+
+Remove one or more volumes
+
+docker volume create --name new_volume1
+docker volume rm new_volume1
+
+=================================================================================
+
+Backup/ Restore/ Migrate Data Volumes
+Command to Back up Volumes:
+
+docker run --rm --volumes-from dbstore -v $(pwd):/backup ubuntu tar cvf /backup/backup.tar /dbdata
+Command to Restore Volumes:
+
+Create new container
+
+docker run -v /dbdata --name dbstore2 ubuntu /bin/bash
+docker run --rm --volumes-from dbstore2 -v $(pwd):/backup ubuntu bash -c "cd /dbdata && tar xvf /backup/backup.tar --strip 1"
+
+=================================================================================
+
+Create and Mount Data Volume Container
+Data Volume Container is created to share persistent data between containers.
+
+docker create -v /dbdata --name dbstore training/postgres /bin/true
+Here we have mounted a volume '/dbdata' using image 'training/postgres'.
+
+Command to mount '/dbdata' volume to other containers using '--volumes-from' keyword.
+
+docker run -d --volumes-from dbstore --name db1 training/postgres
+docker run -d --volumes-from dbstore --name db2 training/postgres
+
+=================================================================================
+
+Docker Volumes - Points to remember
+Data volumes can be reused and shared amongst containers
+Data volume changes are independent of the image update
+Even when containers are deleted, data volumes persist
+Data volumes get initialized when we create a container
+Below mentioned types can be mounted as a Data volume.
+
+Host directory
+Shared storage volume
+Host file
+
+=================================================================================
+
+Try it yourself
+Create a new storage volume 'volume1' and mount this on to a container 'Web'. Create another volume 'volume2'.
+Stop the container and remove volume mounted. Run command to remove unused volume ('volume2').
+
+=================================================================================

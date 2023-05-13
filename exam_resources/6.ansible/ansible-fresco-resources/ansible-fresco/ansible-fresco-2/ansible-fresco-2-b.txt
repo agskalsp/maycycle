@@ -1,0 +1,411 @@
+============================================================================
+
+Tags
+Tags are names pinned on individual tasks, roles or an entire play, that allows you to run or skip parts of your Playbook.
+
+Tags can help you while testing certain parts of your Playbook.
+
+file: tag.yml
+---
+- name: Play1-install apache
+  hosts: all
+  sudo: yes
+  tasks:
+    - name: install apache2
+      apt: name=apache2 update_cache=yes state=latest      
+    - name: displaying "hello world"
+      debug: msg="hello world"
+      tags: 
+        - tag1
+- name: Play2-install nginx
+  hosts: all
+  sudo: yes
+  tags: 
+    - tag2
+  tasks:
+    - name: install nginx
+      apt: name=nginx update_cache=yes state=latest      
+    - name: debug module displays message in control machine
+      debug: msg="have a good day"
+      tags: 
+        - mymessage
+    - name: shell module displays message in host machine.
+      shell: echo "yet another task"
+      tags: 
+        - mymessage
+
+============================================================================
+
+Running Tag.yml
+You may save the above Playbook with name tag.yml and run the following commands
+
+ansible-playbook -i myhosts tag.yml --list-tasks : displays the list of tasks in the Playbook
+ansible-playbook -i myhosts tag.yml --list-tags : displays only tags in your Playbook
+ansible-playbook -i myhosts tag.yml --tags "tag1,mymessage" : executes only certain tasks which are tagged as tag1 and mymessage
+
+============================================================================
+
+Special Tags
+Ansible has some special keywords for tags:
+
+always: runs the task always
+tagged: run only those tasks which have some tag
+untagged: run only those tags which do not have any tags
+all: run all the tags
+You can skip always tag by defining: --skip-tags always
+
+============================================================================
+
+Include
+Till now you were dumping all the tasks and other stuff (handlers, variables) in a single Playbook. This makes it cumbersome to maintain the Playbook as it grows.
+Ansible gives you the flexibility of organizing your tasks through include keyword, that introduces more abstraction and make your Playbook more easily maintainable, reusable and powerful.
+
+============================================================================
+
+playbook_include.yml
+---
+- name: testing includes
+  hosts: all
+  sudo: yes
+  tasks:
+    - include: apache.yml    
+    - include: content.yml    
+    - include: create_folder.yml
+    - include: content.yml
+- include: nginx.yml
+You might need root access to install anything in host, that's why sudo: yes
+First, you will be installing Apache
+Then you will observe that the host machine is empty at location /home/ubuntu
+You will create a folder in the same location of the host machine
+Now you will again check if the location has any content
+In the end, you will install Nginx as a separate play
+Now let us go ahead and add the remaining files in the same test folder.
+
+============================================================================
+
+apache.yml
+---
+- name: install apache2
+  apt: name=apache2 update_cache=yes state=latest      
+- name: displaying message
+  debug: msg="you are awesome!!"   
+
+============================================================================
+
+create_folder.yml
+---
+- name: creating folder
+  file: path=/home/ubuntu/folder1 state=directory
+
+============================================================================
+
+content.yml
+---
+- name: list contents of directory in host 
+  command: ls /home/ubuntu
+  register: contents
+- name: check dir is empty
+  debug: msg="Directory is empty"
+  when: contents.stdout == ""
+- name: check dir has contents
+  debug: msg="Directory is not empty"
+  when: contents.stdout != ""
+
+============================================================================
+
+nginx.yml
+---
+- name: installing nginx
+  hosts: all
+  sudo: yes
+  tasks:
+    - name: install nginx
+     apt: name=nginx update_cache=yes state=latest      
+    - name: displaying message
+      debug: msg="yayy!! nginx installed"
+Did you notice something? If you did, you are awesome. And if you don't, you are like 99.9999% others. Cheers!
+
+nginx.yml, unlike apache.yml, is a Playbook which you can run independently. That is why it has tasks and other keywords mentioned explicitly.
+
+============================================================================
+
+Intro To Roles
+Roles are added abstraction of building your Playbook in more modular fashion, where you hide all the technicalities by splitting your tasks into smaller files and grouping them under respective folders of tasks, templates, handlers, vars etc.
+
+This is similar to writing Object Oriented Code (for example) in Java
+Discrete pieces of code can be easily included into larger programs as needed
+A Role is completely self contained or encapsulated and completely reusable
+
+============================================================================
+
+Role Directory Structure
+Role Directory Structure
+A Role has following folders:
+
+Files
+Handlers
+Meta
+Templates
+Vars
+Defaults
+
+============================================================================
+
+Files
+1.File folder has static files that need to be transferred to host machines. This also stores script file to run.
+
+============================================================================
+
+Handlers
+2.All the special tasks that you define in your playbooks, which run only if triggered by notify keyword, are kept in Handlers folder.
+
+============================================================================
+
+Meta
+3.You can define a list of roles that should run first before the current role can run properly. In short, Meta folder contains the dependencies of current role.
+
+============================================================================
+
+Tasks
+4.You can define each task as YAML file and keep them in Tasks folder.
+
+============================================================================
+
+Templates
+5.You can keep all the dynamic files (jinja2), that use variables to be substituted with values during runtime, in Template folder.
+
+============================================================================
+
+Vars
+6.The variables of your role are defined in Vars folder.
+
+============================================================================
+
+Defaults
+7.Defaults folder works similar to vars folder, only the priority of variables defined in defaults is less than variables in vars.
+
+============================================================================
+
+Creating Structure For Your Role
+Creating Structure For Your Role
+Before beginning with the Pahase 1, you need to follow these steps to create the folder structure for your Role:
+
+Create a folder called roles: mkdir roles and cd roles
+Create a folder called sample_role inside roles: mkdir sample_role and cd sample_role
+Create your folder structure for your role: mkdir defaults files handlers tasks templates vars
+As your structure is ready, let us now create required files.
+
+============================================================================
+
+Phase 1- nginx.yml
+Phase 1- nginx.yml
+You need to create task for installing Nginx in host under roles/sample_role/tasks/
+
+file: tasks/nginx.yml
+---
+- name: Installs nginx
+  apt: pkg=nginx state=installed update_cache=true   
+  notify: 
+    - start nginx
+
+============================================================================
+
+Phase 1- Creating Handler
+Now you may come out of tasks folder (cd ..) and write your special handler task inside handlers folder
+
+file: handlers/main.yml
+---
+- name: start nginx
+  service: name=nginx state=started
+
+============================================================================
+
+Phase 1-Including Tasks In Main.yml
+*Just like nginx.yml, later you will be adding more files in tasks folder.
+
+How will ansible know which task to execute first?*
+
+Tasks, Handlers, and Vars folder always have main.yml file
+
+You need to include those tasks in main.yml file.
+
+file: tasks/main.yml
+---
+- include: nginx.yml
+As you can see, tasks/main.yml is just list of tasks.
+
+============================================================================
+
+Creating Master Playbook
+To run all your tasks, you need to create a Playbook in root location (/home/scrapbook/tutorial) location, which will call your role (sample_role).
+
+Use cd .. to move up one directory
+Use pwd to know your present working directory
+Use ls to check files and folder in your present folder
+
+file: master_playbook.yml
+---
+- name: my first role in ansible
+  hosts: all
+  sudo: yes 
+  roles:
+    - sample_role
+
+============================================================================
+
+Telling Ansible About Your Roles
+You called your role in Playbook but how will Ansible know, where your roles are defined?
+
+You need to explicitly tell the path(of roles) in ansible.cfg file
+Remove the default configuration file: rm ansible.cfg (present in /home/scrapbook/tutorial/ansible.cfg)
+Add your new configuration settings: vi ansible.cfg, press i and use the settings as shown:
+
+file: ansible.cfg
+[defaults]
+host_key_checking=False
+roles_path = /home/scrapbook/tutorial/roles/
+```
+
+============================================================================
+
+What Is Happening?
+So, let us have a look at what exactly is happening:
+
+You have given the location of your roles by setting roles_path in Ansible configuration file.
+When you run this playbook, the Role will first check main.yml file in tasks folder and execute tasks.
+You can also define multiple roles in master_playbook and they are executed in a sequential manner.
+
+- .....
+  roles:
+    - sample_role
+    - sample_role2
+      ....
+
+============================================================================
+
+Phase 2 - Copying Static File
+Phase 2 - Copying Static File
+Let us now create a task to copy a static file to your host machine.
+
+file: tasks/copy-static.yml
+
+---
+- name: Copy a file
+  copy: src=some-file.txt dest=/home/ubuntu/file1.txt
+But, do we have sample-file.txt ?? No!!
+
+Static files are kept in files folder of a Role.
+
+Let us create a file in files folder: touch some-file.txt
+
+============================================================================
+
+Phase 2 - Including Task in Main Task File
+Include the new task in main.yml file
+
+file: tasks/main.yml
+
+---
+- include: nginx.yml
+- include: copy-static.yml
+
+Run your master_playbook and check the output: ansible-playbook -i myhosts master_playbook.yml
+Note: To run your master_playbook, you must be present at /home/scrapbook/tutorial
+
+============================================================================
+
+Phase 3 - Creating Template And Variable File
+Phase 3 - Creating Template  And Variable File
+Templates/Dynamic/Configuration files are kept in templates folder of a role.
+
+file: templates/template-file.j2
+this is {{item}}
+Variables are kept in vars folder
+
+file: vars/main.yml
+var_x:
+  - 'variable x'
+var_y:
+  - 'variable y'
+
+============================================================================
+
+Phase 3 - Creating Task To Send Your Configurations
+Let us create a task to send your template/dynamic/configuration file to your host machine.
+
+file: tasks/copy-template.yml
+---
+- name: sample template - x
+  template:
+    src: template-file.j2
+    dest: /home/ubuntu/copy-template-file.j2
+  with_items: var_x
+
+============================================================================
+
+Phase 3 - Including Task in Main Task File
+Include the task you just created in your main file:
+
+file: tasks/main.yml
+---
+- include: nginx.yml
+- include: copy-static.yml
+- include: copy-template.yml
+Run your master_playbook and check the output: ansible-playbook -i myhosts master_playbook.yml
+
+============================================================================
+
+Running Role
+Let us run the master_playbook and check the output:
+
+ansible-playbook -i myhosts master_playbook.yml
+
+Note: You can enter yes if prompted while running master_playbook
+
+============================================================================
+
+What Is Ansible Galaxy?
+If you are annoyed to build the file structure for a role from scratch in Ansible every time, then this is for you.
+
+Let us enter the Galaxy Of Ansible
+
+Ansible Galaxy is a website where people like you can explore, download and rate roles. you can also contribute your role.
+ansible-galaxy is command line tool for scaffolding the creation of directory structure needed for organizing your code
+Try this command : ansible-galaxy init sample_role
+
+============================================================================
+
+Environment Variables
+Managing huge number of hosts can be tedious when the deployment environment is different: development, staging and production
+
+For example, memory requirement for servers in production might be different from servers in the development environment
+Ansible recommended way of solving this issue is by maintaining inventory file for each environment, instead of keeping all your hosts in a single inventory.
+You can also maintain a separate directory for group_vars.
+
+============================================================================
+
+Multiple Inventories For Each Environment
+Multiple Inventories For Each Environment
+This is how a basic directory structure of multistage environment look.
+
+Each environment directory has one inventory file (hosts) and group_vars directory.
+
+============================================================================
+
+Course Summary
+Now you are on the last lap of this course. Hope you enjoyed diving into the ocean of Ansible.
+
+Let us list down the takeaways from this course:
+
+Variables - playbook file, inventory file, registered, complex, built-in, facts
+
+Specific task(s) execution in Playbook ~ through tags
+
+Smart Playbooks: abstraction, flexible and reusable ~ through roles
+
+Automating file structure ~ through ansible-galaxy
+
+Multistage Environment with Ansible
+
+============================================================================
+

@@ -1,0 +1,8 @@
+1. Maven Multi Module Project- This scenario is based on 3 maven modules named business, data and service.
+Note: Do not make any changes to the pre-existing structure of all the pom.xml files. 
+There are some pre-defined java files in all the 3 modules and ensure that they are error-free by configuring respective pom.xml files as stated below
+- Configure the pom.xml file present in root directory such that it should be the parent pom of all the listed 3 modules
+- Configure the pom.xml file present in data folder such that it depends on business module and parent as root pom
+- Configure the pom.xml file present in business folder such that it depends on service module and parent as root pom
+- Configure the pom.xml file present in service folder such that it's parent is root pom
+- Finally click on Run tests to know your result

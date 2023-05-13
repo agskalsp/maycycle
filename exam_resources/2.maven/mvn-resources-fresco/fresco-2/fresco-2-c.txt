@@ -1,0 +1,365 @@
+======================================================================================
+
+Maven Properties
+Properties
+
+Maven POM can be parameterized using Properties.
+
+Benefits
+
+Avoid hardcoding values in multiple places
+Provide flexibility to the build tool by allowing values to be passed at runtime.
+ property is always surrounded by `${ `and `}`
+
+======================================================================================
+
+Property Types
+POM variables
+
+Use "project.*" prefix to reference elements in a Maven POM.
+
+<build>
+   <finalName>${project.artifactId}</finalName>
+</build>
+Settings variables
+
+Use "settings.*" prefix to reference values in ~/.m2/settings.xml.
+
+<tasks>
+    <echo>Displaying localRepository value from settings.xml </echo>
+    <echo>${settings.localRepository}</echo>
+</tasks>
+Environment Properties
+
+Use "env.*" prefix to reference environment variables.
+
+<tasks>
+  <echo>Displaying value of environment PATH</echo>
+  <echo>[Path] ${env.PATH}</echo>
+</tasks>
+
+======================================================================================
+
+Property Types
+System Properties
+
+No prefix required to access any property which can be retrieved from the System.getProperty() method.
+
+<tasks>
+  <echo>Running on OS</echo>
+  <echo>${os.name}</echo>
+</tasks>
+User-defined Properties
+
+No prefix required to access project properties that are defined in pom.xml.
+
+<properties>
+   <myname>Hi there, my name is Fresco!!!</myname>
+   <mymotto>My motto is MAVEN is HEAVEN!!!</mymotto>
+</properties>
+    . . . 
+<tasks>
+  <echo>Displaying value of project properties</echo>
+  <echo>[myname] ${myname}</echo>                
+  <echo>[mymotto] ${mymotto}</echo>
+</tasks>
+
+======================================================================================
+
+Resource Filtering
+It is a feature to perform a variable replacement on project resources.
+It is used to parameterize builds with platform-specific configurations.
+Externalize important build variables to properties files, POMs, or profiles.
+Variables are denoted by the ${...} delimiters.
+Variable values can come from one of the below sources.
+system properties
+project properties
+filter resources
+command line
+
+======================================================================================
+
+Activate Resource Filtering
+Resource filtering feature is disabled by default.
+Activate it in pom.xml by including the below config.
+<project>
+ ...
+  <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+  </build>
+ ...
+</project>
+The above config activates resource filtering for every resource under src/main/resources directory.
+
+======================================================================================
+
+Referencing Maven Properties from a Resource
+src/main/resources/user.properties
+
+ user.name=${uname}
+pom.xml
+
+<project>
+	...
+    <properties>
+	<uname>FrescoPlay</uname>
+    </properties>
+	...
+</project>
+$mvn compile
+
+$cat target/classes/user.properties
+
+ user.name=FrescoPlay
+
+======================================================================================
+
+Resource Filtering: Example
+profile.properties
+
+profile.name=${profile.name}
+profile.about=${profile.about}
+App.java
+
+package com.fresco.play;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+public class App 
+{
+    public static void main(String[] args) {
+        App app = new App();
+        Properties prop = app.loadPropertiesFile("profile.properties");
+        System.out.println("Loading Profile Properties:");        
+        prop.forEach((k, v) -> System.out.println("\t"+k + " : " + v));
+    }
+
+    public Properties loadPropertiesFile(String filePath) {
+        Properties prop = new Properties();
+        try (InputStream resourceAsStream = getClass().getClassLoader().getResourceAsStream(filePath)) {
+            prop.load(resourceAsStream);
+        } catch (IOException e) {
+          System.err.println("Unable to load properties file : " + filePath);
+        }
+        return prop;
+    }
+}
+
+======================================================================================
+
+Resource Filtering: Example
+POM.xml
+
+<project>
+  <groupId>com.fresco.play</groupId>
+  <artifactId>maven-test</artifactId>
+  <packaging>jar</packaging>
+  <build>
+        <finalName>${project.artifactId}</finalName>        
+        <filters>
+            <filter>src/main/resources/profile.properties</filter>
+        </filters>
+        <resources><resource>          
+           <directory>src/main/resources</directory>
+           <filtering>true</filtering>
+        </resource> </resources>       
+        <plugins>        
+          <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.3</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                  <configuration>
+                    <mainClass>com.fresco.play.App</mainClass>
+                  </configuration>
+            </plugin>  
+        </plugins>      
+  </build>
+  <profiles>
+    <profile>
+      <id>tesla</id>
+      <properties>
+        <profile.name>Nicola Tesla</profile.name>
+        <profile.about>Inventor that created renewable energy and cared more about people than making money</profile.about>
+      </properties>
+    </profile>
+    <profile>
+      <id>edison</id>
+      <properties>
+        <profile.name>Thomas Edison</profile.name>
+        <profile.about>Wealthy Businessman who created a way to charge money for electricity and methods to control energy resources</profile.about>
+      </properties>
+    </profile>
+  </profiles>
+</project>
+
+
+======================================================================================
+
+Resource Filtering: Example
+Output:
+
+mvn clean package -Ptesla
+
+mvn exec:java
+
+O/P:
+
+Loading Profile Properties:
+
+profile.name: Nicola Tesla
+
+ >profile.about: Inventor that created renewable energy and cared more about people than making money
+mvn clean package -Pedison
+
+mvn exec:java
+
+O/P:
+
+Loading Profile Properties:
+
+profile.name: Thomas Edison
+
+ >profile.about: Wealthy Businessman who created a way to charge money for electricity and methods to control energy resources
+
+======================================================================================
+
+What are Plugins?
+A plugin provides a set of goals that can be executed.
+
+Syntax : mvn [plugin-name]:[goal-name]
+
+Maven is a plugin execution framework where plugins actually do every task.
+
+Common Uses:
+
+Creating jar/war/ear files
+Code compilation
+Unit testing of the code
+Project documentation
+Plugin Types:
+
+Build plugins
+
+Executes during the build process, configured within <build></build>
+
+Reporting plugins
+
+Executes during the site generation process, configured within <reporting></reporting>.
+
+======================================================================================
+
+Plugin Configuration
+Plugin Configuration
+Plugins are specified in pom.xml using <plugins> element.
+Each plugin can have a phase defined from where it should start its processing.
+Each plugin can have multiple goals.
+Tasks are configured by binding them to goals of plugin.
+<plugins>
+  <plugin>
+    <groupId>...</groupId>
+    <artifactId>...</artifactId>
+    <version>...</version>
+    <configuration> ...</configuration>
+    <executions>
+       <execution>...</execution>
+    </executions>
+ </plugin>
+</plugins>
+
+======================================================================================
+
+Common Plugins
+| Plugin Name | Description | | -------- | -------- | -------- | 
+| clean | Used to delete the target directory to clean up the earlier build artifacts | 
+| compiler | To compile java source files | 
+| surefile | Executes the Junit tests and generate the reports. | 
+| jar | Build the jar file of the project | 
+| war | Build the war file of the project | 
+| javadoc | Generates the JavaDocs of the project | 
+| antrun | Runs a set of ant tasks specified in any stage/phase of the build | 
+| resource| For copying Java projects resources to the output directory | 
+| spring-boot | Develop Java web application using Spring Boot library |
+
+======================================================================================
+
+Maven Compiler Plugin
+pom.xml cofigured with Compiler plugin
+
+<project>
+  [...]
+  <build>
+    [...]
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.0</version>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
+    </plugins>
+    [...]
+  </build>
+  [...]
+</project>
+
+======================================================================================
+
+Maven AntRun Plugin
+<project xmlns = "http://maven.apache.org/POM/4.0.0"
+   xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation = "http://maven.apache.org/POM/4.0.0
+   http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>com.companyname.projectgroup</groupId>
+   <artifactId>project</artifactId>
+   <version>1.0</version>
+   <build>
+      <plugins>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <version>1.1</version>
+            <executions>
+               <execution>
+                  <id>id.validate</id>
+                  <phase>validate</phase>
+                  <goals>
+                     <goal>run</goal>
+                  </goals>
+                  <configuration>
+                     <tasks>
+			<echo>Executing Validate phase</echo>
+			<echo> Project's Base Director: ${basedir}/echo>
+                     </tasks>
+                  </configuration>
+               </execution>     
+            </executions>
+         </plugin>
+      </plugins>
+   </build>
+</project>
+
+======================================================================================
+
+Using the AntRun Plugin
+Using the Shade Plugin
+Using the Exec Plugin
+
+======================================================================================

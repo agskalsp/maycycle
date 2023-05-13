@@ -1,0 +1,41 @@
+
+sudo apt-get install default-jre
+
+wget -q -O - http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key | sudo apt-key add -
+wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
+
+
+sudo sh -c 'echo deb http://pkg.jenkins-ci.org/debian binary/ > /etc/apt/sources.list.d/jenkins.list'
+
+sudo apt-get update
+sudo apt-get install jenkins
+sudo /etc/init.d/jenkins start
+
+curl -vvv jenkins : 8080
+curl -vvv <public ip>: 8080
+browser <public ip>:8080
+
+COMPOSE PW: 94c664d46a6f41b4bf608857bd04041a
+
+
+
+sudo apt install openjdk-8-jdk -y
+wget -qO - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
+sudo sh -c 'echo deb https://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+sudo apt-get update && sudo apt-get install jenkins -y
+sudo service jenkins restart
+sudo /etc/init.d/jenkins start
+
+
+
+
+sudo apt install openjdk-11-jdk -y
+wget -qO - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
+sudo sh -c 'echo deb https://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+sudo apt-get update && sudo apt-get install jenkins -y
+sudo service jenkins restart
+sudo systemctl status jenkins
+sudo /etc/init.d/jenkins start
+
+
+

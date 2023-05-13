@@ -1,0 +1,109 @@
+FOR NODEJS---->
+
+
+FROM node:latest
+WORKDIR /usr/src/app
+COPY nodeapp/* /
+RUN npm install
+EXPOSE 3000
+CMD [ "npm","start" ]
+
+<----------
+
+pipeline {
+    agent any 
+    environment {
+    DOCKERHUB_CREDENTIALS = credentials('valaxy-dockerhub')
+    }
+    stages { 
+        stage('SCM Checkout') {
+            steps{
+            git 'https://github.com/ravdy/nodejs-demo.git'
+            }
+        }
+
+        stage('Build docker image') {
+            steps {  
+                sh 'docker build -t valaxy/nodeapp:$BUILD_NUMBER .'
+            }
+        }
+        stage('login to dockerhub') {
+            steps{
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+            }
+        }
+        stage('push image') {
+            steps{
+                sh 'docker push valaxy/nodeapp:$BUILD_NUMBER'
+            }
+        }
+}
+post {
+        always {
+            sh 'docker logout'
+        }
+    }
+}
+
+
+
+[7:42 PM, 6/22/2022] 
+
+# Dockerfile
+
+FROM  phusion/baseimage:0.9.17
+
+MAINTAINER  Author Name <author@email.com>
+
+RUN echo "deb http://archive.ubuntu.com/ubuntu trusty main universe" > /etc/apt/sources.list
+
+RUN apt-get -y update
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -q python-software-properties software-properties-common
+
+ENV JAVA_VER 8
+ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
+
+RUN echo 'deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main' >> /etc/apt/sources.list && \
+    echo 'deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main' >> /etc/apt/sources.list && \
+    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C2518248EEA14886 && \
+    apt-get update && \
+    echo oracle-java${JAVA_VER}-installer shared/accepted-oracle-lice…
+
+
+[7:44 PM, 6/22/2022] 
+FROM python:3.9 
+
+# Or any preferred Python version.
+ADD main.py .
+RUN pip install requests beautifulsoup4 python-dotenv
+CMD [“python”, “./main.py”]
+
+[7:46 PM, 6/22/2022] 
+ # syntax=docker/dockerfile:1
+
+FROM python:3.8-slim-buster
+
+WORKDIR /app
+
+COPY requirements.txt requirements.txt
+RUN pip3 install -r requirements.txt
+
+COPY . .
+
+CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
+
+
+[7:46 PM, 6/22/2022]
+
+FROM openjdk:16-alpine3.13
+
+WORKDIR /app
+
+COPY .mvn/ .mvn
+COPY mvnw pom.xml ./
+RUN ./mvnw dependency:go-offline
+
+COPY src ./src
+
+CMD ["./mvnw", "spring-boot:run"]

@@ -1,0 +1,223 @@
+====================================================================================
+Maven Build Connoisseur - Course Overview
+This course ensures that you fathom the below Maven features.
+
+How to configure Build Profiles and activate them?
+How to play with properties and Resource Filtering?
+How to employ essential Maven Plugins?
+Dependency Mechanism in Maven - its scope, conflicts, and resolution
+Maven multi-module project development
+Couple of ad-hocs - Building assemblies and troubleshooting Maven
+Having skimmed the basic concepts in the Maven Coalescing Pipeline, let's do a recap before comprehending the depths of Maven.
+
+======================================================================================
+
+Maven - What, Why, and When?
+Maven - What, Why, and When?
+What is Maven?
+Maven is a project management tool for Java projects.
+It manages a project's build, reporting and documentation.
+Why to Use Maven?
+Convention over Configuration - a quick project setup
+Project Modularization - standard directory structure
+Dependency Management - adds jars/libraries/dependencies automatically
+Plugin-based architecture - more powerful builds
+When to Use Maven?
+Project Dependency tree is fairly deep and upgrades frequently.
+There is a need for streamlined continuous build, integration and testing.
+Build Portability is required to maintain consistency across different environments.
+Quality Project Information is required for reporting/documentation purposes.
+
+======================================================================================
+
+POM Demystified
+What is POM?
+Project Object Model is the Maven project configuration file.
+It describes the project, declaratively.
+It defines what the project is all about and how it should be built.
+It is an XML file located in base directory of a project.
+POM is composed of elements and configurations.
+
+Elements in POM
+Project
+modelVersion
+groupId
+artifactId
+version
+A combination of groupId, artifactId and version is called the GAV coordinates, which uniquely identifies a project.
+
+Configurations in POM
+Dependencies
+Plugins
+Goals
+Build Profiles
+
+======================================================================================
+
+Life Cycles, Phases, and Goals
+Life Cycles, Phases, and Goals
+A Maven life cycle consists of a sequence of phases, and each phase consists of a sequence of goals.
+
+======================================================================================
+
+Lifecycle vs Phase, Plugin vs Goal
+Life Cycle vs Phase
+Life Cycle is a collection of phase in a sequence.
+When you call a phase, it will also call all the phases before it.
+Plugin vs Goal
+Plugin is an artifact.
+Plugin is a collection of goals.
+Goal is like an action in Plugin.
+Analogy: If Plugin is a class then goals are methods within the class.
+Syntax: mvn phase:goal
+
+Putting it all together: Life Cycle, Phase, and Goal
+Phase itself does nothing. It is just for defining the order/sequence in a life cycle.
+Goal is the one that does the work.
+When a phase is called, it will actually call a goal which is linked to that phase.
+mvn clean is the same as mvn pre-clean clean:clean.
+
+Explore more here
+
+======================================================================================
+
+Plugin Management in Multi-Module Project
+Manage plugin information used by child projects, as required.
+Parent POM defines configurations for various plugins used by different child projects.
+Each child project declares the plugins that it needs for the build.
+Parent POM
+
+<pluginManagement>
+  <plugins>
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-compiler-plugin</artifactId>
+      <version>3.2</version>
+      <configuration>
+        <source>1.8</source>
+        <target>1.8</target>
+      </configuration>
+    </plugin>
+  </plugins>
+</pluginManagement>
+Child POM
+
+<build>
+  <plugins>
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-compiler-plugin</artifactId>
+    </plugin>
+  </plugins>
+</build>
+
+
+======================================================================================
+
+Useful Maven Commands
+General syntax:
+
+mvn [options] <One or more Phases OR Goal Plugins[plugin options]>
+Phase execution syntax:
+mvn [phase-name]
+Goal execution syntax:
+mvn [plugin-name]:[goal-name]
+ProTip:
+Plugin Naming Convention
+If group id is org.apache.maven.plugins then
+maven-<plugin_name>-plugin
+otherwise,
+<plugin_name>-maven-plugin
+
+======================================================================================
+
+Useful Maven Commands
+help:describe command
+
+Lists information of the current Maven project.
+
+Displays the list of phases in execution order in the following syntax
+
+phase_name: plugin_group-id:plugin_qualified_name:version:plugin_goal_name
+
+> $mvn help:describe -Dcmd= compile
+
+Output Snippet:
+
+It is a part of the lifecycle for the POM packaging 'jar'. This lifecycle includes the following phases:
+
+* validate: Not defined
+  . . .
+* compile: org.apache.maven.plugins:maven-compiler-plugin:3.1:compile
+  . . .
+* test-compile: org.apache.maven.plugins:maven-compiler-plugin:3.1:testCompile
+* process-test-classes: Not defined
+* test: org.apache.maven.plugins:maven-surefire-plugin:2.12.4:test
+* package: org.apache.maven.plugins:maven-jar-plugin:2.4:jar
+   . . .
+* install: org.apache.maven.plugins:maven-install-plugin:2.4:install
+* deploy: org.apache.maven.plugins:maven-deploy-plugin:2.7:deploy
+Decoding the above output format:
+
+For the test phase below,
+
+*test: org.apache.maven.plugins:maven-surefire-plugin:2.10:test
+[phasename]: [plugingroup-id]:[pluginqualifiedname]:[version]:[plugingoalname]
+
+Plugin goal syntax for the above phase would be
+
+$mvn surefire:test
+
+mvn [pluginname]:[goalname]
+
+======================================================================================
+
+Useful Maven Commands
+List all Goals in a plugin
+
+mvn help:describe -Dplugin=[plugin_name] 
+Usage:
+
+$mvn help:describe -Dplugin=compiler
+
+Output Snippet:
+
+[INFO] org.apache.maven.plugins:maven-compiler-plugin:3.3
+ 
+Name: Apache Maven Compiler Plugin
+Description: The Compiler Plugin is used to compile the sources of your project.
+Group Id: org.apache.maven.plugins
+Artifact Id: maven-compiler-plugin
+Version: 3.3
+Goal Prefix: compiler
+ 
+This plugin has three goals:
+ 
+compiler:compile
+  Description: Compiles application sources
+ 
+compiler:help
+  Description: Display help information on maven-compiler-plugin.
+    Call mvn compiler:help -Ddetail=true -Dgoal=<goal-name> to display
+    parameter details.
+ 
+compiler:testCompile
+  Description: Compiles application test sources.
+ 
+For more information, run 'mvn help:describe [...] -Ddetail'
+
+======================================================================================
+
+Frequently Used Maven Commands
+mvn clean - Clean a project.
+mvn compile - Compile a project.
+mvn test - Run unit tests.
+mvn package - Build a package.
+mvn verify - Run integration test.
+mvn install - Install a package into local repository
+mvn -DskipTests=true install - Install an artifact into the local repository and skip unit and integration test execution.
+mvn deploy - Deploy artifact into enterprise repository.
+mvn dependency:tree - Display project dependencies.
+mvn help:active-profiles - Display all profiles.
+
+======================================================================================

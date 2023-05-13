@@ -1,0 +1,186 @@
+// we can have group and version at top of the build.gradle file as well
+group 'com.gopi.app'
+version '1.1.1-snapshot'
+
+defaultTasks '#TaskName', 'build', 'clean'
+plugins {
+    id 'java'
+    id 'application'
+    id 'war'
+    id: 'project-report'
+}
+apply plugin: 'eclipse'
+// for defining the source directory we use this
+sourceSets {
+    main {
+        java.srcDirs = ['src']
+    }
+}
+/*  we defaultly have project. for our entities 
+    like  project.repositories
+          project.dependencies */
+// for setting JAVA 8 as default for GRADLE do the following
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+//  ****   Defaultly the project. and Closure Brackets () are added by GRADLE for us
+project.repositories({
+    mavenCentral()
+})
+repositories {
+    //  from above to below we have PRIORITY based Hierarchy
+    // which it always searches for dependencies in TOP mentioned repo --if not found then onto next
+    mavenCentral()
+    // forcustom repo
+    mavenCentral{
+        url = "https://mvnrepository.com"
+    }
+    jcenter()
+    mavenLocal()   // -- it looks for dependencies in our local system -- /home/${USER}/.m2/repository
+    //  The path where the dependencies are stored in our system when fetched from main repo
+    /home/${USER}/.gradle/caches/modules-2/files-2.1/
+}
+dependencies {
+    // <Configurations> <GROUP_ID: ARTIFACT_ID: VERSION>
+    /*
+    In Maven we have Scopes they are:
+       --compile(default) --provided --runtime --test
+    In Gradle we have Configurations they are:
+       -- api (compile)
+       **IMP** : --implementation --testImplementation 
+       --compileOnly (used in Dozer Lombok JMapper)
+       --runtimeOnly (used in logging-api logging-impl)
+       --testCompileOnly (used in Junit Jasmine Mockito)
+       --testRuntimeOnly (used in Jupiter Jasmine Runtime)
+    */
+    implementation 'com.google.guava:guava:29.0-jre'
+    testImplementation 'junit:junit:4.13'
+    <Configuration> project(':sub-MODULE-project')
+       *****    WE can inherit tasks and things from SUB-MODULE to main project    *****
+    // compile Configuration is resulting in Leaking of dependencies
+    //compile 'firstJavaProject:  :  ' 
+    //  For implementation does not do the LEAK
+    /*
+         OLD            --          NEW
+    providedCompile              compileOnly
+    compile                      implementation
+    testCompile                  testImplementation
+    */
+} 
+
+/*  ---Build Phases---
+Initialization: depends mostly on settings.gradle
+                checks for what type of project
+                whether multi module or single
+Configuration:  here Direct Acyclic Graph is made to not make GRADLE go into a LOOP
+Execution:   doLast()  --> these are done during the Execution Phase
+*/
+
+doFirst(), doLast()  --> these are done during the Execution Phase
+other than above  --> it will be done during Configuration Phase
+
+// for changing the name of the build folder u can use below syntax
+buildDir = 'my-own-build'
+
+application {
+    // Define the main class for the application.
+    mainClassName = 'com.bharath.gradle.App'
+}
+
+ARTIFACTs are stored in /build/libs/.   --> jar or war
+and name of jar or war is -->  <ARTIFACT-ID> + <VERSION>.jar or war
+
+REPORTs are generated at /build/reports/. 
+
+
+// our tasks are added as other tasks if WE WANT we can add to a **GROUP** them
+task myTask{
+    dependsOn 'build', 'clean'
+    group = 'myTaskgroup'
+    description= "This is just the task description that's all"
+    doLast{
+        println 'Hello ${USER}' + ' Welcome! '
+    }
+}
+
+// For extending existing gradle tasks
+class myTask extends DefaultTask{
+    String dateMessage = "Date is :"
+
+    @TaskAction
+    void myTask{
+        println dateMessage + new Date()
+        println "Hello ${USER}" + dateMessage + new Date()
+    }
+}
+task myTask(type: MyTask)
+
+task myCustomtask(type: MyTask){
+    dateMessage = 'MyCustom date msg is: '
+}  // Now u can run gradle myCustomTask
+
+GRADLE-PROFILE
+gradle build --profile 
+//  /build/reports/profile/js/*.html
+
+
+GRADLE-PLUGIN can be done by two ways
+  >> BharathThippireddy
+  >> LinkedIn 3 hrs video guy --> he added 
+       /*
+       buildscript{
+          dependencies{
+             classpath files('PATH of PLUGIN-created-JAR file')
+          }
+       }
+       */
+  >> LinkedIn 3 hrs video guy also did CLOUDBuildScan if needed see that files
+  plugin {
+    id 'com.gradle.build-scan' version '1.7'
+  }
+
+  buildScan{
+    LicenseAgreementUrl = 'https://gradle.com/terms-of-service'
+    LicenseAgree = 'yes'
+  }
+      >> gradle build --scan 
+      >> it gives u a url so u can open in browser and see the builds data 
+
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: "https://<myServer>/repository/maven-releases/") {
+                authentication(
+                        userName: "$publishUsername",
+                        password: "$publishPassword"
+                )
+            }
+            snapshotRepository(url: "https://<myServer>/repository/maven-snapshots/") {
+                authentication(
+                        userName: "$publishUsername",
+                        password: "$publishPassword"
+                )
+            }
+        }
+    }
+}
+
+task showDate {
+    dependsOn build
+    group = 'my tasks'
+    description = "Show current date"
+    doLast{
+        println ""
+        println 'Current Date: ' + new Date()
+        println ""
+    }
+}
+// For BUILD SCAN
+plugins {
+    id 'com.gradle.build-scan' version '1.6'
+}
+
+buildScan {
+    licenseAgreementUrl = 'https://gradle.com/terms-of-service'
+    licenseAgree = 'yes'
+}

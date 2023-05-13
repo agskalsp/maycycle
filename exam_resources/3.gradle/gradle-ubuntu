@@ -1,0 +1,102 @@
+for CMDs:   https://docs.gradle.org/current/userguide/command_line_interface.html
+
+for build init CMDs: https://docs.gradle.org/current/userguide/build_init_plugin.html#build_init_plugin
+
+for help : https://www.baeldung.com/category/gradle/#
+
+DO REMEMBER BOTH GRADLE from UDEMY are so good for resources 
+   >> Bharaths course
+   >> Gradle MASTERclass
+
+gradle init
+gradle tasks
+gradle tasks --all
+gradle -q projects // shows us all the gradle projects
+./gradlew -q projects  
+gradle taskName --dry-run  // Just shows the Direct Acyclic Graph Path I guess
+gradle build taskTree
+/*
+     ** WE can use ./gradlew instead of just gradle **  
+     **  it also helps us always run the PROJECT always using the saming GRADLE_VERSION  **
+     **   which was specified in the gradle-wrapper.properties folder**
+*/
+
+if you removed all the wrapper and need to start a NEW_WRAPPER then
+       >>   gradle wrapper --gradle-version 4.4.1
+
+>>if u have task name as myFirstTask 
+>>   then gradle myFirstTask or gradle mFT
+
+gradle myFirstTask or ./gradlew myFirstTask
+
+gradle -q <TASK>   // where -q says use less verbose or do quietly
+gradle taskName --console=verbose // for more verbose
+gradle compileJava   -> complies the Java code and build folder is formed
+gradle clean   -> cleans the previous build folder
+gradle test    -> generates the test reports for ur project
+gradle jar
+gradle run
+gradle compileTestJava
+gradle uploadArchives  -> for Publishing the JAR file
+
+// the daemon will run subsequent builds faster
+gradle build --daemon
+gradle build --no-daemon  // if needed from start and no cache
+
+gradle dependencies 
+gradle dependencies --configuration compile
+gradle dependencies --configuration testCompile
+
+// for seeing the dependencies in a browser
+    apply plugin: 'project-report'
+    gradle htmlDependencyReport  --> when run gives us a path to open in a browser that gives details about dependencies
+
+gradle clean --> it removes the previous things and clean the structure
+gradle -q build  --> -q for quietly
+
+GRADLE-PROFILE
+gradle build --profile 
+//  creates files in path /build/reports/profile/js/*.html
+
+>> gradle javadocs // generates the documents for us based on our JAVA Code
+
+gradle build --scan 
+>> it gives u a url so u can open in browser and see the builds data 
+
+gradle init --type <INIT_TYPE>
+-----INIT_TYPE : ----
+        java-library
+        java-application
+        groovy-gradle-plugin
+        java-gradle-plugin
+        kotlin-gradle-plugin
+
+// Skipping the Tasks
+taskName.onlyIf { !project.hasProperty('skip_hello') }
+gradle taskName -Pskip_hello
+
+
+// In gradle.properties file
+//  for increasing the verbose
+org.gradle.logging.level = info
+
+
+>> ./gradlew run --args="add 1 2"
+
+*** FOR GRADLE WAR   *** AND TOMCAT-GRADLE Integratin as well
+USE these files 
+.resource-t5\3.gradle\gradle-resources-udemy-masterclass\gradle-java-web-application\sampleWebApp-complete
+
+*** FOR GRADLE MULTI-MODULE PROJECTs  ***
+USE these files 
+.resource-t5\3.gradle\gradle-resources-udemy-masterclass\gradle-java-web-application\gradle-multiProject
+
+*** FOR GRADLE CUSTOM Plugin   ***
+USE these files 
+resource-t5\3.gradle\gradle-resource-linkedin\3_hrs_video_Gradle_Java_Dev\Ex_Files_Gradle_Java_Dev\Exercise Files\05_05\
+resource-t5\3.gradle\gradle-resource-linkedin\3_hrs_video_Gradle_Java_Dev\Ex_Files_Gradle_Java_Dev\Exercise Files\05_05\End\java-project\show-date
+
+****  for settings.gradle in MULTI-MODULE PROJECT
+rootProject.children.each { subproject -> 
+     subproject.buildFileName = "${subproject.name}.gradle" 
+}

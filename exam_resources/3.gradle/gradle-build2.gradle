@@ -1,0 +1,185 @@
+// gradle project properties
+
+my_Proj_name = project.name
+project.description= "This is desc and we can even remove project . at start still it is OK"
+project.version= 1.0
+project.group = com.fresco.com
+
+// Custom properties can be used by EXT keyword
+project.ext.my_property= "Hello this is my custom property"
+
+task Test{
+    println project.name
+    # ** or u can use println project.property('name')
+    println project.description 
+    println project.version
+    println project.path
+    println project.projectDir
+    println project.buildDir
+    println project.group
+    println project.property('my_property')
+}
+
+// Task Object  >> defaultTasks ; dependsOn ; finalizedBy
+project.task(firstProject){
+    doLast({ println "Hello I am using brackets for doLast here"})
+}
+
+project.task(myTask){
+    def abc=123
+    println abc
+    println 'Gradle Rocks!'
+}
+
+task deployToStage{
+    doLast(){
+        println 'Code is Staged!'
+    }
+}
+
+task deployToProd{
+    dependsOn('deployToStage')
+    doLast(){
+        println 'Code is in Prod!'
+    }
+}
+
+task cleanupFiles{
+    doLast(){
+        println 'Code files are cleaned!'
+    }
+}
+
+deployToProd.dependsOn deployToStage
+//  ****      MustRunAfter  / onlyIf   *****
+deployToProd.mustRunAfter deployToStage
+//  finalizedBy --> we can always run a task after another task runs
+deployToProd.finalizedBy cleanupFiles
+defaultTasks "deployToProd"
+
+plugin{
+    id 'war'
+    // The war plugin also will bring in the java plugin tasks
+    id 'org.gretty' version '4.0.0'
+}
+
+gretty.httpPort= 8085
+
+// gradle appRun
+// gradle tomcatRun
+
+**** For Multi Module Project**** 
+In settings.gradle -->>
+        include('web')
+        include('services')
+        include('data')
+        include('integration')
+        include 'web','services','data','integration'
+
+>>  we can execute a specific task of sub-project from parent folder by  
+       gradle :web:taskName
+       gradle :data:taskNameOfData 
+       // for clean and build in same line we do as below
+       gradle :web:clean :web:build
+
+>>  In parent root folder build.gradle
+// For making a task available to all sub-projects
+allprojects({
+    task parentTask({
+        doLast(){
+            println project.name
+
+        }
+    })
+})
+// For making a task available to all sub-projects EXCEPT PARENT Project
+subprojects({
+    task parentTask({
+        doLast(){
+            println project.name
+
+        }
+    })
+})
+/*We can remove the build.gradle for every sub-project 
+and write if it has common thing in Parent folder
+we can even commom properties like group and version also
+*/
+allprojects({
+
+apply plugin : 'war'
+
+group = com.fresco.app
+version = '1.0'
+
+repositories{
+    mavenCentral()
+}
+
+dependencies{
+    implementation "GroupID:ArtifactID:VersionID"
+}
+    task parentTask({
+        doLast(){
+            println project.name
+
+        }
+    })
+})
+
+// for having tasks or dependencies specifically for a sub-project
+
+project(':web'){
+    dependencies{
+        implementation "GroupID:ArtifactID:VersionID"
+        // Suppose u have dependecies in other sub-proj like services have that dependency written it will fetch for u
+        implementation project(':services')
+    }
+    project.task.('onlyWebTask')({
+        doLast(){
+            println "Hello this is only for web sub project"
+        }
+    })
+}
+project(':services'){
+    dependencies{
+        implementation "GroupID:ArtifactID:VersionID"
+        implementation project(':data')
+    }
+}
+project(':data'){
+    dependencies{
+        implementation "GroupID:ArtifactID:VersionID"
+        implementation project(':integration')
+    }
+}
+
+****  IF you want to see the dependencies war or jar the PATH is
+UNZIP_WAR/WEB-INF/libs/.
+
+>> for dependencies listing
+        gradle sub_proj_name:dependencies
+        gradle web:dependencies
+        gradle services:dependencies
+
+// For tests like Jacoco
+    see firstWebApp folder by bharath thippireddy and build.gradle for info
+    for tests we can also have html files for seeing the exact things
+        >> gradle jacocoTestReport
+
+>> for Sonarqube
+        apply plugin: 'org.sonarqube' version '3.0'
+        >> gradle sonarqube
+
+
+>>  MAVEN to Gradle
+Go to root folder where pom.xml is there and type
+    >> gradle init
+    >> if some plugins or dependencies are missed pls check and do necessary
+
+
+**  **  FOR Custom_Plugin
+we can refer firstWebApp->buildSrc -> Custom_Plugin.groovy
+Create folder structure:
+   buildSrc/src/main/java/com/fresco/myPlugin/Custom_Plugin.groovy
+   >> Import Project and Plugin classes for the Custom_Plugin.groovy

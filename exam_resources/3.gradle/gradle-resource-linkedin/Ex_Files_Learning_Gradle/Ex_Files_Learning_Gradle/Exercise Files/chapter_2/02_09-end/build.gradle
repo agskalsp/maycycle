@@ -1,0 +1,17 @@
+apply plugin: 'base'
+
+task tarTextFiles(type: Tar) {
+    from 'src'
+    into 'text'
+    include '*.txt'
+    rename '(.+).txt', '$1.text'
+    compression = Compression.GZIP
+
+    doFirst {
+        println "Creating TAR file"
+    }
+}
+
+task createArchive {
+    dependsOn tarTextFiles
+}

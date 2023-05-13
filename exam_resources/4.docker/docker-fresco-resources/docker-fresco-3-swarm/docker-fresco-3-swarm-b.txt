@@ -1,0 +1,266 @@
+=================================================================================
+
+Initialize the Swarm
+Let us now get acquainted with Docker Swarm commands.
+To initialize swarm,
+
+        docker swarm init ↵
+Note:
+You can configure the manager node to publish its address as a Manager with the mentioned ip address as below.
+
+        docker swarm init --advertise-addr <ip-address>
+
+=================================================================================
+
+Docker Swarm Help
+docker swarm --help ↵
+This command lists the basic Swarm commands with the usage details.
+
+=================================================================================
+
+List the Nodes
+docker node ls ↵
+This command will list the number of nodes currently available in the Swarm.
+You will learn more basic commands going through the upcoming scenario in the playground.
+
+=================================================================================
+
+Deploy a Service with Constraints
+You can add your own constraints while deploying a service. This will ensure that the service will get scheduled as a task only when the constraint is met. This constraint is known as placement.
+Let us consider an example where you add a constraint to deploy a service only on node where there is SSD storage.
+        docker service create --name testService --replicas 2 --constraint node.labels.disk==ssd tomcat
+
+=================================================================================
+
+Service Discovery
+Service Discovery
+Service discovery is a technique that Docker uses to transfer the request that comes from external clients to separate nodes to execute it without exposing any node details.
+For example, if you have an event service which saves data using MySQL service (both services are connected through overlay network). You will have to expose the port details of your event service to the client. MySQL service port details are required to be shared with the event service alone.
+
+=================================================================================
+
+Service Discovery - How it works
+Docker assigns a virtual IP (VIP) to the service by default when you create a service. This IP will be used by clients to reach out to the service.
+Docker has the worker nodes list for every service to route request between nodes.
+Routing Mesh in Docker Swarm enables multi-host networking. This enables containers on various hosts to talk to each other as if they are on the same host.
+This is carried out by creating a Virtual Extensible LAN (VXLAN), which is designed for cloud-based networking.
+
+=================================================================================
+
+Load Balancing
+Load Balancing
+Docker Swarm internally has an ingress load balancer to distribute the traffic to containers that are directly exposed to public.
+You can also configure external load balancer to direct the request to appropriate containers irrespective of whichever host runs the service.
+
+=================================================================================
+
+Swarm - High Availability
+Swarm - High Availability
+The key feature of Swarm mode is High Availability. Lets consider this scenario explained in the image.
+User will still be able to fetch the application from any node in the Swarm, even though the corresponding node/ Manager node is down.
+
+=================================================================================
+
+Network Traffic in Swarm Mode
+A Docker swarm generates two different kinds of traffic
+
+Control and management plane traffic:
+This traffic includes all Swarm management communication like Swarm command to join/leave swarm. This communication is encrypted.
+Application data plane traffic:
+This includes all communication from external clients to container and communication between containers.
+
+=================================================================================
+
+Overlay Networks
+Overlay Networks
+Communications between docker daemons participating in swarm mode happens through overlay network.
+Overlay network for Swarm mode is similar to user defined network bridge network within containers.
+
+=================================================================================
+
+Docker gwbridge Network
+Docker gwbridge Network
+This network is available by default when the Swarm mode is initialized. This bridge network connects hosts ports to container ports that are connected to overlay network.
+
+=================================================================================
+
+Ingress Network
+Ingress Network
+This is also a kind of overlay network which enables load balancing among nodes. This network is available by default when you initialize or join a swarm.
+
+=================================================================================
+
+Swarm Security
+Swarm Security
+Docker has an in built Public Key Infrastructure (PKI) that enables to maintain a secure container orchestration system.
+Communication between nodes happens through Transport Layer Security (TLS) which authenticates, authorize and encrypt communications.
+
+=================================================================================
+
+Certificate Authorities
+When you initialize a swarm, the current node is marked as the manager node and it generates a new root certificate authority (CA) with a key pair. This is used by other nodes to join the swarm.
+You can also add your own externally- generated CA, which is added using the flag --external-ca during swarm initialization.
+
+    Manager node also generates two tokens,
+            worker node token (worker node to join swarm)
+            manager node token (manager node to join swarm)
+
+=================================================================================
+
+External CA
+External CA
+There is a possibility that the whole cluster could be compromised if the root CA gets leaked.
+Docker Swarm mode also uses external CAs. This is used to retain the Swarm Managers' identity.
+Command to include an external CA
+    docker swarm init --external-ca  protocol=cfssl,url=https://ca.example.com
+
+=================================================================================
+
+Update Certificate Expiry
+Every three months, the certificate on every node gets renewed by default. This can be configured as well to update the time interval using Swarm update command.
+docker swarm update --cert-expiry <TIME PERIOD>
+
+For e.g. 
+docker swarm update --cert-expiry 2h 
+Minimum rotation value is 1 hour.
+
+=================================================================================
+
+Rotating the CA certificate
+You can also rotate the swarm root CA, when the cluster CA key is compromised. This is done so that all nodes stop trusting the old CA.
+
+Command to generate a new CA.
+docker swarm ca --rotate
+--ca-cert -->specify the root certificate
+--external-ca -->to use root CA that is external to Swarm
+--ca-key -->specify the exact key
+
+=================================================================================
+
+Secrets
+Secrets
+Secrets are nothing but a set of data that should be kept encrypted without being exposed in the transport network. e.g. password, security token etc.
+This secret can be accessed only by the services/tasks that is permitted explicitly through permission grant access.
+Below are the few that can be stored as Secrets.
+        Passwords
+        SSH Keys
+        Database name/ Server name
+        TLS certificates and keys
+
+=================================================================================
+
+Secrets (Contd...)
+Secrets isolate themselves from the container data.
+Therefore it is easy to run the service in various environment without modifying the secret name wheres the secret data can be updated according to the environment being run.
+Config data can also be added to Secrets.
+
+=================================================================================
+
+Docker Secret - Commands
+Command to create a Secret
+docker secret create SECRET file|-
+e.g.
+docker secret create secret1 tokenfile
+echo "test Secret" | docker secret create secret2 -
+List Secrets
+
+docker secret ls
+Get detailed information on Secret
+docker secret inspect <secret-name>
+docker secret inspect secret1
+
+=================================================================================
+
+Docker Secret - Commands (Contd...)
+Remove one or more secrets
+        docker secret rm <secret-name>
+        docker secret rm secret2
+Create a service with secret
+        docker service create --name <service-name> --secret <secret-name> <image-name>
+        docker service create --name tomcatService --secret secret1 tomcat
+
+=================================================================================
+
+Lock Swarm mode
+Docker Swarm Lock feature was introduced as an add-on for Docker Secrets feature.
+Key used to decrypt and encrypt the data in the Raft logs as well as key used to communicate with other nodes are added to the Swarm manager when you restart Docker.
+Lock Swarm mode feature lets you protect these keys by locking them and this is also called autolock. If needed, you will have to manually unlock them.
+When you lock a Swarm, you will be notified with a key. This key is required to be manually entered whenever a docker Swarm manager restarts to unlock the swarm.
+
+=================================================================================
+
+Lock Swarm Mode - Commands
+Here are the commands for Docker Swarm lock.
+
+You can try these commands in a ubuntu machine with docker installed.
+
+This will not work in the playground, since you do not have root privilege in the playground to restart the service.
+
+To autolock Swarm when initialised.
+
+docker swarm init --autolock  ↵
+You will see a key being generated as below.
+
+To unlock a swarm manager after it restarts, run the `docker swarm unlock`
+command and provide the following key:
+
+    SWMKEY-1-WuYH/IX284+lRcXuoVf38viIDK3HJEKY13MIHX+tTt8
+
+=================================================================================
+
+Lock Swarm Mode - Commands (Contd 1...)
+When you restart the instance, you will have to unlock the swarm with the key generated. Otherwise the services will not start and you will notice an error asking to unlock the swarm.
+
+Command to restart the docker instance.
+
+sudo service docker restart ↵
+Command to view the list of running services.
+
+docker service ls ↵
+You will now notice an error as below.
+
+Error response from daemon: Swarm is encrypted and needs to be unlocked before it can be used. Please use "docker swarm unlock" to unlock it.
+
+=================================================================================
+
+Lock Swarm Mode - Commands (Contd 2...)
+Update autolock feature on an existing swarm
+
+docker swarm update --autolock=true ↵
+docker swarm update --autolock=false ↵
+To unlock a Swarm.
+
+docker swarm unlock ↵
+View the unlock key for the Swarm running currently
+
+docker swarm unlock-key ↵
+
+=================================================================================
+
+Lock Swarm Mode - Commands (Contd 3...)
+Rotate the Swarm unlock key
+
+docker swarm unlock-key --rotate
+Note: If the docker instance goes down before the key is rotated, you may have to unlock the Swarm with the old key. Do keep a note of both the keys (old and new) for few minutes.
+
+=================================================================================
+
+Hands-On Problem statement
+Welcome to the Docker challenge, your task is to follow the below steps and complete them successfully.
+Step - 1 Initialise Docker Swarm
+Step - 2 Create a Docker Service with the following details:
+image: nginx:1.18 name: http Replicas: 2 port: 80 update-delay: 10s
+Step - 3 Update the above Service with a newer image nginx:1.19
+Step - 4 Scale the above Service to 4 replicas
+Step - 5 Create a Docker overlay network with name app-network
+Step - 6 Update http service and add it to app-network network
+Step - 7 Create a secret with name redis_password and content frescoPass@123
+Step - 8
+Create another Docker Service with the following details:
+image: redis:alpine name: redis secret: redis_password mode: global
+Step - 9 Update the Leader node and add a label color=red
+Step - 10 Create a docker service with tomcat image with name tomcat-red-only. Add a constraint that the service will be deployed on node with label color=red
+Step - 11 Finally, bring the node into maintenance mode (Hint: update availability as drain)
+Note: Run tests.sh using the command sh test.sh to check your setup against some test cases. Please note that there are some hidden testcases that run when the submission happens
+
+=================================================================================

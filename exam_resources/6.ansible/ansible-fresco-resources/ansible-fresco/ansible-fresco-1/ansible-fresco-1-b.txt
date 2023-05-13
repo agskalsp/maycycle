@@ -1,0 +1,319 @@
+============================================================================
+
+Modules
+Modules
+Modules are blocks of Python code that gets executed on remote hosts when you run each task in Playbook.
+
+Each module is built for a particular task and you can use arguments to change the behavior of module.
+
+============================================================================
+
+Things You Should Know About Modules
+Also referred as task plugins or library plugins
+
+Default location for Ansible modules is /usr/share/ansible
+
+Take arguments in key=value format (state=stopped)
+Returns data in JSON format
+Modules should be idempotent, meaning they should not do any changes if current state of system matches with the desired final state
+To access list of all installed modules using command line: ansible-doc -l
+To see the documentation of particular module using command line: ansible-doc yum where yum is the module name
+You can run modules from the command line or include them in Playbook.
+Ansible allows you to write your own module (this you will learn later in advanced courses of Ansible).
+Let us now go through some standard modules: apt, yum, shell, command, and template.
+
+============================================================================
+
+APT Module
+APT (Advanced Package Tool) is a command-line tool used to easily manage (install, remove, search, etc.) packages on Ubuntu/Debian based Linux systems.
+
+Debian Based OS: Ubuntu, Kali Linux, SteamOS and much more.
+$ ansible host01 -i myhosts -m apt -a "name=sudo state=latest"
+
+#This is how you write in Playbook
+
+- name: Upgrade sudo to the latest version
+  apt:
+    name: sudo
+    state: latest
+
+============================================================================
+
+YUM Module
+YUM (Yellowdog Updater Modified) is a command-line tool used to easily manage (install, remove, search, etc.) packages on RPM (Red Hat Package Manager) based Linux systems.
+
+Red Hat Based OS: Fedora, Qubes OS, CentOS and much more.
+
+
+#This is how you write in Playbook
+
+- name: upgrade all packages
+  yum:
+    name: sudo
+    state: latest
+
+============================================================================
+
+shell Module
+In shell module, the command name is followed by arguments, which runs on remote hosts through a shell(/bin/sh).
+You can use various operations(|,<,> etc) and environment variable(#HOME).
+ansible host01 -i myhosts -m shell -a "echo $TERM": This displays the terminal name of host machine
+
+
+#This is how you write in Playbook
+- name: Execute the command in remote shell
+  shell: echo $TERM
+
+============================================================================
+
+command Module
+In command module, the command name is followed by arguments, which does not run on remote hosts through a shell(/bin/sh).
+You cannot use various operations(|,<,> etc) and environment variable(#HOME).
+Make a directory in remote host: ansible host01 -i myhosts -m command -a "mkdir folder1"
+Check files or folders in remote host: ansible host01 -i myhosts -m command -a "ls"
+Now to check files or folders in your terminal use ls and observe the output. As you can see, using command, you can execute tasks on remote host.
+
+============================================================================
+
+command Everytime
+Most of the Ansible modules are idempotent.
+
+But command module does not exhibit this property as this runs every time you run playbook. Hence you will always find the changed status on running the same Playbook again and again.
+Consider you wrote a task to copy a file to remote hosts using command module.
+Ansible command module will copy the same file the number of times you run the Playbook.
+Had this been idempotent; Ansible will not copy from the second time, as the file is already present (current state = desired state).
+
+============================================================================
+
+command can be Idempotent
+To overcome this, you can use creates or remove parameter, where you define the filename/pattern.
+creates: if filename exists, task will not run
+remove: if filename does not exist, task will not run
+#This is how you write in Playbook
+
+- name: copy a file, but do not copy if the file already exists
+  command: cp /home/dist/file1.txt /usr/someFolder/ creates=file1.txt
+
+============================================================================
+
+template Module
+template Module
+Ansible template is a file having a defined structure with some variables and expressions, which can be replaced with the corresponding values to generate new configuration file.
+
+Template files are written in Jinja2 language (.j2) (Read on to know more about Jinja2)
+Generally, in Ansible, these files are copied to remote hosts in JSON or YAML format
+There are basically two files involved to define templates in Ansible:
+playbook(YAML file): here you substitute variables in template file with values
+template(Jinja2 file): here you define the template file in Jinja2 format
+Let us take the example of the human body as a template. Depending on the various elements (footwear, dress, hair) you could name the template as a man or a woman.
+
+============================================================================
+
+file: sample-playbook.yml
+This is where your template and variables are merged.
+
+Let us consider another example of Payslip as a template, where a structure of payslip is pre-defined. Depending on the values being passed new payslip is generated for each name.
+
+#This is how you write in Playbook
+- hosts: all
+  vars:
+    quarter: false,
+    salary : 30000,
+    extra : 10000,
+    names: ["John","David"]
+  tasks:
+    - name: Ansible Template
+      template:
+        src: ../templates/sample-template.j2
+        dest: /home/sample-template        
+src: defines path where your template file is kept.
+dest: path where you want to copy your file (mostly JSON or YAML formatted file).
+
+============================================================================
+
+file: sample-template.j2
+This is where you define your template.
+
+{% for name in names %}
+Hi {{name}}!
+{% if quarter -%}
+    Your pay cheque for this month is {{ salary + extra }}.
+{% else -%}
+    Your pay cheque for this month is {{ salary }}.
+{%- endif %}
+{% endfor %}
+variable names are given within double curly braces {{ }}
+
+============================================================================
+
+Hands-on Template
+You can test your Jinja2 templates online with the steps as explained.
+
+Copy sample-template.j2 file and paste in Template box
+Copy variables from sample-playbook.yml and paste in Values box
+Click on Convert
+
+============================================================================
+
+Install Vagrant
+Download and install Vagrant
+
+Identify the OS you want to install in your virtual system. Accordingly, you need to find the Vagrant Box (let us consider Ubuntu on both our control and host machines).
+Create a folder on your local machine, to keep your Vagrant Boxes.
+Now, open your terminal and move to the path where you created your folder for Vagrant boxes. Then run the following commands:
+
+$ vagrant init ubuntu/trusty64: Initialises vagrant file inside the folder
+$ vagrant up --provider VirtualBox: will download necessary files of your virtual machine
+$ vagrant ssh: will make secure connection with virtual machine
+
+============================================================================
+
+Install Ansible
+Once you are done with Virtual Box and Vagrant setup, you only need to run one last command in your terminal to install Ansible on the control machine.
+
+On Ubuntu/Debian/Linux Mint
+$ sudo apt-get install ansible
+On RHEL/CentOS/Fedora
+$ sudo yum install epel-release
+$ sudo yum install ansible
+To verify if Ansible is successfully installed or not: ansible --version
+
+You can follow Ansible Official Docs for detailed instructions.
+
+============================================================================
+
+Step By Step of PLAYBOOK
+Open any environment
+
+Enter commands given in Step 2 of 6. This makes an SSH connection to your host.
+Open Playbook using the vi editor (eg: vi demo.yml).
+Write your playbook (given in next card).
+
+Press Escape key on your keyboard.
+Save and close editor using :wq(w: write, q: quit).
+Run your playbook: $ ansible-playbook -i myhosts demo.yml.
+
+============================================================================
+
+Sample Playbook 1 - "demo.yml"
+---
+- name: this play displays "hello world"
+  hosts: all
+  tasks:
+    - name: displaying "hello world"
+      shell: echo "hello world"
+    - name: displaying wishes for the day
+      shell: echo "have a good day"
+
+============================================================================
+
+Playbook Step 1 - Name and Hosts
+---
+- name: this play displays "hello world"
+  hosts: all
+A Playbook always starts with three dashes ---.
+name tells the name of the play.
+hosts tell the list of hosts on which this play will be played.
+
+============================================================================
+
+Playbook Step 2 - Tasks
+tasks:
+    - name: displaying "hello world"
+      shell: echo "hello world"
+    - name: displaying wishes for the day
+      shell: echo "have a good day"
+name is optional but is always recommended as it improves readability
+
+shell: echo "hello world" is a single task. This executes shell module and calls its echo argument to display the message written
+
+============================================================================
+
+Playbook Step 3 - Run Your Playbook
+Type ansible-playbook -i myhosts demo.yml from the terminal to run your Playbook.
+
+ansible-playbook is the command to execute your Playbook
+
+-i myhosts tell the inventory name is myhosts
+
+demo.yml is the playbook that needs to be executed
+
+============================================================================
+
+Output Of "demo.yml"
+This is how your Playbook would run
+
+PLAY [this play displays "hello world"] ***************************************
+GATHERING FACTS ***************************************************************
+ok: [host01]
+TASK: [displaying "hello world"] **********************************************
+changed: [host01]
+TASK: [displaying wishes for the day] *****************************************
+changed: [host01]
+PLAY RECAP ********************************************************************
+host01                     : ok=3    changed=2    unreachable=0    failed=0
+
+============================================================================
+
+Sample Playbook 2 - Install Apache
+Let us now take another example to install apache in your hosts.
+
+This is how your Playbook would look:
+
+---
+- name: install apache
+  hosts: all
+  sudo: yes
+  tasks:
+    - name: install apache2
+      apt: name=apache2 update_cache=yes state=latest
+Save and run this playbook as apache.yml in Katacoda and check the output.
+
+Please note that for installing in RHEL/CentOS/Fedora,yum module is used instead of apt.
+
+============================================================================
+
+Restructuring Playbook
+You can define the same playbook as:
+
+---
+- name: install apache
+  hosts: all
+  sudo: yes
+  tasks:
+    - name: install apache2
+      apt: 
+        name: apache2 
+        update_cache: yes 
+        state: latest
+observe colon : is used while structuring arguments vertically, whereas equal to sign = is used while structuring arguments horizontally
+Both ways of structuring your playbook is fine.
+
+This vertical structuring of arguments is not a list, as list starts with dash sign -.
+Here name, update_cache and state are arguments of module apt, hence they do not start with -.
+
+============================================================================
+
+Handlers
+Handlers are special tasks that run only on certain triggers like notify keyword.
+
+Handlers run mostly at the end of the play.
+
+Handlers run only once even if you run the playbook multiple times.
+
+This is how a handler would look:
+
+---
+- name: install apache
+  ...................
+  tasks:
+    - name: install apache2
+      .....................
+    notify:
+    - start Apache
+      ............
+  handlers:
+    - name: start Apache
+      ..........
+
+============================================================================

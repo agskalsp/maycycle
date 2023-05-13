@@ -1,0 +1,243 @@
+============================================================================
+
+Foundation of YAML
+Foundation of YAML
+YAML files should end as .yaml or .yml
+
+Begins with --- and ends with …
+
+# defines comment
+
+============================================================================
+
+YAML is Case and Indentation Sensitive
+Members of a list should be at the same indentation level starting with a dash(-) and space.
+
+Each item in the list is a key: value pair (colon must be followed by a space), called as dictionary.
+
+At each level, exactly two spaces are used for indentation. Using tabs is not recommended here.
+
+============================================================================
+
+Boolean Values
+Variables can be defined in YAML files as shown:
+
+stream: Java
+allocated: true
+
+Variables can be assigned boolean values in different ways as shown:
+
+allocated: yes
+allocated: no
+allocated: True
+allocated: TRUE
+allocated: false
+
+============================================================================
+
+Data Structures
+Complicated data structures are possible in YAML.
+
+You can define lists having dictionaries, dictionaries having lists or a mix of both.
+In the following example,
+name and job are dictionaries. Skill is a list of dictionaries.
+David and Amy are lists having dictionaries
+# Employee records
+-  David:
+    name: David Moore
+    job: Developer
+    skills:
+      - python
+      - sql
+      - java
+
+-  Amy:
+    name: Amy Brown
+    job: Developer
+    skills:
+      - angular
+      - redux
+      - react
+
+============================================================================
+
+How Ansible Works?
+How Ansible Works?
+As already discussed, Ansible is a configuration management tool, based on push-based architecture to automate configuration of your hosts to achieve a desired state.
+Following are the components of Ansible architecture
+Inventory - Defines the list of target hosts
+Playbook (YAML file) - Defines list of tasks
+Module - A python code invoked from tasks and executed on hosts
+Control Machine - Takes playbook and executes each task on particular group of hosts
+
+============================================================================
+
+Playbook
+Playbook
+A Playbook is a file that defines the desired state of your system.
+It contains plays, which has a list of tasks to run in sequence against a list of hosts.
+A play is set of tasks, grouped together to achieve an objective
+A task is an instruction you give to Ansible.
+They are written in YAML format, a data serialization language, that we discussed in previous cards.
+
+============================================================================
+
+Inventory
+Inventory
+So Ansible captured the desired state through Playbook, but how would ansible know which machines it should configure through Inventory?
+
+The Inventory file in Ansible contains the list of all hosts (target systems/servers) that need to be configured. You can also group hosts under different names as shown:
+
+[group A]
+Host 1
+[group B]
+Host 2
+Host N
+
+============================================================================
+
+More on Inventory
+More on Inventory
+Default location of Inventory File: /etc/ansible/hosts
+
+You can define an Inventory file statically (.ini file) or dynamically (.json file) to Ansible.
+
+
+============================================================================
+
+Modules Perform the Action
+Modules Perform the Action
+Modules are a piece of code that gets executed when you run playbook. You use them to describe the state you want the host to be in.
+
+Each task in play is made of module and arguments.
+
+============================================================================
+
+Ad-Hoc Keywords
+Before hopping into Ad-Hoc commands, let us first learn Ansible keywords:
+
+ansible: This is a tool that allows you to run a single task at a time.
+$ ansible <host-pattern> [-m module_name] [-a args] [options]
+
+ansible-playbook: This is the tool used to run ansible playbook
+$ ansible-playbook <filename.yml> ... [options]
+
+============================================================================
+
+Ad-Hoc Keywords
+ansible-console: This is a REPL using which you can run ad-hoc commands on chosen inventories.
+$ ansible-console <host-pattern> [-m module_name] [-a args] [options]
+
+ansible-pull: This inverts the default push architecture of Ansible into a pull architecture, which has near-limitless scaling potential.
+ansible-pull -U URL [options] [ <filename.yml> ]
+
+ansible-doc: Displays data on modules installed in Ansible libraries.
+$ ansible-doc [-M module_path] [-l] [-s] [module...]
+
+============================================================================
+
+Ad-Hoc Keywords
+ansible-vault: Using this you can encrypt any structured data file used by Ansible.
+$ ansible-vault [create|decrypt|edit|encrypt|rekey] [--help] [options] file_name
+
+ansible-galaxy: This is a shared repository for Ansible roles. This ansible-galaxy command can be utilized to manage these roles, or to create a skeleton framework for the roles to be uploaded to Galaxy.
+$ ansible-galaxy [delete|import|info|init|install|list|login|remove|search|setup] [--help] [options]
+
+============================================================================
+
+Short Hands in Ansible
+-a: This tells the arguments to pass to the module
+
+-m: Execute the module
+
+-b: Use privilege escalation (become)
+
+-i: The path to the inventory, which defaults to /etc/ansible/hosts
+
+--version: Show program version number
+
+--help: Shows help message
+
+============================================================================
+
+Running Your First Ad-hoc Command
+An ad-hoc command is a single statement to complete a particular task. For example: consider you want to check if you could connect to your hosts.
+
+Enter the following command:
+
+ansible group1 -i myhosts -m ping
+
+The above statement is a single task to ping target host and return pong if the connection is successful.
+
+ansible is a keyword you need to write before running any ad-hoc command
+
+group1 is the group name of the list of hosts
+
+-m means module, this is followed by the module name ping, which will be executed to achieve the task
+
+To know more about each module you can try: ansible-doc ping.
+
+============================================================================
+
+Copy a File to the Servers
+You can use copy module to copy a file from your control machine to host as shown:
+
+$ touch test.txt
+
+This will create a sample file which could be used to copy
+$ ansible host01 -i myhosts -m copy -a "src=test.txt dest=/tmp/"
+
+copy the file test.txt from your control machine (where ansible is installed) to all the hosts defined in myhosts inventory group
+-a means arguments of that module (here copy module)
+src is attribute of copy module that defines the source path of file or directory on control machine
+Similarly, to fetch a file from Host to your Control Machine, you can use fetch module. You may use ansible-doc fetch to know about it.
+
+============================================================================
+
+Encrypting Your File
+As you just created a test.txt file, let us now encrypt the same using ansible-vault keyword.
+
+$ ansible-vault encrypt test.txt: encrypts the file.
+This asks for a password to be set. Give a password and confirm it.
+
+ansible-vault edit test.txt: to edit the file and add some content.
+This opens vi editor. Type some text, then save it(:wq)
+
+cat test.txt: to view the content inside.
+Observe the output carefully
+
+ansible-vault decrypt test.txt: to decrypt the file, use the password set during encryption
+
+cat test.txt: now observe the output
+
+============================================================================
+
+Create Directories and Files
+You can use file module to create files and directories, manage their permissions and ownership as shown:
+
+ansible host01 -i myhosts -m file -a "dest=/tmp/test mode=644 state=directory"
+
+This will create directory /tmp/test on all the host01 of myhosts group
+
+mode defines permission of file/directory
+
+state can take value: file, directory, link, absent, etc
+
+You can set the state to absent to delete a file or directory to delete it:
+
+$ ansible host01 -i myhosts -m file -a "dest=/tmp/test state=absent"
+
+============================================================================
+
+Automating with Ansible
+Till now you were executing each task (using Ad-hoc command) to create a folder, copy a file, encrypt or decrypt a file, etc.
+
+What if you need to execute, say, **500 tasks** to configure a server?
+
+Do not worry, as Ansible got you.
+
+You just need to define a Playbook that Ansible can play with, and have a popcorn watching Ansible in action.
+
+Read on to find out what Playbook is.
+
+============================================================================

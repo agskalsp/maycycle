@@ -1,0 +1,23 @@
+1. Maven Multi Module Project- This scenario is based on 3 maven modules named business, data and service.
+Note: Do not make any changes to the pre-existing structure of all the pom.xml files. 
+There are some pre-defined java files in all the 3 modules and ensure that they are error-free by configuring respective pom.xml files as stated below
+- Configure the pom.xml file present in root directory such that it should be the parent pom of all the listed 3 modules
+- Configure the pom.xml file present in data folder such that it depends on business module and parent as root pom
+- Configure the pom.xml file present in business folder such that it depends on service module and parent as root pom
+- Configure the pom.xml file present in service folder such that it's parent is root pom
+- Finally click on Run tests to know your result
+
+
+
+*******************************************************************************
+** IMP **>>/----  for MULTI-Module builds in maven
+Refer : resource-t5\2.maven\mvn-resources-LinkedIn\Detailedly-explained-guy\Chapter 1\01_07\01_07_begin
+     and also mydemo : >> resource-t5\2.maven\mvn-resources\my-multi-module-demo 
+    >> here if we have dependencies in between child you need to add it in the <dependency> tag
+    >> For a Project we can have only one "POM" as packaging remaining will be based on project
+    >> And even <modules> are to be added in only parent and not for subparents
+compare childs and parents POM and figure out for urself
+    >> Child POM's need not have GROUP_ID and VERSION, they inherit from PARENT 
+And "Reactor" is used for managing MULTI-Module Projects in the background
+
+*******************************************************************************

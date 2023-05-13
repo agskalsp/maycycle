@@ -1,0 +1,82 @@
+- name: install nginx
+  apt: 
+    pkg: nginx 
+    state: latest
+    update_cache: yes
+######
+There is handler file for nginx in fresco_role
+
+- name: install nginx
+  apt: 
+    pkg: nginx 
+    state: latest
+    update_cache: yes
+    notify:
+       -  start_nginx_handler
+ 
+*****   start_nginx_handler  **** should be the name of the nginx handler 
+**** Notify tells to execute handler only when the state of the task is changed :)  ****
+
+#####
+- name: start nginx
+  service:
+    name: nginx
+    state: started
+
+- name: template code
+  template:
+    src: sites-enabled.j2
+    dest: /etc/nginx/sites-enabled/default
+
+- name: start nginx
+  shell: sudo service nginx start
+
+
+================= sites-enabled.j2  ===========================
+==============================================================
+limit_req_zone $binary_remote_addr zone=mylimit:10m rate={{ request_per_min }}r/m;
+
+server {
+  listen   {{ port }};
+  server_name  {{ os }};
+
+  access_log  {{ access_log }};
+
+    root   /var/www/html;
+    index  index.html index.htm;
+
+location / {
+		limit_req zone=mylimit burst={{ buffer_request }};
+     proxy_pass {{ url }};
+}
+
+
+}
+
+
+
+<html>
+<body>
+
+<h1>Ansible Demo</h1>
+<p>{{MyMessage}}</p>
+
+</body>
+</html>
+
+
+- hosts: mywebservers
+  gather_facts: False
+
+  vars:
+   - MyMessage: "Welcome to Ansible world!"
+
+  pre_tasks:
+  - name: install python 2
+    raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+
+  tasks:
+   - name: Nginx setup
+     apt: pkg=nginx state=installed update_cache=true
+   - name: index.html copy
+     template: src=index.html.j2 dest=/usr/share/nginx/html/index.html

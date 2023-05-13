@@ -1,0 +1,115 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>SampleWebApp</groupId>
+	<artifactId>SampleWebApp</artifactId>
+	<packaging>war</packaging>
+  <version>0.0.1-SNAPSHOT</version>
+	<name>SampleWebApp</name>
+	<url>http://maven.apache.org</url>
+	<!--Add your dependencies here-->
+      <dependencies>
+          <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+          </dependency>
+          <dependency>
+              <groupId>org.apache.tomcat.maven</groupId>
+              <artifactId>tomcat7-maven-plugin</artifactId>
+              <version>2.2</version>
+          </dependency>
+  </dependencies>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-war-plugin</artifactId>
+            <version>2.6</version>
+            <configuration>
+                <failOnMissingWebXml>false</failOnMissingWebXml>
+            </configuration>
+          </plugin>
+        
+
+        <plugin>
+            <groupId>org.apache.tomcat.maven</groupId>
+            <artifactId>tomcat7-maven-plugin</artifactId>
+            <version>2.2</version>
+            <configuration>
+                <warName>SampleWebApp.war</warName>
+                <port>${maven.tomcat.port}</port>
+                <systemPropertyVariables>
+                    <integration-test.url>http://localhost:${tomcat.http.port}/${project.build.finalName}/</integration-test.url>
+                </systemPropertyVariables>
+            </configuration>
+        </plugin>
+        </plugins>
+     <finalName>${project.artifactId}</finalName>
+    </build>
+    
+    <properties>
+            <maven.tomcat.port>8000</maven.tomcat.port>
+    </properties>
+</project>
+
+
+
+
+
+
+
+
+
+worked code
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>SampleWebApp</groupId>
+	<artifactId>SampleWebApp</artifactId>
+	<packaging>war</packaging>
+  <version>0.0.1-SNAPSHOT</version>
+	<name>SampleWebApp</name>
+	<url>http://maven.apache.org</url>
+	<!--Add your dependencies here-->
+      <dependencies>
+          <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+          </dependency>
+          <dependency>
+              <groupId>org.apache.tomcat.maven</groupId>
+              <artifactId>tomcat7-maven-plugin</artifactId>
+              <version>2.2</version>
+          </dependency>
+  </dependencies>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-war-plugin</artifactId>
+            <version>2.6</version>
+            <configuration>
+                <failOnMissingWebXml>false</failOnMissingWebXml>
+            </configuration>
+          </plugin>
+        
+
+        <plugin>
+            <groupId>org.apache.tomcat.maven</groupId>
+            <artifactId>tomcat7-maven-plugin</artifactId>
+            <version>2.2</version>
+            <configuration>
+                <port>8000</port>
+                <systemPropertyVariables>
+                    <integration-test.url>http://localhost:8000/${project.build.finalName}/</integration-test.url>
+                </systemPropertyVariables>
+            </configuration>
+        </plugin>
+        </plugins>
+     <finalName>${project.artifactId}</finalName>
+    </build>
+</project>

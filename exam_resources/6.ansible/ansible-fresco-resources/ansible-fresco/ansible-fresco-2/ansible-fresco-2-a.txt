@@ -1,0 +1,310 @@
+==========================================================================
+Useful Commands
+====================
+pwd: present working directory
+ls: list contents in present directory
+cd ..: move one folder up
+mkdir: create directory
+rm -rf dir_name: remove non-empty directory forcefully
+rm file_name: remove file/directory
+vi file_name: edit/create a file. Press i for insert mode, Esc to come out of insert mode, :wq to save the file and exit from vi editor, :q! to exit from vi editor without saving the file.
+
+============================================================================
+
+Variables In Ansible
+In Ansible, you can define a variable with alphabets, numbers and underscore.
+
+example: foo, foo_bar, foo5
+
+Now let us explore:
+
+Playbook Variables
+Inventory Variables
+Complex Variables
+Fact Variables
+Built-in Variables (explained later)
+Registered Variables (explained later)
+
+============================================================================
+
+Variables In Playbook
+Variables may be included inline with the rest of a playbook, using vars:
+
+---
+- hosts: all
+  vars:
+    var: 20
+  tasks:    
+    - debug: msg="Variable 'var' is set to {{ var }}"
+
+============================================================================
+
+Variables In Playbook
+Variables may also be included in a separate file, using the vars_files section
+
+file: playbook.yml
+
+---
+- hosts: all
+  vars_files:
+    - vars.yml
+  tasks:
+    - debug: msg="Variable 'var' is set to {{ var }}"
+file: vars.yml
+---
+var: 20
+You can create the above two files and run it: ansible-playbook -i myhosts playbook.yml
+
+============================================================================
+
+Variables In Inventory
+You can add variables in your inventory files as:
+
+Host Variables - Variables are defined inline for individual host
+
+Group Variables - Variables are applied to entire group of hosts
+
+#host variables
+[group1]
+host1 http_port=80 
+host2 http_port=303
+#group variables
+[group1:vars]
+ntp_server= example.com
+proxy=proxy.example.com
+
+============================================================================
+
+Organizing Host And Group Variables
+What will you do when you need to define multiple variables to multiple hosts? Writing everything inside your inventory file might be cumbersome.
+
+Ansible recommends you to store host and group variables as individual files under /etc/ansible/host_vars/ and /etc/ansible/group_vars/ locations respectively.
+
+These variable files are in YAML format with valid file extensions: .yml, .yaml, .json or no file extension
+/etc/ansible/host_vars/host1.example.com
+/etc/ansible/group_vars/group1.yml
+/etc/ansible/group_vars/webservers
+
+============================================================================
+
+Defining Complex Variables
+You can define variables as structured arrays (lists), which you can access as foo[0] as shown:
+
+---
+- name: list variables
+  hosts: all
+  vars:
+    foo:
+      - one
+      - two
+      - three
+  tasks:
+    - name: variable index 1
+      debug: msg="{{ foo[0] }}"
+    - name: variable index 3
+      debug: msg="{{ foo[2] }}"
+
+============================================================================
+
+Accessing Complex Variables
+For larger variables, you can easily access part of a variable by using bracket [] or dot . syntax.
+
+For example:
+
+consider you want to retrieve only IPv4 address of the server. But you might first prefer to take a look at the structure of the entire built-in variable (ansible_eth0) as shown:
+
+Go ahead and try this playbook
+
+---
+- name: complex variables
+  hosts: all
+  tasks:
+    - debug: var=ansible_eth0
+    - debug: msg="{{ ansible_eth0.ipv4.address }}"
+    - debug: msg="{{ ansible_eth0['ipv4']['address'] }}"
+First task will show how the variable ansible_eth0 is structured
+
+Second and third tasks displays only the required info
+
+============================================================================
+
+Facts
+You might have observed this output while running the playbook.
+
+GATHERING FACTS *************************
+ok: [host01]
+Whenever you run Playbook, Ansible by default collects information (facts) about each host like host IP address, CPU type, disk space, operating system information etc.
+
+You can run the following to find the information about host01:
+
+ansible host01 -i myhosts -m setup
+
+============================================================================
+
+Gathering Facts Takes Time
+In case you do not need facts of hosts, you can skip the task by setting gather_facts: no in your playbook.
+
+This can save time especially when you are running your Playbook in dozens or hundreds of servers.
+
+Run the following and observe if the task (Gathering Facts) runs or not:
+
+---
+- name: testing gather_facts
+  hosts: all
+  gather_facts: no
+  tasks:
+    - action: ping
+
+============================================================================
+
+Built-In Variables
+In Ansible you get some variables by default, even if you do not define them, that helps you to access information about other hosts. Thus you should not define these variables explicitly, as they are reserved.
+
+Let us explore a few of them:
+
+hostvars
+groups
+inventory_hostname
+
+============================================================================
+
+Hostvars
+Occasionally you might be running a task that needs the value of the variable defined in other hosts. By default, variables in Ansible are scoped by hosts.
+
+Ansible provides you with hostvars variable that has all the variables and facts (facts are gathered only if you have talked to the host at least once in any play of your playbook) of all the hosts.
+
+For Example:
+
+Consider you need to run a task in host1 that need IP address of the eth1 interface of the host2
+
+{{ hostvars['host2'].ansible_eth1.ipv4.address }}
+
+============================================================================
+
+Scope Of Host Variables
+Wondering the scope of variables defined in group of servers??
+
+#host variables
+[group1]
+host1 http_port=80 
+host2 http_port=303
+host3
+#group variables
+[group1:vars]
+ntp_server= example.com
+proxy=proxy.example.com
+Variables defined in group variables are actually copied to individual hosts of that group, thus making their scope limited to only the host.
+
+============================================================================
+
+Groups
+You can find the list of group names defined in your inventory file using groups variable.
+
+For Example: Consider you need the IP address of all the servers in you web group
+
+{% for host in groups.web %}
+  server {{ host.inventory_hostname }} {{ host.ansible_default_ipv4.address }}:8080
+{% endfor %}
+
+The generated file might look like this:
+
+server chennai.fresco.me 192.0.115.17:8080
+server california.fresco.me 192.0.115.78:8080
+server singapore.fresco.me 193.0.115.68:8080
+
+
+============================================================================
+
+Inventory_hostname
+You can find the name of the current host using inventory_hostname.
+
+#inventory file
+[group1]
+server1 ansible_ssh_host=192.169.67.34
+inventory_hostname would be server1 instead of 192.169.67.34
+
+============================================================================
+
+Registered Variable
+Ansible allows you to save the output of a task in a variable at run time, through register keyword.
+
+Syntax: register: variable_name
+
+*Let us now see how the return value of command module looks like. Go ahead and run the following playbook
+
+file: test.yml
+
+---
+- name: show return value of command module
+  hosts: all
+  tasks:
+    - name: creating folder
+      command: mkdir folder7
+      register: output
+    - debug: var=output
+Run your playbook: ansible-playbook -i myhosts test.yml and observe the output carefully
+
+You might observe the output of running a task is returned in JSON format
+
+============================================================================
+
+Registered Variable
+This playbook will check the contents of the home directory of your host machine (host01) and display a message accordingly
+
+Go ahead and run this in Katacoda
+
+
+---
+
+- name: check registered variable for emptiness
+  hosts: all
+  tasks:
+    - name: list contents of the directory in the host 
+      command: ls /home/ubuntu
+      register: contents
+
+    - name: check dir is empty
+      debug: msg="Directory is empty"
+      when: contents.stdout == ""
+
+    - name: check dir has contents
+      debug: msg="Directory is not empty"
+      when: contents.stdout != ""
+
+register variable stores the output, after executing command module, in contents variable
+stdout is used to access string content of register variable
+
+============================================================================
+
+Variable Precedence
+If you define the same variable in multiple places, it will be overwritten in a certain order as shown:
+variable you define in Command Line Interface while executing Playbook (Highest Priority)
+variables that you define inside play of Playbook
+facts that you discover about other hosts
+variables defined under the [defaults] category of Roles* (least priority)
+Command Line > Playbook > Facts > Roles
+You can find the complete details here
+*Hold On!! Roles will be discussed in upcoming sections
+
+============================================================================
+
+Workout - - Variable Precedence
+Fact: The default value of fact variable ansible_bios_version is Bochs
+ansible host01 -i myhosts -m setup
+
+Play: Write Playbook defining the fact variable ansible_bios_version as fresco
+
+#file: test.yml
+---
+- hosts: all
+  vars:
+    ansible_bios_version: Fresco
+  tasks:        
+    - debug: msg="Variable 'ansible_bios_version' is set to {{ ansible_bios_version }}"
+Now run this playbook and notice the value of ansible_bios_version.
+
+ansible-playbook -i myhosts test.yml
+
+CLI: While running the playbook in Command Line redefine the variable - ansible-playbook -i myhosts test.yml --extra-vars "ansible_bios_version=Ansible"
+
+============================================================================

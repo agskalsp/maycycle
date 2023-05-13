@@ -1,0 +1,370 @@
+==================================================================
+
+Create WAR Project
+Create WAR Project
+It will create the collection of war plugins and package all to the classes, artifacts, dependencies and resources of the web application.
+
+Let us try creating war file using maven, using our traditional approach,
+
+First create templates like we created for jar file.Type mvn archetype:generate
+
+Choose a number or apply filter (format: [groupID:}artifactId, case sensitive contains):choose the type of war, here we are choosing. maven-archetype-quickstart
+
+Choose a number or apply filter (format: [groupId:]artifactId, case sensitive contains): choose the archetype. org.apache.maven.archetypes:maven-archetype-quickstart version.
+
+Choose org.apache.maven.archetypes:maven-archetype-quickstart version: choose the latest version, 9.
+
+Define value for property 'groupId': give a unique group id, say, com.fresco.play
+
+Define value for property 'artifactId': give first-war-project
+
+Define value for property 'version' 1.0-SNAPSHOT: give 1.0-SNAPSHOT
+
+Define value for property 'package' com.fresco.play: provide the suggested name i.e., com.fresco.play
+
+Confirm by selection Y: Y
+
+The build is successful with BUILD SUCCESS message. It is time to create your own first maven project.
+
+=================================================================
+
+Verify and Compile WAR Project
+first-war-project will be created with pom.xml file and src folder.
+
+Open pom.xml file and verify that packaging value is changed to war.
+
+In src >main > web app path is create.
+
+Change the folder path by entering cd my-war-project.
+
+To compile type mvn compile.
+
+==================================================================
+
+Create WAR File
+We can create and use war file in a different way.
+
+Using war type in the project package.
+
+Using war:war goal.
+
+Using war type in the project package.
+
+First, we need to compile the project, type mvn compile.
+
+Enter mvn clean package.
+
+It will generate the war file in the target folder.
+
+Using war:war goal to create war file.
+
+Enter mvn compile war:war . It will compile and generate war file together.
+
+It will create generate war in the target folder target/second-war-project.war
+
+===================================================================
+
+Single Command to Create WAR Project
+Create War file by passing all the dependencies value together.
+
+Enter mvn archetype:generate -DgroupId=com.fresco.play -DartifactId=First-WebApp -DarchetypeArtifactId=maven-archetype-webapp -DinteractiveMode=false in terminal.
+
+It will generate war file.
+
+Verify the war file:
+
+It should have pom.xml and src file.
+
+src file should have main file with resources and webapp.
+
+Create the war file:
+
+Change directory with cd First-WebApp
+
+Try yourself using war:war goal method and package method.
+
+=====================================================================
+
+Creating EAR Project
+Creating EAR Project
+Try creating EAR file yourself with the following hints-
+
+Enter archetype:generate command.
+
+To filter ear type files enter ear.
+
+Select the type of ear file you want.
+
+Enter the latest version of EAR.
+
+Enter groupId as fresco.play.com.
+
+-Type artifactId as first-ear-project.
+
+Enter version: : 1.0-SNAPSHOT.
+
+Enter package as com.fresco.play.
+
+Confirm project by selecting Y.
+
+==========================================================================
+
+Verify and Create EAR file
+Verify the EAR project.
+
+pom.xml file should have a package as ear
+Create EAR file.
+
+Change directory to the current project.
+
+Compile the project
+
+Create the ear file.
+
+========================================================================
+
+Compile the Source Code
+Compile the Source Code
+There are two types of plugins
+
+Build Plugin - Used while executing the build. They are included in <build> element of the POM.
+
+Reporting Plugin - Used while generating the site. They are included in <Reporting> element of the POM.
+
+Some of the frequently used Maven Plugins:
+
+clean - To clear target after the build.
+
+compiler - To compile the Java source code.
+
+jar - To generate Java jar file.
+
+war - To generate Java war file.
+
+surefire - To run Junit test and generate a report.
+
+========================================================================
+
+Plugin in POM.xml
+Following is the sample code for compiling plugin in pom.xml used in one of the previous learning cards:
+
+<plugins>
+     <plugin>
+       <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.3</version>
+             <configuration>
+                <source>1.8</source>
+                <target>1.8</target>
+            </configuration>
+         </plugin>
+  </plugins>
+You could recollect the usage of exec-maven-plugin during source code execution.
+
+========================================================================
+
+Surefire Plugin
+One of the important plugin Maven offers is Surefire Plugin. This is used for generating unit test reports for your project.
+
+This plugin is very helpful to identify the unit tests that are failing during the build process.
+
+Once the issue related to unit test failure is addressed, Maven can once more run all the unit tests to ensure everything else is working fine with no impact by the changes done to address the previous failures.
+
+The unit test report generated by this plugin is called surefire report.
+
+Unit test reports are generated using command mvn surefire-report: report.
+
+========================================================================
+
+Junit Surefire Plugin
+We will learn about JUnit Surefire plugin usage. To start with, you need to add JUnit as the dependency in your project.
+
+<dependency>
+         <groupId>junit</groupId>
+         <artifactId>junit</artifactId>
+         <version>4.12</version>
+         <scope>test</scope>
+  </dependency>
+
+========================================================================
+
+Surefire with JUnit Versions
+Surefire supports different generations of JUnit. Some of the commonly used versions are
+
+JUnit 3.8.x
+
+JUnit 4.x - Enables serial execution of the tests
+
+JUnit 4.7 - Enables parallel execution of tests
+
+Appropriate generation of JUnit can be used with Surefire based on JUnit version being used in the project.
+
+========================================================================
+
+Specifying a Provider Manually
+Specifying a Provider Manually
+To manually force a serial or parallel execution of tests, following code can be included in pom.xml:
+
+<plugin>
+   <groupId>org.apache.maven.plugins</groupId>
+   <artifactId>maven-surefire-plugin</artifactId>
+   <version>2.20</version>
+    <dependencies>
+     <dependency>
+       <groupId>org.apache.maven.surefire</groupId>
+        <artifactId>surefire-junit47</artifactId>
+        <version>2.20</version>
+     </dependency>
+   </dependencies>
+</plugin>
+In the earlier versions of surefire, ie., prior to 2.7 version, all the tests would get executed without proper checks on the validity of the tests. There would be no notification about the invalid tests.
+
+To address this issue, the build can be run with -Dsurefire.junit4.upgradecheck to perform and notify on the invalid ones.
+
+========================================================================
+
+Parallel Test Execution
+Junit 4.7 onwards, you can perform parallel execution of tests. This can be done by passing parallel parameter and change threadCount attribute.
+
+Sample plugin for parallel execution:
+
+ <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+       <artifactId>maven-surefire-plugin</artifactId>
+       <version>2.20</version>
+      <configuration>
+            <parallel>methods</parallel>
+            <threadCount>10</threadCount>
+     </configuration>
+  </plugin>
+
+========================================================================
+
+Skipping a Test
+To skip the test execution, use command mvn install -DskipTests. The same can be achieved by using the plugin and set the property of skipTests as True.
+
+Sample dependency:
+
+ <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>2.20</version>
+          <configuration>
+           <skipTests>true</skipTests>
+          </configuration>
+  </plugin>
+
+========================================================================
+
+Skipping Compilation of a Test
+To skip the compilation of the test, use **`mvn install -Dmaven.test.skip=true
+
+Skipping by Default`**.
+
+Following plugin code helps to achieve the same:
+
+<plugin>
+           <groupId>org.apache.maven.plugins</groupId>
+           <artifactId>maven-surefire-plugin</artifactId>
+           <version>2.20</version>
+           <configuration>
+             <skipTests>${skipTests}</skipTests>
+           </configuration>
+</plugin>
+
+========================================================================
+
+Create JMeter Script
+Create JMeter Script
+Open JMeter GUI. Now, we need to create a Thread Group.
+
+Go to Test right click -> Select Add-> select Threads (Users)-> Thread User -> select Thread Group.
+
+Enter Thread Group Name.
+
+Enter number of Threads (users).
+
+Enter Ramp-Up Period(in Seconds).
+
+Enter Loop count.
+
+Now we can create actual test script or manual record the process.
+
+========================================================================
+
+Setting up JMeter Reports
+Add an HTTP Request element.
+
+Go to Thread Group-> Select Add -> Select Sampler->click on HTTP Request.
+
+On HTTP Request page enters valid URL in Server Name or IP box.
+
+Set Port.
+
+Create View Result in Table:
+
+Go to Thread Group-> Select Add -> Add Select Listener-> View Result in Table.
+Now, we have created sample test.
+
+========================================================================
+
+Integration JMeter Script with Maven
+Take JMeter script and build it with Maven. We need JMeter Maven plugin.
+
+Create a Maven project for JMeter.
+
+Add JMeter Maven plugin in <build> element of pom.xml file.
+
+<build>
+  <plugins>
+     <plugin>
+       <groupId>com.lazerycode.jmeter</groupId>
+       <artifactId>jmeter-maven-plugin</artifactId>
+       <version>2.1.0</version>
+          <executions>
+             <execution>
+                 <id>jmeter-tests</id>
+                  <goals>
+                    <goal>jmeter</goal>
+                 </goals>
+              </execution>
+          </executions>
+    </plugin>
+ </plugins>
+</build>
+Include your JMeter script to Maven project class under src/test/App.
+
+Change directory to the project from terminal and enter mvn verify.
+
+If the build is proper, it will give us success message as Build Successful.
+
+The current executed result will be stored under target/App/result
+
+======================================================================
+
+Include View - Result Plugins
+To get a result in the form of a graph, use JMeter Graph Maven Plugins.
+
+Add this plugin in same pom.xml after JMeter plugins details.
+
+<plugin>
+    <groupId>de.codecentric</groupId>
+    <artifactId>jmeter-graph-maven-plugin</artifactId>
+    <version>0.1.0</version>
+   <configuration>
+	<inputFile>${project.build.directory}/jmeter/results/20170319-BlazeDemo Home Page.jtl</inputFile>	
+	  <graphs>
+		  <graph>
+		      <pluginType>ResponseTimesOverTime</pluginType>
+		      <width>800</width>
+		      <height>600</height>
+		      <outputFile>${project.build.directory}/jmeter/results/BlazeDemo Request.png</outputFile>
+		 </graph>
+        </graphs>
+     </configuration>
+</plugin>
+After this, we need to make some changes in the script, open the JMeter GUI and in Thread group for Loop Count, increase parameter value to 100. This will help us to execute Thread request 100 times.
+
+To get the output, type mvn jmeter-graph:create-graph in the terminal.
+
+=====================================================================
+

@@ -1,0 +1,10 @@
+git bisect COMMITID_N1
+git bisect COMMITID_N2
+git bisect good 
+git bisect bad
+git bisect good
+git bisect reset  --> TO COME out of the GIT BISECT
+
+
+git add -p   --> adds patch to a stage i.e., it stages the changes separately 
+it will show our recent chnages and asks whether Y or N to stage that changes :)

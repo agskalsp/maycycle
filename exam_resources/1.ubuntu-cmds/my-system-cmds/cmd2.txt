@@ -1,0 +1,1971 @@
+sudo usermod -aG docker kotesh
+whoami
+docker ps
+sudo apt-get remove docker docker-engine docker.io containerd runc
+sudo apt-get update
+sudo apt-get install     ca-certificates     curl     gnupg     lsb-release
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+echo   "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+sudo service docker status
+sudo dockerd
+sudo usermod -aG docker ${USER}
+gpasswd -a $USER docker
+sudo gpasswd -a $USER docker
+sudo chown kotesh /var/run/docker.sock
+sudo docker ps
+sudo service docker restart
+sudo docker ps
+sudo chkconfig docker on
+sudo dockerd
+sudo docker ps
+sudo cat /var/log/docker.log
+sudo chmod 666 /var/run/docker.sock
+sudo docker ps
+sudo dockerd
+OPTIONS='--selinux-enabled --log-driver=journald --signature-verification=false -G dockerroot'
+sudo systemctl restart dockersudo systemctl restart docker
+sudo service docker restart
+sudo service docker status
+sudo usermod -aG dockerroot kotesh
+sudo service jenkins start
+sudo service docker start
+sudo service docker status
+sudo dockerd
+sudo docker ps
+ifconifg
+ifconfig
+/usr/bin/docker daemon --debug --bip=172.24.32.1/24
+sudo docker ps
+sudo dockerd
+sudo apt-get update
+sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common libssl-dev libffi-dev git wget nano
+sudo groupadd docker
+sudo usermod -aG docker kotesh
+Id username
+ld username
+curl -fsSl https://download.docker.com/linux/ubu...  | sudo apt-key add
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+echo "sudo service docker start" &gt&gt ~/.profile
+docker ps
+sudo apt-get update
+sudo apt-get upgrade -y
+sudo apt-get autoremove -y
+sudo apt-get install -y docker-ce containerd.io
+sudo apt-get install -y kubectl
+sudo docker ps
+sudo dockerd
+docker ps
+ls ll
+ls -ll
+ls /var/run/docker.sock
+ls ../../var/run/docker.sock
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add
+sudo apt-get update
+sudo apt-get upgrade -y
+sudo apt-get update
+sudo apt-get install -y docker-ce containerd.io
+sudo docker
+docker -v
+docker run hello-world
+docker run --help
+sudo service docker start
+sudo service docker enable
+sudo service docker status
+docker run hello-world
+docker ps
+docker run -d -p 8010:8080 --name jenkins-docker jenkins/jenkins
+docker exec -it jenkins-docker
+docker ps -a
+docker exec -it jenkins-docker bash
+exit
+sudo
+docker ps
+docker ps -a
+sudo docker-compose -v
+sudo curl -L https://github.com/docker/compose/releases/download/1.29.2/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+docker-compose --version
+pwd
+ls -al
+mkdir docker
+cd docker
+vi compose-1-jenkins.yml
+cd ..
+mkdir koti-jenkins
+cd koti-jenkins/
+mkdir koti-jenkins-data
+cd //
+cd ..
+cd ~
+pwd
+ls -al
+cd docker
+ls -al
+vi compose-1-jenkins.yml 
+docker-compose -f compose-1-jenkins.yml up
+docker-compose
+docker-compose -d -f compose-1-jenkins.yml up
+docker-compose -d up
+docker-compose run -d -f compose-1-jenkins.yml up
+cat compose-1-jenkins.yml 
+docker-compose --version
+docker-compose -d compose-1-jenkins.yml up
+docker-compose -d -f compose-1-jenkins.yml up
+docker-compose -f compose-1-jenkins.yml
+cat compose-1-jenkins.yml 
+vi compose-1-jenkins.yml 
+docker-compose -f compose-1-jenkins.yml up
+vi compose-1-jenkins.yml 
+docker-compose -f compose-1-jenkins.yml up
+sudo service docker status
+sudo service docker start
+sudo service docker status
+docker-compose -f compose-1-jenkins.yml up
+docker-compose -df compose-1-jenkins.yml up
+docker-compose -d -f compose-1-jenkins.yml up
+sudo service docker status
+docker-compose -d -f compose-1-jenkins.yml up
+docker-compose -f compose-1-jenkins.yml up --detach
+docker ps -a
+docker describe 99e
+docker rm 99e
+docker ps -a
+cd ..
+cd ~
+ansible --version
+sudo apt install ansible
+sudo service jenkins start
+ansible --version
+ls -al
+cd .ansible/
+ls -al
+cd ..
+cd ansible/
+vi myhosts
+vi playbook-1-nginx.yml
+ansible-playbook -i myhosts playbook-1-nginx.yml 
+vi myhosts
+ansible-playbook -i myhosts playbook-1-nginx.yml 
+vi playbook-1-nginx.yml
+ansible-playbook -i myhosts playbook-1-nginx.yml 
+sudo service docker status 
+sudo service docker start
+sudo service jenkins start
+docker ps -a
+cd docker/
+ls
+cd ..
+docker-compose -d -f compose-1-jenkins.yml up
+cd docker/
+docker-compose -d -f compose-1-jenkins.yml up
+sudo service docker-compose status
+sudo service docker-compose start
+sudo service docker.compose start
+docker-compose -f compose-1-jenkins.yml up --detach
+docker ps -a
+cd ..
+cd /var
+ls 
+cd lib
+ls
+cd je
+cd jenkins/
+ls
+cd workspace/
+ls -al
+cd jenkins-job2/
+ls -al
+cd ..
+cd jenkins-one/
+ls -al
+ls -ll
+cd ../../../..
+ls
+cd ..
+ls
+cd ss
+cd ssh
+cd .ssh
+cd usr/
+ls -al
+cd sbin/
+ls -al
+cd ..
+cd root/
+sudo cd root
+pwd
+ls -al
+docker ps -a
+cd home/kotesh/docker/
+docker-compose --detach -f compose-1-jenkins.yml up
+docker-compose -f compose-1-jenkins.yml up --detach
+cd ..
+docker ps -a
+docker exec -it jenkins-compose bash
+sudo service jenkis status
+sudo service jenkins status
+sudo service jenkins start
+sudo docker jenkins status
+sudo service docker status
+sudo service docker start
+sudo service docker status
+env
+echo $JAVA_HOME
+echo $JRE_HOME
+cat etc/environment
+cat ~/etc/environment
+cat /etc/environment
+cat >> /etc/environment << EOL
+JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+JRE_HOME=/usr/lib/jvm/java-8-openjdk=amd64/jre
+EOL
+
+sudo cat >> /etc/environment << EOL
+JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+JRE_HOME=/usr/lib/jvm/java-8-openjdk=amd64/jre
+EOL
+
+ls -ll /etc
+chmod +x /etc/environment 
+env
+sudoexit
+sudo service docker status
+docker ps
+sudo service docker start
+sudo service docker status
+sudo service jenkins start
+docker ps -a
+docker jenkins-compose start 
+docker start jenkins-compose 
+pwd
+sudo su -
+ls -al
+cd koti-jenkins/
+ls -l
+cd koti-jenkins-data/
+ls-a
+ls -al
+sudo service jenkins enable
+sudo service jenkins start
+sudo service docker start
+docker ps -a
+docker rmi hello-world:latest 
+docker rm b74
+docker rmi hello-world:latest 
+docker ps -a
+docker start f3
+pwd
+cd ansible/
+ls -al
+clr
+clear
+ls
+vi playbook-1-nginx.yml 
+ansible-playbook -i myhosts playbook-1-nginx.yml 
+vi playbook-1-nginx.yml 
+ansible-playbook -i myhosts playbook-1-nginx.yml 
+vi playbook-1-nginx.yml 
+ansible-playbook -i myhosts playbook-1-nginx.yml 
+vi playbook-1-nginx.yml 
+ansible-playbook -i myhosts playbook-1-nginx.yml 
+vi playbook-1-nginx.yml 
+ansible-playbook -i myhosts playbook-1-nginx.yml 
+vi playbook-1-nginx.yml 
+ansible-playbook -i myhosts playbook-1-nginx.yml 
+vi playbook-1-nginx.yml 
+ansible-playbook -i myhosts playbook-1-nginx.yml 
+vi playbook-1-nginx.yml 
+ansible-playbook -i myhosts playbook-1-nginx.yml 
+vi playbook-1-nginx.yml 
+ansible-playbook -i myhosts playbook-1-nginx.yml 
+cd ansible/
+vi playbook-1-nginx.yml 
+ansible-playbook -i myhosts playbook-1-nginx.yml 
+ansible-playbook -i myhosts playbook-1-nginx.yml --ask-sudo-pass
+vi playbook-1-nginx.yml 
+ansible-playbook -i myhosts playbook-1-nginx.yml 
+ansible-playbook -i myhosts playbook-1-nginx.yml --ask-sudo-pass
+vi playbook-1-nginx.yml 
+ansible-playbook -i myhosts playbook-1-nginx.yml --ask-sudo-pass
+ls -al
+cd ..
+cd docker/
+ls -al
+vi compose-1-jenkins.yml 
+cd an
+cd ansible/
+vi playbook-1-nginx.yml 
+ansible-playbook -i myhosts playbook-1-nginx.yml ansible-playbook playbook.yml --extra-vars "ansible_sudo_pass=ghks0127"
+ansible-playbook -i myhosts playbook-1-nginx.yml --extra-vars "ansible_sudo_pass=ghks0127"
+mvn
+mvn version
+whichmvn
+mvn -version
+sudo service docker start
+sudo service docker status
+docker ps -a
+docker search jenkins
+docker search busybox
+docker search busybox | head -5
+docker search jenkin | head -5
+docker pull busybox
+docker run busybox
+docker ps -a
+docker inspect 94
+docker stats 94
+docker pause 94
+docker rm 94
+docker rmi busybox:latest 
+sudo service docker start
+docker run busybox
+docker run busybox --name busyme
+docker run --name busyme busybox
+docker ps -a
+docker export busyme siva.tar
+docker export busyme > siva.tar
+docker import siva.tr
+ls -al
+cat siva.tar 
+;211R
+docker ps
+docker ps -a
+docker container prune
+ls -al
+rm siva.tar 
+exit
+sudo
+sudo docker service start
+sudo service docker start
+pwd
+cd etc/docker/
+cd /etc/docker/
+ls -la
+cat key.json
+sudo cat key.json
+cd .
+cd ~
+pwd
+docker ps -a
+docker ps
+ls -la
+cd docker/
+docker-compose -f compose-1-jenkins.yml --detach up
+docker-compose -f compose-1-jenkins.yml up --detach 
+docker ps -a
+docker atop b6
+docker stop b6
+docker ps -a
+.code
+cd ..
+cd .code
+vi .code
+cat .code
+docker ps -a
+docker network ls
+docker inspect network bridge
+docker network inspect bridge
+docker network ls
+docker network create sivanw1
+docker network ls
+docker network create -d host sivanw1
+docker network create -d host sivanw2
+docker network create -d overlay sivanw2
+docker network ls
+docker run -d --net sivanw1 --name nwcon1 busybox
+docker inspect 78
+docker inspect --format='{{json .NetworkSettings.Networks}}' 78
+docker run -d --name web training/webapp python app.py
+docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' web
+docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' 78
+docker stop 5e
+docker ps -a
+docker rm 78
+docker start 5e
+docker stop 5e
+docker info 5e
+docker container prune
+docker ps -a
+docker info
+ls -al
+cd /etc/docker/daemon.json
+cd /etc/docker/
+ls -la
+cat key.json 
+sudo cat key.json 
+docker run debian /bin/sh
+docker rmi debian:latest 
+docker rm fe
+docker rmi debian:latest 
+docker ps -a
+sudo docker service status
+sudo service docker status
+sudo service docker start
+docker ps -al
+docker swarm
+docker swarm init
+exit
+maven -v
+mvn -v
+echo $MAVEN_PATH
+echo $MAVEN_HOME
+cd /usr/local/
+ls -al
+cd ~
+echo $JAVA_HOME
+echo $JAVA_PATH
+echo "$JAVA_PATH"
+export MAVEN_HOME=/usr/local/apache-maven/apache-maven-3.6.0
+echo $MAVEN_HOME
+export MAVEN=$MAVEN_HOME/bin
+export PATH=$MAVEN:$PATH
+mvn -v
+mvn archetype:generate -DgroupId=com.maven.gopi -DartifactId=gopiartifact1 -Dversion=1.0-SNAPSHOT -DarchetypeArtifactId=maven-archetype-helloworld
+sudo 
+ansible --version
+pwd
+ls -al
+cd ansible/
+ls -al
+ansible localhost -m ping
+man Dockerfile
+sudo jenkins start
+sudo service jenkins start
+sudo docker service start
+sudo service docker start
+ls -la
+cd koti-jenkins/
+ls -la
+cd .
+cd ~
+sudo apt update
+sudo groupadd tomcat
+sudo useradd -s /bin/false -g tomcat -d /opt/tomcat tomcat
+cd /tmp
+curl -O paste_the_copied_link_here
+sudo service jenkins status
+sudo service docker status
+docker ps -a
+cd ..
+docker ps -a
+sudo useradd -r -m -U -d /opt/tomcat -s /bin/false tomcat
+wget http://www-eu.apache.org/dist/tomcat/tomcat-9/v9.0.27/bin/apache-tomcat-9.0.27.tar.gz -P /tmp
+cd /tmp
+wget http://www-eu.apache.org/dist/tomcat/tomcat-9/v9.0.27/bin/apache-tomcat-9.0.27.tar.gz -P /tmp
+sudo tar xf /tmp/apache-tomcat-9*.tar.gz -C /opt/tomcat
+cd ..
+ls -la
+cd home/
+ls -la
+cd kotesh/
+ls -la
+cd docker/
+vi comp-tomcat.yml
+wget http://www-eu.apache.org/dist/tomcat/tomcat-9/v9.0.27/bin/apache-tomcat-9.0.27.tar.gz -P /tmp
+sudo tar xf /tmp/apache-tomcat-9*.tar.gz -C /opt/tomcat
+sudo ln -s /opt/tomcat/apache-tomcat-9.0.27 /opt/tomcat/latest
+ls -la
+cd /user
+cd ..
+ls -la
+cd usr/
+ls -la
+cd local/
+ls -la
+cd ..
+cd ~
+java -version
+sudo useradd -s /bin/false -g tomcat -d /opt/tomcat tomcat
+cd /opt
+sudo wget https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.21/bin/apache-tomcat-9.0.21.tar.gz
+sudo tar -xvzf apache-tomcat-9.0.21.tar.gz
+sudo mv apache-tomcat-9.0.21 /opt/tomcat
+sudo chown -R tomcat: tomcat
+sudo chmod o+x /opt/tomcat/bin/
+sudo nano /etc/systemd/system/tomcat.service
+sudo systemctl daemon-reload
+sudo service daemon-reload
+sudo service start tomcat
+s
+cd ~
+ls -la
+sudo service tomcat start
+cd ../..
+ls -la
+cd usr/local/
+ls -la
+cd ../../opt/
+sudo service tomcat restart
+sudo systemctl daemon-reload
+cd ~
+pwd
+ls -la
+cd docker/
+cd ../koti-jenkins/
+ls -l
+cd ..
+cd ~
+sudo service docker status
+docker ps -a
+docker exec -it 0cddf bash
+sudo service jenkins status
+sudo service restart
+cd docker
+ls -la
+nano compose-1-jenkins.yml 
+docker-compose up -f compose-1-jenkins.yml --detach 
+docker-compose up compose-1-jenkins.yml --detach 
+cat compose-1-jenkins.yml 
+docker-compose up compose-1-jenkins.yml -d 
+docker-compose run -d -f compose-1-jenkins.yml 
+docker-compose --help
+docker-compose build -d -f compose-1-jenkins.yml 
+docker-compose build -f compose-1-jenkins.yml --detach 
+docker-compose build -f compose-1-jenkins.yml --detach --no-cache
+docker-compose -f compose-1-jenkins.yml up --detach
+vi compose-1-jenkins.yml 
+docker run -d -p 8085:8080 tomcat:latest
+docker run -d -p 8090:8080 tomcat:latest
+docker ps -a
+docker exec -it 0cdd
+docker exec -it 0cdd bash
+sudo service jenkins start
+sudo service docker start
+ls -ll
+cd docker/
+ls
+docker-compose -f compose-1-jenkins.yml up --detach
+docker ps -a
+docker run 0cdd
+docker run -d -p 8085:8080 --name mytomcat tomcat:latest
+docker ps -a
+docker ps
+docker exec -it mytomcat bash
+sudo service docker start
+docker ps
+docker pull 1928891/myapp:latest
+docker inspect myapp
+docker rmi myapp
+docker images
+docker images 1928891/myapp
+docker rmi tomcat
+sudo service jenkins start
+git --version
+git pull origin
+ls -al
+cd ~
+ls -al
+cd ..
+ls -al
+cd ..
+ls -al
+cd ~
+ls -al
+mkdir gitdemo
+cd /gitdemo
+cd gitdemo
+git clone https://github.com/koteshgsk/kotesht5.git
+sudo service docker status
+sudo service docker start
+ls -al
+cd kotesht5
+ls -al
+docker build . -t sivaapp1 .
+docker build -f Dockerfile -t sivaapp1 .
+git pull
+git diff
+git diff origin HEAD
+docker build -f Dockerfile -t sivaapp1 .
+cd ..
+docker build -f gitdemo/kotesht5/Dockerfile -t sivaapp2 .
+docker build -f ./gitdemo/kotesht5/Dockerfile -t sivaapp2 .
+docker build -f ~/gitdemo/kotesht5/Dockerfile -t sivaapp2 .
+sudo docker build -f ~/gitdemo/kotesht5/Dockerfile -t sivaapp2 .
+docker images
+docker rmi af3
+docker container ls
+docker ps
+docker rmi sivaapp1
+docker rmi sivaapp2
+docker rmi sivaapp1
+docker rmi sivaapp1:latest
+docker ps
+docker images
+sudo service jenkins start
+ls -la
+cd gitdemo/
+ls
+cd kotesht5/
+ls -la
+cd ..
+git clone https://code.fresco.me/play-content/handson-frescoplaylab-javademo.git
+git clone https://jQdQysBiuhe4Njn8@code.fresco.me/play-content/handson-frescoplaylab-pythondemo.git
+cd ..
+cd ~\
+cd ~
+service jenkins start
+ls -al
+pwd
+cd koti-jenkins/
+ls 
+pwd
+sudo useradd -m -d /opt/tomcat -U -s /bin/false tomcat
+sudo apt update
+sudo apt install default-jdk
+java -version
+cd /tmp
+wget https://dlcdn.apache.org/tomcat/tomcat-10/v10.0.20/bin/apache-tomcat-10.0.20.tar.gz
+sudo service jenkins start~
+sudo service jenkins start
+sudo apt install unzip wget
+wget http://mirrors.estointernet.in/apache/tomcat/tomcat-8/v8.5.47/bin/apache-tomcat-8.5.47.zip
+unzip apache-tomcat-*.zip
+sudo mkdir -p /opt/tomcat
+sudo mv apache-tomcat-8.5.47 /opt/tomcat/sudo apt install unzip wget
+cd /tmp
+wget http://mirrors.estointernet.in/apache/tomcat/tomcat-8/v8.5.47/bin/apache-tomcat-8.5.47.zip
+unzip apache-tomcat-*.zip
+sudo mkdir -p /opt/tomcat
+sudo mv apache-tomcat-8.5.47 /opt/tomcat/
+wget http://mirrors.estointernet.in/apache/tomcat/tomcat-8/v8.5.47/bin/apache-tomcat-8.5.47.zip
+sudo apt-get update
+cd ~
+sudo apt-get update
+sudo apt-get install default-jdk
+sudo apt install unzip wget
+wget http://mirrors.estointernet.in/apache/tomcat/tomcat-8/v8.5.47/bin/apache-tomcat-8.5.47.zip
+unzip apache-tomcat-*.zip
+sudo mkdir -p /opt/tomcat
+sudo apt install unzip
+sudo apt install unzip wget
+cd /tmp
+wget http://mirrors.estointernet.in/apache/tomcat/tomcat-8/v8.5.47/bin/apache-tomcat-8.5.47.zip
+unzip apache-tomcat-*.zip
+sudo mkdir -p /opt/tomcat
+sudo mv apache-tomcat-8.5.47 /opt/tomcat/
+wget http://mirrors.estointernet.in/apache/tomcat/tomcat-8/v8.5.47/bin/apache-tomcat-8.5.47.zip
+wget https://mirrors.estointernet.in/apache/tomcat/tomcat-9/v9.0.63/bin/apache-tomcat-9.0.63.zip
+unzip apache-tomcat-*.zip
+sudo mkdir -p /opt/tomcat
+sudo mv apache-tomcat-8.5.47 /opt/tomcat/
+cd ..
+sudo mv apache-tomcat-8.5.47 /opt/tomcat/
+/opt/tomcat/apache-tomcat-8.5.47/conf/server.xml file
+cat /opt/tomcat/apache-tomcat-8.5.47/conf/server.xml 
+cat ~/opt/tomcat/apache-tomcat-8.5.47/conf/server.xml 
+sudo service jenkins start
+sudo mv apache-tomcat-9.0.63 /opt/tomcat
+sudo apt install unzip wget
+cd /tmp
+wget https://mirrors.estointernet.in/apache/tomcat/tomcat-9/v9.0.63/bin/apache-tomcat-9.0.63.zip
+unzip apache-tomcat-*.zip
+sudo mkdir -p /opt/tomcat
+sudo mv apache-tomcat-9.0.63 /opt/tomcat
+sudo mkdir -p /opt/tomcat
+sudo mv apache-tomcat-9.0.63 /opt/tomcat
+sudo mkdir -p /opt/tomcat
+sudo mv apache-tomcat-9.0.63 /opt/tomcat
+cd ~
+ls -la
+cd ../..
+ls -la
+cd opt/
+;s -la
+ls -la
+cd tomcat/
+ls -la
+cd apache-tomcat-9.0.63/
+ls -la
+cd conf
+ls -la
+cat tomcat-users.xml 
+cd ..
+ls -la
+cd conf/
+ls -la
+vi server.xml 
+cat server.xml 
+cd /opt/tomcat/apache-tomcat-8.5.47/bin
+ls -la
+cd /opt/tomcat/apache-tomcat-9.0.63/bin
+ls -la
+sudo chmod +x *
+ls -la
+/opt/tomcat/apache-tomcat-9.0.63/bin/startup.sh
+cd /opt/tomcat/apache-tomcat-8.5.47/conf
+cd /opt/tomcat/apache-tomcat-9.0.63/conf
+ls -la
+vi tomcat-users.xml 
+/opt/tomcat/apache-tomcat-9.0.63/bin/shutdown.sh
+/opt/tomcat/apache-tomcat-9.0.63/bin/startup.sh
+cd ~
+sudo service jenkins start
+cd /opt/tomcat/apache-tomcat-8.5.47/conf
+cd /opt/tomcat/apache-tomcat-9.0.63/conf
+ls -la
+cat tomcat-users.xml 
+sudo service jenkins start
+sudo service docker start
+docker images
+cd docker/
+ls -la
+cat compose-1-jenkins.yml 
+vi compose-jenkins-only.yml
+docker-compose -f compose-jenkins-only.yml --name my-jenkins up --detach
+docker-compose -f compose-jenkins-only.yml up --detach
+cd ..
+cd /opt/tomcat/apache-tomcat-9.0.63/
+cd bin/start.sh
+cd bin
+ls -la
+./startup.sh
+sudo service jenkins start
+cd /var/lib/jenkins/jobs/PublishJob/
+ls -la
+cd builds/
+ls -la
+cd 4
+ls -la
+cat log
+cd ..
+vi config.xml 
+ls -la
+sudo chmod 755 ./config.xml 
+ls -la
+sudo chmod 777 ./config.xml 
+ls -la
+vi config.xml 
+curl https://github.com/koteshgsk/kotesht5.git
+curl ~ https://github.com/koteshgsk/kotesht5.git
+gicd ..
+cd ../../../
+cd ~
+ls -la
+cd gitdemo/
+ls -la
+git clone https://github.com/ALSPraveen/IOT-AR-Project.git
+ls -la
+rm IOT-AR-Project/
+sudo service jenkins start
+/opt/tomcat/
+cd /opt/tomcat/
+;s
+ls
+cd apache-tomcat-9.0.63/
+ls
+cd conf/
+ls
+cd ..
+cd bin/
+ls
+./startup.sh 
+cat $CATALINA_HOME/conf/tomcat-users.xml
+sudo cat $CATALINA_HOME/conf/tomcat-users.xml
+sudo cat $CATALINA_HOME/conf/
+echo $CATALINA_HOME
+cd ~
+sudo service tomcat status
+/opt/tomcat/apache-tomcat-9.0.63/bin/startup.sh
+git status
+ls
+ls -la
+cd ..
+ls
+cd kotesh/
+git clone https://github.com/koteshgsk/kotesht5.git
+cd kotesht5/
+touch TestFile.txt
+cat > TestFile.txt 
+git status
+git commit -am "Trail for git"
+git push
+git pull
+git push
+git push https://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@github.com/koteshgsk/kotesht5.git
+mkdir chat
+cd chat
+cat > scam.txt
+git status
+git add .
+git commit -m "First chat"
+git push https://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@github.com/koteshgsk/kotesht5.git
+cd ..
+git pull
+git push https://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@github.com/koteshgsk/kotesht5.git
+git status
+git add TestFile.txt 
+git commit -m "our scam"
+git status
+git reset HEAD
+git status
+git rm chat/
+cat Testfile.txt 
+cat TestFile.txt 
+rm TestFile.txt 
+rm -rf /chat/
+ls
+rm -rf ./chat/
+git status
+vi chat2.txt
+git status
+git commit -am "Personal Access Token"
+git config --global user.name Git
+git config --global user.email Git@gmail.com
+git commit -am "Personal Access Token"
+git push https://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@github.com/koteshgsk/kotesht5.git
+cd ..
+git config --global --list 
+git config --global user.name koteshgsk
+git config --global user.email gopiagsk2000@gmail.com
+git commit -am "Personal Access Token"
+cd kotesht5/
+git commit -am "Personal Access Token"
+git status 
+git commit -am "My PAT"
+git add .
+git status 
+git commit -m "My PAT"
+git push https://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@github.com/koteshgsk/kotesht5.git
+git push
+sudo service jenkins start~
+sudo service jenkins start
+sudo service docker start
+sudo service jenkins start
+grep docker /etc/groups 
+grep docker |  /etc/groups \
+grep docker /etc/group
+sudo usermod -a -G docker jenkins
+grep docker /etc/group
+sudo service docker restart
+sudo service jenkins restart
+sudo service jenkins start
+sudo service docker start
+ls
+cd docker/
+ls
+docker-compose -f compose-jenkins-only.yml up --detach
+docker images
+docker ps
+docker exec -it 5b bash
+exit
+sudo service docker status
+grep docker /etc/group
+sudo usermod -a -G docker jenkins
+grep docker /etc/group
+sudo usermod -a -G docker siva
+docker ps
+cd docker/
+docker-compose -f compose-jenkins-only.yml up --detach
+sudo cd /mt/c
+cd /mnt/c
+ls
+cd Users/
+ls
+cd wings
+cd ..
+git push
+git init
+sudo cp -r ./wings/ ~/kotesht5/
+cd ~/kotesht5
+ls
+git push
+git push https://github.com/koteshgsk/kotesht5.git
+git push https://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@github.com/koteshgsk/kotesht5.git
+git config
+git config --global --list
+git status
+git add .
+git commit -m "ALL folders"
+git push https://github.com/koteshgsk/kotesht5.git
+history
+pwd
+ansible-doc -l
+ansible-galaxy init fresco-nginx
+ls
+mv ./fresco-nginx/ ./ansible/
+ls
+cd ansible/
+ls
+cd fresco-nginx/
+ls
+cd tasks/
+ls
+cat main.yml 
+cd ..
+ansible-galaxy install fresco-nginx
+ls
+sudo service jenkins start
+pws
+pwd
+ls
+cd ~
+ls
+cd koti-jenkins/
+ls
+cd /var/lib/jenkins/jobs/
+ls
+cd jenkins-job2/
+ls
+cd builds/
+ls
+cd 8
+ls
+cd ../..
+ls
+cd ..
+ls
+cd ..
+clear
+cd workspace/
+ls
+cd jenkins-job2/
+ls
+ls -la
+sudo apt install openjdk-17-jdk openjdk-17-source
+sudo apt-get update
+sudo apt install openjdk-17-jdk openjdk-17-source
+pwd
+cd ..
+pwd
+cd ..
+;s
+ls
+pwd
+cd ..
+ls
+history
+sudo apt remove openjdk-17-jdk openjdk-17-source
+gradle tasks
+sudo apt install gradle
+gradle tasks
+./gradlew -q parent
+gradlew -q parent
+gradle -q parent
+export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
+pwd
+cd ~
+pwd
+cd ..
+export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
+cd /mnt/c/Users/ASUS/eclipse-workspace/gradle-parent-webapp
+gradle -q parent
+gradle tasks
+chmod 777 .gradle/
+gradle tasks
+./gradlew --stacktrace deploy
+gradle tasks
+./gradlew --stacktrace deploy
+export JAVA_HOME=/usr/lib/jvm/java-17-openjdk/
+gradle tasks
+export JAVA_HOME=D:/jdk-11.0.1
+gradle tasks
+sudo apt install openjdk-17-jdk openjdk-17-source
+ls
+gradle build
+java -version
+pwd
+ls
+mkdir gradle-gsk
+cd gradle-gsk/
+ls
+ls -la
+mkdir gradle-parent-webapp
+cd gradle-parent-webapp/
+gradle init
+java -version
+gradle --version
+sudo service gradle start
+sudo service gradle status
+echo %JAVA_HOME%
+echo JAVA_HOME
+gradle init
+gradle --stacktrace
+gradle -v
+export PATH=$PATH:/opt/gradle/gradle-4.4.1/bin
+gradle --version
+ls
+cd gradle-gsk/
+ls
+cd gradle-parent-webapp/
+gradle build
+sudo remove gradle
+sudo apt remove gradle
+sudo apt install gradle
+sudo apt get update
+sudo apt-get update
+gradle build
+sudo apt remove gradle
+sudo apt install gradle 7.5.1
+cd ..
+rm -rf gradle-parent-webapp/
+sudo rm -rf gradle-parent-webapp/
+root rm -rf gradle-parent-webapp/
+sudo su -u
+sudo su -
+sudo service docker start
+ls
+cd gradle-gsk/gradle-ubuntu-demo1/
+ls
+tree
+vi build.gradle 
+gradle build
+tree
+gradle clean build
+tree
+cd /home/kotesh/docker/gradle-tomcat/
+ls
+vi Dockerfile 
+docker build -t mygradleweb .
+cd /home/kotesh/
+ls
+cd gradle-gsk/gradle-ubuntu-demo1/
+ls
+vi build.gradle 
+gradle clean build
+vi build.gradle 
+gradle clean build
+vi Dockerfile 
+ls
+rm Dockerfile 
+sudo service docker start
+pwd
+cd docker/gradle-tomcat/
+ls
+vi Dockerfile 
+docker build -t mygradleweb .
+vi Dockerfile 
+docker build -t mygradleweb .
+vi Dockerfile 
+docker build -t mygradleweb .
+cd ~
+cd gradle-gsk/
+ls
+mkdir gradle-ubuntu-demo2
+cd gradle-ubuntu-demo2
+gradle init --type java-application
+ls
+tree
+vi build.gradle 
+gradle build
+vi build.gradle 
+gradle build
+tree
+cp -r ./build/libs/gradle-ubuntu-demo2-2.war /home/kotesh/docker/gradle-tomcat/demo.war
+cd /home/kotesh/docker/
+cd gradle-tomcat/
+ls
+tree
+vi Dockerfile 
+docker build -t mygradleweb .
+docker images
+docker run -d --name sivagradle -p 8085:8085 mygradleweb
+sudo service tomcat start
+vi Dockerfile 
+docker build -t mygradleweb .
+docker run -d --name sivagradle -p 8085:8085 mygradleweb
+docker run -d --name sivagradle1 -p 8085:8085 mygradleweb
+curl https://localhost:8085/demo
+curl ~ https://localhost:8085/demo
+curl ~ http://localhost:8085/demo
+curl http://localhost:8085/demo
+java -jar demo.war 
+cd docker/gradle-tomcat/
+ls
+cat demo.war 
+ls
+cd /home/kotesh/
+ls
+cd gradle-gsk/gradle-ubuntu-demo2/
+ls
+tree
+cd src/main/java/
+ls
+vi App.java 
+cd ..
+cd ../..
+ls
+vi build.gradle 
+gradle clean build 
+tree
+cp -r ./build/libs/gradle-ubuntu-demo2-2.war /home/kotesh/docker/gradle-tomcat/demo.war
+cd /docker/gradle
+cd ../..
+pwd
+cd docker/gradle-tomcat/
+ls
+ls -la
+vi Dockerfile 
+docker images
+docker rmi c64 d0f
+docker ps -a
+docker stop 60
+docker rmi c64 d0f
+docker rm 60
+docker rmi c64 d0f
+docker rm 39
+docker rmi c64 d0f
+docker build -t mywebapp .
+docker run -d --name mywebapp3 -p 8111:8085 mywebapp 
+curl http://localhost:8111/demo
+curl http://localhost:8111/
+sudo service docker start
+pwd
+ls
+cd gradle-gsk/gradle-ubuntu-demo2/
+ls
+tree
+cd build/classes/java/
+ls
+cd main/
+ls
+ls -la
+cd ../../../../src/main/java/
+ls
+vi App.java 
+cd ..
+pwd
+vi build.gradle 
+gradle clean build
+cd /src/main/
+ls
+cd src/test/java/
+vi AppTest.java 
+cd ../../
+cd ..
+gradle clean build
+tree
+cd build/libs/
+ls
+pwd
+cd ../../../../docker/gradle-tomcat/
+ls
+rm demo.war 
+cp /home/kotesh/gradle-gsk/gradle-ubuntu-demo2/build/libs/gskweb.war
+cp /home/kotesh/gradle-gsk/gradle-ubuntu-demo2/build/libs/gskweb.war .
+ls
+vi Dockerfile 
+docker build -t gskweb ,
+docker build -t gskweb .
+curl http://localhost:8080/gskweb
+vi Dockerfile 
+docker build -t gskweb .
+docker run -d --name gskweb -p 8085:8085 gskweb
+vi Dockerfile 
+docker build -t gskweb .
+docker run -d --name gskweb -p 8085:8085 gskweb
+vi Dockerfile 
+docker build -t gskweb .
+docker run -d --name gskweb1 -p 8085:8085 gskweb
+docker ps -a
+docker stop 97
+docker stop b0 28
+docker ps -a
+docker rm 97 b0 28 5d 5c 3e 0c db 8b 1e
+docker ps -a
+docker rm 2c 1a
+docker ps -a
+docker images
+docker rmi 4f b3 6c 95 d3 c6 f1 9f 05 83 7f
+docker images
+docker rmi 6f 62 5d 1a 79 37 83 7f 05 9f
+docker images
+docker rmi 9f
+docker rmi -/f 9f
+docker rmi -f 9f
+docker rmi -f 05 83 7f 37 c7 6f
+docker images
+docker rmi 5c
+docker images
+docker ps -a
+gradle clean build
+cd ..
+cd gradle-webapp-parent/
+gradle clean build
+pwd
+ls
+cd gradle-gsk/gradle-ubuntu-demo2/
+ls
+tree
+gradle tasks --all
+vi build.gradle 
+gradle clean build
+tree
+vi build.gradle 
+gradle clean build
+tree
+vi build.gradle 
+gradle clean build
+tree
+vi build.gradle 
+gradle clean build
+tree
+cd build/libs/
+java -jar gradle-ubuntu-demo2.war 
+cd ..
+cd src/
+cd java
+cd main/
+mkdir webapp
+gradle clean build
+cd ../..
+gradle clean build
+tree
+cd src/main/
+cd webapp/
+touch WEB.INF
+vi index.jsp
+cd ../../..
+gradle clean build
+tree
+java -jar gradle-ubuntu-demo2.war 
+java -war gradle-ubuntu-demo2.war 
+tree
+gradle war
+cd ..
+mkdir webapp-1-trail
+cd webapp-1-trail/
+vi build.gradle
+gradle clean build
+vi build.gradle
+gradle clean build
+tree
+vi build.gradle
+sudo service docker start
+ls
+cd docker/
+ls
+ls -la
+cd gradle-tomcat/
+ls
+cd ..
+mkdir tomcat-demo
+cd tomcat-demo/
+vi Dockerfile
+docker build -t gsktom .
+docker run -d --name gsktomrun -p 8999:8999 gsktom
+curl http://localhost:8999
+docker exec -it gsktomrun /bin/bash
+docker ps -a
+cd ..
+ls
+cd gradle-tomcat/
+ls
+vi Dockerfile 
+docker build -t gsktom .
+docker run -d --name gsktomrun1 -p 8999:8999 gsktom
+docker ps -a
+docker stop gsktom 1cc
+docker stop 27 96
+docker rm 27 96
+docker ps -a
+docker images
+docker rmi c1 1cc
+docker images
+docker build -t gsktom .
+docker run -d --name gsktomrun gsktom
+docker ps -a
+docker exec -it gsktomrun /bin/bash
+docker ps -a
+docker stop 8b
+docker rm 8b
+docker image
+docker images
+docker rmi gsktom:latest 
+ls
+vi Dockerfile 
+docker build -t con1 .
+docker run -d --name con1im1 -p 8085:8085 con1
+docker ps -a
+curl localhost:8085
+curl http://localhost:8085
+docker exec -it con1im2 /bin/bash
+vi Dockerfile 
+docker build -t con1 .
+docker run -d --name con1im2 con1
+sudo 
+git clone https://github.com/openliberty/guide-gradle-intro.git
+cd guide-gradle-introls
+ls
+cp -r guide-gradle-intro/ ./gradle-gsk/
+ls
+rm -rf guide-gradle-intro/
+ls
+ls -la
+cd gradle-gsk/
+ls -la
+cd guide-gradle-intro/
+tree
+cd finish/src/main/webapp/
+ls
+cat index.html 
+vi index.html 
+cd ../../../../
+ls
+cd ..
+ls 
+mkdir gradle-trail2
+ccd guide-gradle-intro/
+cd guide-gradle-intro/
+cp -r start/ ../gradle-trail2/
+cd ../gradle-trail2/
+tree
+cd start/src/main/webapp/
+vi index.html 
+cd ..
+cd java/io/openliberty/guides/hello/
+cat HelloServlet.java 
+vi HelloServlet.java 
+tree
+cd ../../../../
+tree
+cd ../..
+cd ..
+tree
+ls
+rm -rf start/
+cd ..
+cd guide-gradle-intro/
+cp -r finish/ ../gradle-trail2/
+tree
+vi finish/build.gradle 
+cd ..
+tree
+ls
+cd webapp-1-trail/
+tree
+vi build.gradle 
+gradle clean build
+tree
+vi build.gradle 
+gradle init
+rm -rf build
+rm build.gradle 
+gradle init --type java-library
+tree
+cd src/main/
+cd java/
+mkdir webapp
+cd webapp/
+vi index.html
+cd ..
+cd ../../../
+vi build.gradle 
+gradle clean build
+tree
+cp -r build/libs/webapp-1-trail.war ../../docker/gradle-tomcat/
+cp -r build/libs/webapp-1-trail.war ../../docker/gradle-tomcat/deploy.war
+cd ../../docker/gradle-tomcat/
+ls
+tree
+vi Dockerfile 
+sudo service docker start
+docker ps
+docker ps -a
+docker rm 92 ec
+docker ps -a
+docker images
+docker rmi 2b 9c
+docker build -t con1 .
+docker run -d -p 8080:8999 con1 
+docker run -d con1 
+cd ../../gradle-gsk/
+ls
+mkdir webapp-1-trail2
+cd webapp-1-trail2
+gradle init --type java-application
+tree
+mkdir gsk
+tree
+vi settings.gradle 
+rm -rf gsk
+tree
+ls
+cd gradle-gsk/
+tree
+ls
+ls -la
+cd gradle-parent-webapp/
+ls
+tree
+cat settings.gradle 
+vi build.gradle 
+cd ..
+ls -la
+mkdir toremove
+cp -r ./ ./toremove/
+cp -r . ./toremove/
+ls -la
+rm -rf gradle-parent-webapp/
+rm -rf gradle-trail2/
+rm -rf gradle-ubuntu-demo1
+rm -rf gradle-ubuntu-demo2
+rm -rf webapp-1-trail
+ls -la
+cd toremove/
+gradle init --type java-application
+tree
+ls
+ls -la
+rm .gradle/
+rm -rf .gradle/
+rm build.gradle 
+rm -rf gradle/
+rm -rf gradlew
+rm -rf gradlew.bat 
+ls -la
+rm settings.gradle 
+rm -rf src/
+ls -la
+cd toremove/
+gradle init --type java-application
+tree
+ls -la
+cd ..
+ls -la
+rm -rf toremove/
+ls -la
+cd ..
+ls -la
+cd toremove/
+ls -la
+cd ..
+rm -rf toremove/
+ls -la
+mkdir new
+cd new
+mkdir gskweb
+cd gskweb
+gradle init --type java-application
+tree
+cd src/main/java/
+mkdir webapp
+rm App.java 
+cd webapp/
+vi index.jsp
+cd ../../../
+cd ..
+ls 
+vi build.gradle 
+gradle clean build
+tree
+cd src/test/
+cd java/
+rm AppTest.java 
+cd ../../..
+gradle clean build
+tree
+java -jar ./build/libs/gskweb.jar 
+cp -r ./build/libs/gskweb.jar ./build/tmp/jar/
+java -jar ./build/libs/gskweb.jar 
+java -jar ./build/tmp/jar/gskweb.jar 
+cp -r ./build/libs/gskweb.war ../../../docker/gradle-tomcat/deploynew.war
+cd ../../../docker/gradle-tomcat/
+ls
+vi Dockerfile 
+cat Dockerfile 
+docker ps -a
+sudo service docker start
+docker ps -a
+docker rm 72 18
+docker ps -a
+docker images
+docker rmi con1
+docker build -t newweb .
+docker run -d --name newwebcon1 -p 8085:8085 newweb
+sudo service jenkins start
+sudo service jenkins status
+docker ps -a
+docker run -d jenkins/jenkins
+docker ps -a
+cd ..
+ls
+cat compose-1-jenkins.yml 
+cat compose-jenkins-only.yml 
+sudo service jenkins start
+docker-compose run -f compose-jenkins-only.yml --detach
+docker-compose -f compose-jenkins-only.yml --name jenkins-compose up --detach
+docker-compose -f compose-jenkins-only.yml up --detach
+docker ps -a
+tree
+cd ..
+ls
+cd koti-jenkins/
+ls
+tree
+cd ../
+ls
+cd docker/
+cat compose-jenkins-only.yml 
+docker run -d --name hellotomcat tomcat 
+cd gradle-tomcat/
+tree
+docker ps
+docker container run -p 80:8080 -ti -rm --name webappdemo newweb
+docker container run -p 80:8080 -ti --name webappdemo newweb
+cd gradle-gsk/
+ls
+cd new
+ls
+cd gskweb/
+vi build.gradle 
+tree
+cd src/main/java
+cp -r ./webapp/ .
+ls
+tree
+cp -r ./webapp/ ../.
+rm -rf webapp/
+cd ..
+tree
+cd webapp/
+vi index.html
+gradle gsk
+cd ..
+cd ..c
+cd ../..
+gradle gsk
+gradle clean build
+tree
+cp -r ./build/libs/gskweb.war ../../../docker/gradle-tomcat/deploynew22.war
+cd ../../../docker/gradle-tomcat/
+ls
+vi Dockerfile 
+docker build -t deploy22 .
+docker run -d -it -p 8085:8085 --name con1war1 deploy22
+docker run -d -it -p 8999:8085 --name con1war1 deploy22
+docker run -d -it -p 8999:8085 --name con1war12 deploy22
+docker ps -a
+docker exec -it deploy22 /bin/bash
+docker exec -it con1war12 /bin/bash
+docker ps -a
+docker stop 20 a0 
+docker rm 20 a0 e2 7c cf
+docker stop cf
+docker rm cf
+docker ps -a
+cd ..
+ls 
+tree
+vi compose-1-jenkins.yml 
+vi compose-jenkins-only.yml 
+cd ..
+tree
+ls -la
+cd ..
+ls -la
+cd ..
+ls -la
+cd home/kotesh/
+sudo service jenkins start
+sudo service jenkins status
+sudo apt remove jenkins
+wget -q -O - http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key | sudo apt-key add -
+sudo sh -c 'echo deb http://pkg.jenkins-ci.org/debian binary/ > /etc/apt/sources.list.d/jenkins.list'
+sudo apt-get update
+sudo apt-get install jenkins
+sudo service jenkins start
+sudo apt install openjdk-11-jdk -y
+sudo service jenkins start
+sudo service jenkins restart
+cd /var/lib/jenkins/
+ls -la
+cd docker/gradle-tomcat/
+ci Dockerfile 
+vi Dockerfile 
+docker ps -a
+sudo service docker start
+docker ps -a
+docker images
+docker rmi 3e 7c bf
+docker rm 7c
+docker rmi 3e 7c bf
+docker images
+docker build -t webapp1 .
+docker run -it --name gskweb -p 80:8085 webapp1
+docker rm d
+docker run -it --name gskweb -p 80:8085 webapp1
+docker rm d
+docker run -it --name gskweb -p 80:8085 webapp1
+docker rm 6
+docker run -d --name gskweb -p 8999:8085 webapp1
+docker exec -it gskweb /bon/bash
+docker exec -it gskweb /bin/bash
+docker rm d
+docker run -it --name justtom -p 8991:8080 tomcat:8.0-alpine 
+docker ps -a
+docker rm f
+docker run -d --name justtom -p 8991:8080 tomcat:8.0-alpine 
+docker exec -it justtom /bin/bash
+vi Dockerfile 
+cat Dockerfile 
+docker build -t final .
+docker run -it --name final1 -p 8085:8080 final
+cd ../..
+cd gradle-gsk/
+ls
+cd new/
+ls
+cd gskweb/
+ls
+tree
+cd src/main/webapp/
+cat index.jsp 
+cat index.html 
+cd data-jenkins/jenkins/
+ls -la
+ls
+mkdir maven-gsk
+cd maven-gsk/
+mkdir webapp-trail-1
+which mvn
+maven archetype:generate -DgroupId=org.wings.siva -DartifactId=webapp-trail-11 -DarchetypeArtifactId=maven-archetype-webapp -DinteractiveMode=false
+maven -version
+maven -v
+maven --version
+sudo apt install maven
+sudo apt update maven
+sudo apt-get update maven
+sudo apt-get update
+maven archetype:generate -DgroupId=org.wings.siva -DartifactId=webapp-trail-11 -DarchetypeArtifactId=maven-archetype-webapp -DinteractiveMode=false
+mvn -v
+mvn archetype:generate -DgroupId=org.wings.siva -DartifactId=webapp-trail-11 -DarchetypeArtifactId=maven-archetype-webapp -DinteractiveMode=false
+ls
+rm -rf webapp-trail-1
+tree
+cd webapp-trail-11/src/main/webapp/
+vi index.html
+cd ../../..
+ls
+maven compile
+mvn compile
+mvn package
+tree
+cd target/
+ls
+cp -r ./webapp-trail-11.war /opt/tomcat/apache-tomcat-9.0.63/webapps/mvn-webapp.war
+cd /opt/tomcat/apache-tomcat-9.0.63/webapps/
+ls
+cat Dockerfile 
+cd ..
+ls
+tree /lib
+ls
+cd lib/
+ls
+cd ..
+cd apache-tomcat-9.0.63/
+cd conf/
+ls
+cd ..
+ls
+cd bin/
+ls
+sudo ls
+history
+cd ..
+ls
+cd bin/
+ls
+sudo ls
+bash ./catalina.sh
+sudo bash ./catalina.sh
+sudo bash ./catalina.sh run
+sudo bash ./catalina.sh start
+cd ..
+cd apache-tomcat-9.0.63/
+cd bin/
+ls
+sudo bash ./catalina.sh start
+cd ..
+ls
+cd conf/
+ls
+cat server.xml 
+sudo bash ./catalina.sh start
+cd ../bin/
+sudo bash ./catalina.sh start
+sudo service tomcat status
+cd ../webapps/
+ls
+cd ../bin/
+ls
+sudo bash ./catalina.sh stop
+sudo bash ./catalina.sh restart
+sudo bash ./catalina.sh run
+ls
+cd /mnt/C
+cd /mnt/
+ls
+cd Users/
+ls
+cd ASUS
+cls
+ls
+cd Downloads/
+ls
+cat Ubuntu-VM-Server.pem 
+chmod 400 Ubuntu-VM-Server.pem
+ssh -i "Ubuntu-VM-Server.pem" ec2-user@ec2-54-197-22-246.compute-1.amazonaws.com
+chmod 777 Ubuntu-VM-Server.pem
+ssh -i "Ubuntu-VM-Server.pem" ec2-user@ec2-54-197-22-246.compute-1.amazonaws.com
+sudo chmod 777 Ubuntu-VM-Server.pem
+sudo ssh -i "Ubuntu-VM-Server.pem" ec2-user@ec2-54-197-22-246.compute-1.amazonaws.com
+sudo /usr/sbin/alternatives --config java
+sudo /usr/bin/alternatives --config java
+sudo /usr/sbin/ --config java
+cd /mnt/c/Users/ASUS/Downloads/
+chmod 777 my-jenkins-aws.pem
+ssh -i "my-jenkins-aws.pem" ubuntu@ec2-34-230-59-238.compute-1.amazonaws.com
+sudo chmod 777 my-jenkins-aws.pem
+ssh -i "my-jenkins-aws.pem" ubuntu@ec2-34-230-59-238.compute-1.amazonaws.com
+sudo ssh -i "my-jenkins-aws.pem" ubuntu@ec2-34-230-59-238.compute-1.amazonaws.com
+ls
+cd ansible/
+ls
+rm ansible-nginx-handson.retry 
+cat ansible-nginx-handson.yml 
+vi new-nginx-index.yml
+vi index.html.j2
+ansible-playbook new-nginx-index.yml 
+vi new-nginx-index.yml 
+ansible-playbook new-nginx-index.yml 
+vi new-nginx-index.yml 
+ansible-playbook new-nginx-index.yml 
+ansible-playbook new-nginx-index.yml --ask-pass
+vi new-nginx-index.yml 
+ansible-playbook new-nginx-index.yml --ask-pass
+vi new-nginx-index.yml 
+ansible-playbook new-nginx-index.yml --ask-pass
+vi new-nginx-index.yml 
+ansible-playbook new-nginx-index.yml 
+vi new-nginx-index.yml 
+ansible-playbook new-nginx-index.yml 
+sudo ansible-playbook new-nginx-index.yml 
+curl http://localhost:9090
+curl http://localhost
+curl http://localhost/index.html
+vi new-nginx-index.yml 
+visudo
+sudo visudo
+sudo cat visudo
+sudo visudo
+cd /etc/ansible/
+ls
+cat hosts
+cat ansible.cfg 
+cd ~
+ssh 
+ssh 20.235.81.25
+vi /etc/ansible/ansible.cfg 
+cat /etc/ansible/ansible.cfg 
+sudo vi /etc/ansible/ansible.cfg 
+cat /etc/ansible/ansible.cfg 
+ssh 20.235.81.25
+ssh key-gen
+ssh-key-gen
+vi /etc/ssh/sshd_config 
+chmod 777 /etc/ssh/sshd_config 
+sudo chmod 777 /etc/ssh/sshd_config 
+vi /etc/ssh/sshd_config 
+ssh 20.235.81.25
+sudo ssh 20.235.81.25
+cd /mnt/c
+ls
+cd Users/ASUS/
+ls
+cd Downloads/
+grep -i azure
+ls | grep -i azure
+ls | grep -i ubuntu-t5_key.pem 
+pwd
+ssh -i /mnt/c/Users/ASUS/Downloads/ubuntu-t5_key.pem azureuser@20.235.81.25
+sudo ssh -i /mnt/c/Users/ASUS/Downloads/ubuntu-t5_key.pem azureuser@20.235.81.25
+cd .ssh/
+ls
+cat known_hosts 
+cd ..
+pwd
+tree | grep -i ssh
+cd ~
+tree | grep -i ssh
+alternatives --config java
+sudo apt install alternatives
+sudo apt-get install alternatives
+update-alternatives --config java
+ls
+cd koti-jenkins/
+ls
+tree
+cd ..
+ls docker/
+cat ./docker/compose-jenkins-only.yml 
+ls docker/
+cd docker/
+cat old-jenkins.yml 
+ls
+cd ..
+ls
+vi Dockefile
+cat Dockerfile
+ls
+cd data-jenkins/
+ls
+cd jenkins/
+ls
+cd ..
+pwd
+cd jenkins/
+ls
+ls -ll
+cat config.xml 
+cd ..
+cd docker/
+ls
+ls -la
+docker-compose -f old-jenkins.yml up --detach
+sudo service docker start
+docker-compose -f old-jenkins.yml up --detach
+cd ..
+ls
+ls -la
+cd ansible/
+ls
+ls -la
+history
+history | grep -i ansible
+ls
+ls -la
+cat ansible-nginx-handson.yml 
+ansible-playbook ansible-nginx-handson.yml 
+cat myhosts 
+ansible --version
+cat /etc/ansible/ansible.cfg 
+ls
+ls -la
+ansible-playbook all ansible-nginx-handson.yml 
+cat ansible-nginx-handson.yml 
+sudo ansible-playbook all ansible-nginx-handson.yml 
+ansible-playbook ansible-nginx-handson.yml 
+ls
+cd ..
+cd kotesh/
+ls
+cd maven-gsk/
+ls
+cd webapp-trail-11/
+ls
+tree
+cd /opt/tomcat/
+ls
+cd webapps/
+sudo cd webapps/
+sudo su -
+cd apache-tomcat-9.0.63/
+ls
+cd webapps/
+ls
+cd ..
+ls
+cd ../..
+cd ~/maven-gsk/
+ls
+cd webapp-trail-11/
+tree
+cd src/main/webapp/
+cat index.html 
+mvn clean package
+cd ../../
+cd ../
+ls
+cd /opt/tomcat/apache-tomcat-9.0.63/
+ls
+cd bin/
+ls
+./catalina.sh
+bash ./catalina.sh
+bash catalina.sh
+bash catalina.sh 
+catalina.sh 
+bash startup.sh 
+cd ..
+cd webapps/
+ls
+cd mvn-webapp/
+sudo cd mvn-webapp/
+cd gopi-app
+ls
+cat index.jsp 
+cd ../../../..
+cd ..
+cd ~
+cd maven-gsk/
+ls
+ls -la
+cd ..
+vi my-role-play.yml 
+sudo ansible-playbook my-role-play.yml 
+curl localhost:9090
+sudo ansible-playbook my-role-play.yml 
+curl localhost:9090
+sudo ansible-playbook my-role-play.yml -vvvv
+curl localhost
+cd ansible/
+ls
+ls -ll
+rm -rf fresco-nginx/
+ls -ll
+sudo ansible-playbook playbook-1-nginx.yml 
+ls -ll
+rm playbook-1-nginx.retry 
+rm new-nginx-index.retry 
+ls -ll
+sudo ansible-playbook new-nginx-index.yml 
+vi new-nginx-index.yml 
+cat index.html.j2 
+cat new-nginx-index.yml 
+sudo ansible-playbook new-nginx-index.yml 
+vi new-nginx-index.yml 
+sudo ansible-playbook new-nginx-index.yml 
+ls
+ansible-galaxy init gopi-nginx-fresco --offline
+ls
+cd gopi-nginx-fresco/
+tree
+code .
+cd ..
+vi my-role-play.yml
+sudo ansible-playbook my-role-play.yml 
+ls
+rm *.retry
+ls
+cat new-nginx-index.yml 
+sudo ansible-playbook new-nginx-index.yml 
+docker-compose --help
+docker-compose up --help
+docker volume ls
+sudo service docker start
+docker volume ls
+docker ps -a
+sudo service docker start
+docker container ls
+docker ps -a
+docker start jenkins-old-dataone 
+ls
+code .
+sudo service docker start
+docker start jenkins-old-dataone 
+docker exec -it jenkins-old-dataone 
+docker exec -it jenkins-old-dataone bash
+cd docker/
+ls
+docker-compose -f demo-prav-jenkins.yml up -d
+docker exec -it jenkins-prav-old bash
+docker-compose -f demo-prav-jenkins.yml down
+docker ls
+docker ps -a
+apt-cache search jdk
+find . -iname <STRING-TO_Search>

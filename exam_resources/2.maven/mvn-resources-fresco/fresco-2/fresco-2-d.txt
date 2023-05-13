@@ -1,0 +1,222 @@
+======================================================================================
+
+Dependency Configuration
+Dependency is another archive - JAR/ZIP which the current project needs to compile, build, test, and/or to run.
+Project dependencies are defined inside <dependencies> tag.
+<dependencies>
+
+  <dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>4.12</version>
+    <scope>test</scope>
+  </dependency>
+ 
+  <dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-core</artifactId>
+    <version>4.3.5.RELEASE</version>
+  </dependency>
+ 
+</dependencies>
+
+======================================================================================
+
+Dependency Scopes
+compile
+The default scope indicates that dependency is available in the classpath of the project.
+provided
+It indicates that dependency is to be provided by JDK or web-Server/Container.
+runtime
+It indicates that dependency is not required for compilation, but is required during execution.
+test
+It indicates that the dependency is only available for the test compilation and execution phases.
+system
+It indicates that dependency is available at the provided system path.
+import (applicable for packaging type 'pom')
+It indicates that the dependency should be replaced with the dependencies in that POM's <dependencyManagement> section.
+
+======================================================================================
+
+Insight into Maven Dependency Scopes
+This video will brief about the Maven Dependency mechanism. It explains what a dependency scope is and covers the difference between the Maven scope compiled and provided.
+
+======================================================================================
+
+Dependency Management
+Modules
+
+Maven supports multi-module projects
+A parent with root pom.xml and sub-modules with different pom.xml
+Sub-modules inherit dependency info from the parent POM
+Dependency Management
+
+Dependency Management section is contained within <dependencyManagement> element in pom.xml
+Parent POM specifies the version and scope information for dependencies
+Module POMs inherit version/scope from the parent (they still have to specify the dependency)
+This is useful for ensuring consistent versions across modules.
+
+======================================================================================
+
+Dependency Management Example
+Parent POM
+
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.fresco.play</groupId>
+    <artifactId>maven-parent</artifactId>
+    <version>1.0.1</version>
+    <packaging>pom</packaging> 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+                <version>1.2.17</version>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.1.2</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>
+------------------
+Child 1 POM
+
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.fresco.play</groupId>
+    <artifactId>maven-child1</artifactId>
+    <version>1.0.1</version>
+    <packaging>jar</packaging>
+    <parent>
+        <groupId>com.fresco.play</groupId>
+        <artifactId>maven-parent</artifactId>
+        <version>1.0.1</version>
+    </parent> 
+    <dependencies>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+        </dependency>
+    </dependencies>     
+</project>
+--------------
+Child 2 POM
+
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.fresco.play</groupId>
+    <artifactId>maven-child2</artifactId>
+    <version>1.0.1</version>
+    <packaging>jar</packaging>
+    <parent>
+        <groupId>com.fresco.play</groupId>        
+        <artifactId>maven-parent</artifactId>
+        <version>1.0.1</version>
+    </parent>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+    </dependencies>     
+</project>
+
+======================================================================================
+
+Transitive Dependency
+Transitive Dependency
+If project-a depends on project-b, which in turn depends on project-c, then project-c is considered a transitive dependency of project-a.
+
+Conflict Resolution
+
+Multiple version of the same artifact:
+The first one (in dependency declaration order) will be chosen.
+Excluded dependencies:
+Exclude a transitive dependency if it conflicts with another declared or inherited dependency.
+Optional dependencies:
+More like marking a dependency as ‘Excluded by default’. The dependency will be added only if explicitly stated.
+
+======================================================================================
+
+Excluded Dependency
+Excluded Dependency
+Transitive dependency can be excluded for the below reasons:
+
+When a different version of the transitive dependency needs to be declared.
+When the transitive dependency needs to be replaced with an alternate dependency that provides the same functionality.
+Example:
+
+Parent Project has JUnit 4.12 in the classpath.
+Parent includes DBUnit which in turn has the dependency JUnit 3.8.2 .
+Parent chooses to remove transitive dependency JUnit 3.8.2 by excluding it as shown below.
+<dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>4.12</version>
+    <scope>test</scope>
+</dependency>
+<dependency>
+    <groupId>org.dbunit</groupId>
+    <artifactId>dbunit</artifactId>
+    <version>${dbunit.version}</version>
+    <scope>test</scope>
+    <exclusions>
+        <!--Exclude transitive dependency to JUnit-3.8.2 -->
+        <exclusion>
+            <artifactId>junit</artifactId>
+            <groupId>junit</groupId>
+         </exclusion>
+    </exclusions>
+</dependency>
+
+======================================================================================
+
+Optional Dependency
+Optional Dependency
+If a dependency is marked optional, then it is considered to be excluded by default.
+
+Example:
+
+Project Earth is composed of Project Human.
+Project Human is dependent on Project Food.
+Project Human marks Phone and Internet as optional
+Project Earth will, therefore, exclude these 2 optional dependencies.
+Project Earth -> Project Human -> Project Food
+                                -> Project Phone(Optional)
+                                -> Project Internet (Optional)
+Earth POM
+
+<dependency>
+     <groupId>planet.earth</groupId>
+     <artifactId>human</artifactId>
+     <version>1.0</version>     
+</dependency>
+Human POM
+
+<dependencies>
+  <dependency>
+     <groupId>life.needs</groupId>
+     <artifactId>food</artifactId>
+     <version>1.0</version>     
+  </dependency>
+  <dependency>
+     <groupId>life.needs</groupId>
+     <artifactId>phone</artifactId>
+     <version>1.0</version>
+     <optional>true</optional>
+  </dependency>
+  <dependency>
+     <groupId>life.needs</groupId>
+     <artifactId>internet</artifactId>
+     <version>1.0</version>
+     <optional>true</optional>
+  </dependency>
+</dependencies>
+Note: If Project Earth needs any of the optional transitive dependencies (Phone/Internet), it must explicitly declare them as a dependent.
+
+======================================================================================

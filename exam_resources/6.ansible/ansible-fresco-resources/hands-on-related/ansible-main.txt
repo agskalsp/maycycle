@@ -1,0 +1,54 @@
+---
+- name: testing includes
+  hosts: all
+  sudo: yes
+  tasks:
+    - include: apache.yml    
+    - include: content.yml    
+    - include: create_folder.yml
+    - include: content.yml
+- include: nginx.yml
+
+
+- name: install nginx
+  apt: 
+    name: nginx 
+    state: present
+    update_cache: yes
+
+- name: start nginx
+  service:
+    name: nginx
+    state: started
+
+- name: template code
+  template:
+    src: sites-enabled.j2
+    dest: /etc/nginx/sites-enabled/default
+
+- name: start nginx
+  service:
+    name: nginx
+    state: restarted
+
+
+================= sites-enabled.j2  ===========================
+==============================================================
+limit_req_zone $binary_remote_addr zone=mylimit:10m rate={{ request_per_min }}r/m;
+
+server {
+  listen   {{ port }};
+  server_name  {{ os }};
+
+  access_log  {{ access_log }};
+
+    root   /var/www/html;
+    index  index.html index.htm;
+
+location / {
+		limit_req zone=mylimit burst={{ buffer_request }};
+     proxy_pass {{ url }};
+}
+
+
+}

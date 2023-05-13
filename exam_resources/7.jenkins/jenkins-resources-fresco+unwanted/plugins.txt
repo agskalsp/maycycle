@@ -1,0 +1,11 @@
+Copy Artifact
+Role based access or authorisation
+Deploy to war/ear container
+Build Pipeline
+Maven Integration
+CloudBees Docker Build and Publish
+Docker plugin
+Delivery Pipeline
+Blue Ocean
+Green balls
+

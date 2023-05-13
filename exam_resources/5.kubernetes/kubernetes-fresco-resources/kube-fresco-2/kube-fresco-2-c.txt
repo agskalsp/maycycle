@@ -1,0 +1,374 @@
+
+===========================================================
+
+What's Here?
+So far, you have read everything about Kubernetes authentication and authorization. Now, it's time to get your hands dirty. Let's put all together and implement security in Kubernetes
+
+In this subsection, we will create a new user for our organization and allow him to access our cluster (Authentication).
+
+Later, we'll assign our user rights and responsibilities as what he can do or what he cannot (Authorization).
+
+Sounds fun? Let's start.
+
+===========================================================
+
+Server Setup
+Before starting anything, we should start our minikube. Since we are going to use RBAC for authentication, we'll start minikube with that extra-config.
+
+minikube start --extra-config=apiserver.Authorization.Mode=RBAC
+If you are using any server other than minikube this method may change. Go through your server documentation and find out and enable RBAC mode.
+
+===========================================================
+
+Authentication
+First, we will create a user with,
+
+username: employee
+group: fresco
+If you remember that Kubernetes doesn't have user object, so we have to use user management outside the cluster.
+
+In this example, we will use X509 Client Certs method to authenticate the user.
+
+===========================================================
+
+Authentication
+The first step is to create user Credentials. We will use OpneSSL to create credentials.
+
+Create private key for the user.
+openssl genrsa -out employee.key 2048
+Remember our username is employee.
+
+Create a certificate sign request .
+openssl req -new -key employee.key -out employee.csr -subj "/CN=employee/O=fresco"
+Observe that we created employee.csr signing request after passing employee's private key(-key employee.key) and username and group of the employee(-subj "/CN=employee/O=fresco").
+
+===========================================================
+
+Authentication
+We need to accept the sign request by using Kubernetes CA.
+Certification Authority (CA) files are located in ~/.minikube/. or /etc/kubernetes/pki/..
+Now let's generate empployee.crt by accepting employee.csr.
+openssl x509 -req -in employee.csr -CA CA_FOLDER/ca.crt -CAkey CA_FOLDER/ca.key -CAcreateserial -out employee.crt -days 500
+Note: Change CA_FOLDER value by either ~/.minikube/. or /etc/kubernetes/pki/. based on your CA files location.
+Now you have two important files with you - employee.crt and employee.key. Keep it safe.
+
+===========================================================
+
+Authentication
+Now that we have created user credentials, it is time to create a context and set credentials to that context.
+
+kubectl create namespace office
+The above command creates namespace office.
+
+kubectl config set-context emp-context --cluster=minikube --namespace=office --user=employee
+The above command creates a new context emp-context with user as employee and namespace as office.
+
+===========================================================
+
+Authentication
+Now that we have created our user context, let's add credentials to it.
+
+kubectl config set-credentials employee --client-certificate=./employee.crt  --client-key=./employee.key
+The above command sets credentials to user employee.
+
+Run cat ~/.kube/config. You should see above added information in that config file.
+
+===========================================================
+
+Authorization
+If you run,
+
+kubectl --context=employee-context get pods
+You will get an access denied message. The reason being, you have just passed first step Authentication so that you can access the cluster. Now to access cluster resources, you have to use authorization concept.
+
+So in upcoming cards, we'll create roles and role bindings to assign right to our employee.
+
+===========================================================
+
+Authorization
+Now, let's create a Role that defines rights and resources assigned to a subject(employee in our case).
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  namespace: office
+  name: ops-role
+rules:
+- apiGroups: ["", "extensions", "apps"]
+  resources: ["deployments",  "pods"]
+  verbs: ["get", "list", "watch"] 
+The above role defines that any subject to which it is bound can get,watch,list resources (i.e pods and deployments).
+The above Role is applicable only to office namespace.
+
+===========================================================
+
+Authorization
+Now that we have created Role to assign rights, next step is to create a Role Binding so that it can bind a role ops-role to **subject employee.
+
+This is how our role binding looks.
+
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: ops-binding
+  namespace: office
+subjects:
+- kind: User
+  name: employee
+  apiGroup: ""
+roleRef:
+  kind: Role
+  name: ops-role
+  apiGroup: ""
+The above role binding binds employee(subject) to ops-role(role), and it is only applicable on namespace office.
+
+===========================================================
+
+Testing
+So far we created a user(employee) and add certificates to kube-config, gave employee read permission on pods and deployments.
+
+Now, let's test what our employee can and cannot do.
+
+Run the following command,
+kubectl --context=employee-context get pods
+You should be able to retrieve the pods because employee is given get right on resource pod.
+
+Now let's run,
+kubectl --context=employee-context run --image=nginx
+You should see access denied error because employee doesn't have run right on any resource.
+
+===========================================================
+
+Accessing Dashboard
+To view Kubernetes Dashboard, follow these steps.
+
+If the dashboard is not already deployed, deploy it using the following command.
+kubectl create -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml
+Run Kubernetes proxy.
+kubectl proxy
+The above command will server Kubernetes Dashboard at port 8001.
+
+Now you can access the dashboard using http://localhost:8001/ui
+You can only access dashboard from the same machine that kubectl proxy command is executed.
+
+===========================================================
+
+Kubernetes - Prometheus
+Prometheus by default configured to use RBAC, so you either need to create a service account for Prometheus or disable RBAC in Prometheus. We'll follow the second approach.
+So, create a configuration file for helm which tells helm to disable RBAC from Prometheus.
+
+rbac: 
+  create: false
+server:
+  ## Prometheus server container name
+  name: prom-server
+
+  service:
+    nodePort: 30001
+    type: NodePort
+Save it as values.yaml.
+
+The above file disables RBAC and exposes Prometheus at port 30001.
+
+===========================================================
+
+Kubernetes - Prometheus
+Initialize helm if you haven't done already.
+helm init
+Install Prometheus using hlem.
+helm install stable/prometheus --name prom-demo -f values.yaml
+The above command installs helm and notices that it passes our configuration file values.yaml.
+
+===========================================================
+
+Kubernetes - Prometheus
+Now that you have installed Prometheus, wait for Prometheus pods to get created(kubectl get pods -w).
+
+Open http://<YOUR_IP>:30001 to access Prometheus Console.
+
+===========================================================
+
+Monitor Your Application
+By default, Prometheus monitors pre-deployed resources like kube-system resources. In upcoming cards, we'll see how to make Prometheus access your app metrics.
+
+Application Information
+
+We'll build a page hit count application using node-js.
+The application will increase a counter as and when root (/) is called.
+
+===========================================================
+
+Monitor Your Application
+First let's take a look at our application server.
+
+const express = require('express')
+const Prometheus = require('prom-client')
+const app = express();
+const port = process.env.PORT || 8000;
+
+const counter = new Prometheus.Counter({
+  name: 'http_page_hit',
+  help: 'Total number of page hits'
+})
+
+app.get('/', (req, res, next) => {
+   counter.inc();
+    res.send(`Page hit count : ${counter.hashMap[''].value}`)
+    next()
+})
+app.get('/metrics', (req, res) => {
+    res.set('Content-Type', Prometheus.register.contentType)
+    res.end(Prometheus.register.metrics())
+})
+app.listen(port, () => {
+    console.log(`app listening on port ${port}`)
+})
+The above application displays Page hit count : <COUNT> on receiving a request at path /.
+
+===========================================================
+
+Monitoring Your Application
+We use prom-client third-party library to communicate with Prometheus.
+const Prometheus = require('prom-client')
+prom-clinet exposes many APIs help you to generate metric of your application.
+We are using Counter API to increment page hit count.
+const counter = new Prometheus.Counter({
+  name: 'http_page_hit',
+  help: 'Total number of page hits'
+})
+Note: name: 'http_page_hit' will be used to access our app from Prometheus Console.
+
+===========================================================
+
+Monitoring Your Application
+Notice that we are exposing an endpoint /metrics. This is a must because Prometheus queries this endpoint to get metrics, that is why we are sending Prometheus.register.metrics() as the response.
+Prometheus uses this API to fetch your application metrics.
+app.get('/metrics', (req, res) => {
+    res.set('Content-Type', Prometheus.register.contentType)
+    res.end(Prometheus.register.metrics())
+})
+
+===========================================================
+
+Monitor Your Application
+Now that we have our application ready to send metrics to Prometheus. The next step is to bind Prometheus with our Application which is going to be deployed to Kubernetes cluster.
+
+Next, we'll write our deployment.yaml file. Deployment file remains the same.
+However, we need to make a small change to the service that will let us access our Application pods.
+
+===========================================================
+
+Service File
+Let's take a look at our service file.
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: http-page-hit
+  annotations:
+    prometheus.io/scrape: "true"
+spec:
+  selector:
+    app: http-page-hit
+  type: NodePort
+  ports:
+    - port: 8000
+      targetPort: 8000
+      nodePort: 30800
+Remember that we need to allow Prometheus to scrape metrics from our application.
+We use prometheus.io/scrape: "true" annotation to allow Prometheus to access the pod metric.
+
+===========================================================
+
+Kubernetes Hands-on scenario
+In this hands on you are going to work on kubernetes ConfigMaps, Secrets, Persistence Storage and Persistence Storage Claims
+
+Environment Setup
+
+Minikube installation
+
+sudo apt install docker.io -y 
+sudo systemctl unmask docker
+sudo service docker restart
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
+sudo dpkg -i minikube_latest_amd64.deb
+rm -rf minikube_latest_amd64.deb
+Check whether docker & minikube are properly installed and configured.
+
+Start Minikube and execute this command to sync host docker with minikube docker minikube -p minikube docker-env and eval $(minikube docker-env)
+
+------------------------- ConfigMaps ---------------------------
+
+Step - 1
+
+Create a ConfigMap named fresco-config.
+Add key SERVER_URL.
+Add value https://www.fresco.me.
+Verify if the ConfigMap is created.
+
+Step - 2
+
+Create an nginx pod with the environmental variable SERVER_URL_ENV.
+Use the ConfigMap created earlier, and assign the value to it. Use below template:
+apiVersion: v1 kind: Pod metadata: name: fresco-nginx-pod spec: containers: - name: fresco-nginx-container image: nginx env: fetch the value of SERVER_URL_ENV from previous configMap
+
+Test your configuration by executing this command: kubectl exec -it fresco-nginx-pod -- sh -c env | grep SERVER_URL_ENV
+It should display: https://www.fresco.me
+-------------------------------- Secrets ----------------------- Step - 1
+
+Create a Secret fresco-secret using:
+
+data: user:admin pass:pass
+
+Step - 2
+
+Modify the above nginx pod to add the fresco-secret and mountPath /etc/test:
+
+Use this command to check if the pod and secret are successfully configured: kubectl exec -it fresco-nginx-pod -- sh -c "cat /etc/test/* | base64 -d"
+
+It should display both username & password
+
+------------------ Persistence Volume ---------------------------
+
+Create a PV named fresco-pv using the following parameters:
+storageClassName - manual
+capacity - 100MB
+accessMode - ReadWriteOnce
+hostPath - /tmp/fresco
+Create a PVC named fresco-pvc, and request for 50MB. To verify successful creation, ensure it is bound to fresco-pv.
+
+Modify above nginx pod named fresco-nginx-pod using the following parameters:
+
+Request for fresco-pvc as a volume
+Use /usr/share/nginx/html for mount path.
+Hint: Use kubectl describe pod fresco-nginx-pod for debugging.
+
+--------------------------- RBAC ---------------------------------- In this section, you will create a user emp and assign 'read' rights on pods belonging to the namespace dev.
+
+Create a namespace named dev.
+
+Use openssl, and create a private key named emp.key.
+
+Create a certificate sign request named emp.csr using the private key generated earlier.
+
+Use the following information:
+
+name :emp
+group: dev
+Generate emp.crt by approving the request created earlier. Hint: The kube-ca files are available at ~/.minikube/..
+
+Create a new context pointing to the cluster minikube, and name it dev-ctx. It should point to the namespace dev, and the user should be emp.
+
+Set credentials for emp. Use emp.key and emp.crt created earlier.
+
+Create a role named emp-role, and assign get, list access on pods and deployments(use dev namespace).
+
+Bind emp to the role emp-role created earlier, and name it emp-bind.
+
+Run an nginx pod under the dev-ctx and dev namespace and nginx name.
+
+Execute kubectl --context=dev-ctx get pods -o wide, and ensure it is deployed.
+
+If you try to execute kubectl --context=dev-ctx get pods -n default, a forbidden error appears. This is because only employees are authorized to access the dev namespace.
+
+===========================================================
+

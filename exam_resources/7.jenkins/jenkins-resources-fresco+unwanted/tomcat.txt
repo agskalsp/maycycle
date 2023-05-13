@@ -1,0 +1,239 @@
+Text Direction : Install & Configure Tomcat in Staging Environment
+Install Tomcat On Linux/Unix Box & Configure with Jenkins
+wget http://mirrors.estointernet.in/apache/tomcat/tomcat-8/v8.5.47/bin/apache-tomcat-8.5.47.zip
+sudo mv apache-tomcat-8.5.47 /opt/tomcat/
+
+
+Step 1: Install Java
+
+sudo apt-get update
+sudo apt-get install default-jdk
+
+
+Step 2: Install Tomcat
+
+sudo apt install unzip wget -y
+cd /tmp
+wget https://mirrors.estointernet.in/apache/tomcat/tomcat-9/v9.0.63/bin/apache-tomcat-9.0.63.zip
+unzip apache-tomcat-*.zip
+sudo mkdir -p /opt/tomcat
+sudo mv apache-tomcat-9.0.63 /opt/tomcat
+
+
+Step 3: Change Tomcat Server Port
+
+Jenkins is running on Port 8080, and tomcat defalut port is also 8080. So we need to change the Tomcat port, I am changing it to 9090
+
+
+
+Go to /opt/tomcat/apache-tomcat-8.5.47/conf/server.xml file
+
+Search for Connector and change the Port Value, save the file.
+
+
+
+
+
+Step 4: Change Permission of Scripts in /bin
+
+cd /opt/tomcat/apache-tomcat-9.0.63/bin
+ls -la
+sudo chmod +x *
+
+
+Step 5: Start tomcat server and accss via browser on port 9090
+
+/opt/tomcat/apache-tomcat-9.0.63/bin/startup.sh
+
+
+
+Step 6: Configure Jenkins with Tomcat for Auto Deployment of Artifacts.
+
+Set Credentials of Tomcat that Jenkins use.
+
+cd /opt/tomcat/apache-tomcat-9.0.63/conf
+
+update tomcat-users.xml file.
+
+roles : manager-script & admin-gui
+
+Set password : tomcat
+
+
+
+Step 6 : Restart the tomcat server
+
+/opt/tomcat/apache-tomcat-9.0.63/bin/shutdown.sh
+/opt/tomcat/apache-tomcat-9.0.63/bin/startup.sh
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Text Direction : Install Tomcat on Windows
+How to Install Tomcat  (Follow if Jenkins is Executing on Windows Only)
+
+
+STEP 0: Create a Directory to Keep all your Works
+I shall assume that you have created a directory called "c:\myWebProject" (for Windows) or "~\myWebProject" (for Mac OS X) in your earlier exercises. Do it otherwise. This step is important; otherwise, you will be out-of-sync with this article and will not be able to find your files later.
+
+
+
+STEP 1: Download and Install Tomcat
+For Windows
+
+Goto http://tomcat.apache.org ⇒ Under "Tomcat 9.0.{xx} Released", where {xx} is the latest update number ⇒ Click "Download" ⇒ Under "9.0.{xx}" ⇒ Binary Distributions ⇒ Core ⇒ "zip" (e.g., "apache-tomcat-9.0.{xx}.zip", about 11 MB).
+
+UNZIP the downloaded file into your project directory "c:\myWebProject". Tomcat shall be unzipped into directory "c:\myWebProject\apache-tomcat-9.0.{xx}".
+
+For EASE OF USE, we shall shorten and rename this directory to "c:\myWebProject\tomcat".
+
+Take note of Your Tomcat Installed Directory. Hereafter, I shall refer to the Tomcat installed directory as <TOMCAT_HOME>.
+
+For Mac OS X
+
+Goto http://tomcat.apache.org ⇒ Under "Tomcat 9.0.{xx} Released", where {xx} is the latest update number ⇒ Click "Download" ⇒ Under "9.0.{xx}"⇒ Binary distribution ⇒ Core ⇒ "tar.gz" (e.g., "apache-tomcat-9.0.{xx}.tar.gz", about 10.5 MB).
+
+To install Tomcat:
+
+Double-click the downloaded tarball (e.g., "apache-tomcat-9.0.{xx}.tar.gz") to expand it into a folder (e.g., "apache-tomcat-9.0.{xx}").
+
+Move the extracted folder (e.g., "apache-tomcat-9.0.{xx}") to your project directory "~/myWebProject".
+
+For EASE OF USE, we shall shorten and rename this folder to "tomcat", i.e., "~/myWebProject/tomcat".
+
+Take note of Your Tomcat Installed Directory. Hereafter, I shall refer to the Tomcat installed directory as <TOMCAT_HOME>.
+
+
+
+Tomcat's Sub-Directories
+Take a quick look at the Tomcat installed directory. It contains the these sub-directories:
+
+bin: contains the binaries and scripts (e.g., startup.bat and shutdown.bat for Windows; startup.sh and shutdown.sh for Unixes and Mac OS X).
+
+conf: contains the system-wide configuration files, such as server.xml, web.xml, and context.xml.
+
+webapps: contains the webapps to be deployed. You can also place the WAR (Webapp Archive) file for deployment here.
+
+lib: contains the Tomcat's system-wide library JAR files, accessible by all webapps. You could also place external JAR file (such as MySQL JDBC Driver) here.
+
+logs: contains Tomcat's log files. You may need to check for error messages here.
+
+work: Tomcat's working directory used by JSP, for JSP-to-Servlet conversion.
+
+
+
+STEP 2: Create an Environment Variable JAVA_HOME
+(For Windows)
+
+You need to create an environment variable (system variable available to all applications) called "JAVA_HOME", and set it to your JDK installed directory.
+
+Follow the steps HERE!
+
+(For Mac OS)
+
+Skip this step. No need to do anything.
+
+
+
+STEP 3: Configure the Tomcat Server
+The Tomcat configuration files, in XML format, are located in the "conf" sub-directory of your Tomcat installed directory, e.g. "c:\myWebProject\tomcat\conf" (for Windows) or "~/myWebProject/tomcat/conf" (for Mac OS X). The important configuration files are:
+
+server.xml
+
+web.xml
+
+context.xml
+
+Make a BACKUP of the configuration files before you proceed!!!
+
+Step 3(a) "conf\server.xml" - Set the TCP Port Number
+Use a programming text editor (e.g., Sublime Text, Atom) to open the configuration file "server.xml".
+
+The default TCP port number configured in Tomcat is 8080, you may choose any number between 1024 and 65535, which is not used by existing applications. We shall choose 9999 in this article. (For production server, you should use port 80, which is pre-assigned to HTTP server as the default port number.)
+
+Locate the following lines (around Line 69) that define the HTTP connector, and change port="8080" to port="9999".
+
+<!-- A "Connector" represents an endpoint by which requests are received
+      and responses are returned. Documentation at :
+      Java HTTP Connector: /docs/config/http.html
+      Java AJP  Connector: /docs/config/ajp.html
+      APR (HTTP/AJP) Connector: /docs/apr.html
+      Define a non-SSL HTTP/1.1 Connector on port 8080
+-->
+<Connector port="9090" protocol="HTTP/1.1"
+           connectionTimeout="20000"
+           redirectPort="8443" />
+
+
+STEP 4: Start Tomcat Server
+The Tomcat's executable programs and scripts are kept in the "bin" sub-directory of the Tomcat installed directory.
+
+Start Server
+For Windows
+
+I shall assume that Tomcat is installed in "c:\myWebProject\tomcat". Launch a CMD shell and issue:
+
+c:                           // Change drive
+cd \myWebProject\tomcat\bin  // Change directory to your Tomcat's binary directory
+startup                      // Run startup.bat to start tomcat server
+For Mac OS
+
+I assume that Tomcat is installed in "~/myWebProject/tomcat". To start the Tomcat server, open a new "Terminal" and issue:
+
+cd ~/myWebProject/tomcat/bin  // Change directory to your Tomcat's binary directory
+./catalina.sh run             // Run catalina.sh to start tomcat server
+A new Tomcat console window appears (with Java's coffee-cup logo as icon). Study the messages on the console. Look out for the Tomcat's port number. Double-check that Tomcat is running on port 9090 is configured.
+
+Error messages will be sent to this console. System.out.println() issued by your Java servlets will also be sent to this console.
+
+............
+............
+xxxxx INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler ["http-nio-9999"]
+xxxxx INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler ["ajp-nio-8009"]
+xxxxx INFO [main] org.apache.catalina.startup.Catalina.start Server startup in [1325] ms
+
+
+Shutdown Server
+For Windows
+
+You can shut down the tomcat server by either:
+
+Press Ctrl-C on the Tomcat console; OR
+
+Run "<TOMCAT_HOME>\bin\shutdown.bat" script. Open a new "cmd" and issue:
+
+c:                           // Change the current drive
+cd \myWebProject\tomcat\bin  // Change directory to your Tomcat's binary directory
+shutdown                     // Run shutdown.bat to shutdown the server
+For Mac OS
+
+To shut down the Tomcat server:
+
+Press Control-C (NOT Command-C) on the Tomcat console; OR
+
+Run the "<TOMCAT_HOME>/bin/shutdown.sh" script. Open a new "Terminal" and issue:
+
+cd ~/myWebProject/tomcat/bin  // Change current directory to Tomcat's bin directory
+./shutdown.sh                 // Run shutdown.sh to shutdown the server
+WARNING: You MUST properly shutdown the Tomcat. DO NOT kill the CAT by pushing the window's "CLOSE" button.
+

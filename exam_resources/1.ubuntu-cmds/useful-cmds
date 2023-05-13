@@ -1,0 +1,29 @@
+find . -iname <SEARCH-string>   // here . represents path
+find / -name <SEARCH-string>
+
+sudo visudo
+# Allow members of group sudo to execute any command <And not ASK any Password>
+%sudo   ALL=(ALL:ALL)  NOPASSWD :ALL
+
+chown -R user:user <CONTEXT-PATH>
+chmod 777 <CONTEXT-PATH>
+
+sudo su -
+sudo su <username>
+cat /etc/passwd
+    >> useradd jenkins
+    >> passwd jenkins
+
+>>vi /etc/ssh/sshd_config
+    >> PasswordAuthentication as Yes
+    service sshd reload
+
+hostname t5wings --> sets the t5wings as a username
+
+java -cp <PATH-of-the-JAR>.jar <Name-Of-Class>
+java -cp <PATH-of-the-JAR>.jar com.fresco.App 
+
+ifconfig // for getting IP of a system
+
+
+

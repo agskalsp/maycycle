@@ -1,0 +1,306 @@
+URLs:
+   URL 1: https://maven.apache.org/guides/introduction/introduction-to-the-pom.html
+
+
+Setup Maven environment
+Open terminal and set path as
+
+export MAVEN_HOME=/usr/local/apache-maven/apache-maven-3.5.0
+
+export MAVEN=$MAVEN_HOME/bin
+
+Add maven bin directory path to system path
+
+export PATH=$MAVEN:$PATH
+
+Verify Maven Installation using
+
+$ mvn –version or $mvn --version or $mvn -v
+
+======================================================
+
+Unique Identifier for POM file
+POM.xml takes minimal coordinate attributes as
+
+inputs for the project as groupId:artifactId:version (alias GAV).
+
+POM stores the information such as the location of the source code and records any external dependencies. It describes what needs to be built as part of the project.
+
+Sample POM file:
+
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.fresco.play</groupId>
+  <artifactId>first-mvn-project</artifactId>
+  <version>1.0-SNAPSHOT</version>
+</project>
+
+=========================================================
+
+POM.xml with Additional Inputs
+In addition to minimal inputs, some of the additional elements can also be added such as Packaging (jar, war etc.), maven project name, url, dependencies, scope (compile, provided, runtime, test, system) etc.
+
+Sample pom.xml file with additional elements:
+
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.fresco.play</groupId>
+  <artifactId>first-maven-project</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  <name>first-maven-project</name>
+  <url>http://maven.apache.org</url>
+  <dependencies>
+   <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+</project>
+
+================================================================
+
+Super POM View
+Now, let us try to generate a view of Super POM by using a command mvn help:effective-pom. For this:
+
+Check the current directory by using pwd and change the directory to where pom.xml file exists.
+Example: cd first-maven-project.
+
+You can do an ls to ensure that you are in the same directory as that of pom.xml.
+
+Run the command mvn help:effective-pom to view Super POM.
+
+================================================================
+
+Sample Dependency Element
+Following is a sample dependency element junit added in pom.xml.
+
+<dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.8.2</version>
+      <scope>test</scope>
+</dependency>
+
+
+===============================================================
+
+Get a New Dependency
+There are many repositories that hold some of the commonly used Maven dependencies. search.maven.org is the recommended site for getting the needed ones.
+
+Let us search for csv file maven dependency in search.maven.org. You could click on the needed version to get the dependency information as shown below. The same can be copied to the dependencies element in pom.xml.
+
+ <dependency>
+   <groupId>com.opencsv</groupId>
+   <artifactId>opencsv</artifactId>
+   <version>3.9</version>
+ </dependency>
+This dependency will be downloaded and kept at MAVEN_REPOSITORY_ROOT=.m2/repository/ in Linux
+
+==================================================================
+
+External Dependencies
+At times, the jar files to be added as project dependency might reside outside the Maven repository. These can also be added as an external dependency in POM.xml file as shown in the subsequent example.
+
+<dependency>
+  <groupId>mydependency</groupId>
+  <artifactId>mydependency</artifactId>
+  <scope>system</scope>
+  <version>1.0</version>
+  <systemPath>${basedir}\war\WEB-INF\lib\frescoplay-gems.jar</systemPath>
+</dependency>
+
+===================================================================
+
+Dependencies Version as Greater than Range.
+If user depends on a version of JUnit which is higher than 3.8.
+
+Dependency Range for JUnit will be specified as: JUnit > 3.8
+
+We can define using Exclusive quantifiers boundary, denoted as (, ]
+
+Sample Dependency View
+
+<dependency>
+    <groupId>junit</groupId>
+     <artifactId>junit</artifactId>
+     <version>(3.8,]</version>
+     <scope>test</scope>
+</dependency>
+
+====================================================================
+
+Dependencies Version in Between Range
+If user depends on any version of JUnit, which is greater than or equals to 3.8 but less than 4.0 .
+
+Dependency Range for Junit will be specified as: JUnit 3.8 to JUnit 4.0
+
+You can define it using Exclusive quantifies boundary denoted as [, )
+
+Sample Dependency View
+
+<dependency>
+       <groupId>junit</groupId>
+   	<artifactId>junit</artifactId>
+       <version>[3.8,4.0)</version>
+       <scope>test</scope>
+</dependency>
+
+=================================================================
+
+Following are the default phases of each build life cycle:
+
+validate - checks if the project is correct and all information is available.
+compile - compiles the source code in binary artifacts.
+test - executes the tests.
+package - takes the compiled code and packages it as, a war or jar or an ear file.
+integration-test - takes the packaged result and executes additional tests required for packaging.
+verify - checks if the package is valid.
+install - installs the result of the package phase into the local Maven repository.
+deploy - deploys the package to a target, i.e. a remote repository.
+
+=====================================================================
+
+Build Goals
+Build Goals
+Some phases have goals bound to them by default. All relevant goals associated with a phase are executed during this process.
+
+A goal is relevant for a phase if the Maven plug-in or the pom binds this goal to the corresponding life cycle phase.
+
+For example - By running the command compiler:compile, Maven gets the goal of compiling application sources done by using the parameters specified in POM.xml.
+
+=========================================================================
+
+mvn -version. 
+ whereis mvn.
+
+=======================
+
+Verify Project Creation
+Go to the Maven project location and find your newly created project first-maven-project.
+
+The project structure would contain src and pom.xml files. This is a standard structure that Maven creates.
+
+src folder holds the com.fresco.play.App.java file and com.fresco.play.AppTest.java files, which are the source code and test code files.
+
+Project creation can be considered successful if you see this kind of a structure.
+
+===========================================================================
+
+Compile the Source Code
+It is time to compile the code. Type mvn compile.
+
+If the compilation is successful, BUILD SUCCESS message appears.
+
+==========================================================================
+
+JAR File Creation
+Now, assuming you have finished coding your Java project and compiled the same, it is time to create a JAR file.
+
+The first step for creating JAR file is to ensure cleansing any previous build artifacts before packaging them as a Maven project. This can be done using mvn clean which removes all the previously generated files from ./target folder.
+
+mvn package would create a new package at ./target folder.
+
+Alternately, we could combine cleaning and package creation as one step by typing mvn clean package. You would get a new JAR file created.
+
+=======================================================================
+Running Jar File
+To run the jar file, copy the jar build path and execute 
+
+java -cp /home/scrapbook/tutorial/test/target/test-1.0-SNAPSHOT.jar com.fresco.play.Appin terminal.
+
+It will print Hello World!
+
+========================================================================
+
+Running the Test
+To run the test phase of Maven life cycle, use mvn test instead of running a full build packaging.
+
+========================================================================
+
+Environment Variables
+Environment variables can be set and read in Maven.
+
+To set the variable, say, M2_HOME path, type export M2_HOME=/usr/share/maven.
+
+To verify the path, type echo $M2_HOME. If /usr/share/maven is displayed as the path, then the environment variable is properly set.
+
+These variables can be read in <build> phase in maven pom.xml by pre-fixing the environment variable with env property name as shown.
+
+=====================================================================
+
+Setting Environment Variable
+You may compile maven file and validate by executing:
+
+mvn compile
+
+mvn validate
+================================================
+
+IMPORTANT: 
+
+Setting Environment Variable
+Sample plugins with an environment variable:
+
+<build>
+      <plugins>
+  <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-antrun-plugin</artifactId>
+      <version>1.1</version>
+      <executions>
+           <execution>
+               <phase>validate</phase>
+                 <goals>
+                       <goal>run</goal>
+                </goals>
+        <configuration>
+         <tasks>
+           <echo>Displaying environment variables</echo>
+                   <echo>[JAVA PATH] ${env.JAVA_HOME}</echo>
+                   <echo>[M2_HOME] ${env.M2_HOME}</echo>
+         </tasks>
+     </configuration>
+    </execution>
+       </executions>
+     </plugin>
+   </plugins>
+</build>
+
+======================================================================
+
+Program Execution with Maven
+Now, to make your Java program work with Maven, incorporate exec-maven-plugin in pom.xml file.
+
+This will eliminate the need for using jar with java path to run the source code. Java path gets configured in Maven itself by including exec-maven-plugin in pom.xml.
+
+Once the pom file is ready with the exec maven plugin, source code can be executed using mvn exec:java.
+
+Sample pom file with maven-compile and exec-maven plugin after <Dependencies></Dependencies> tag:
+<build>
+  <sourceDirectory>src</sourceDirectory>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.3</version>
+            <configuration>
+              <source>1.8</source>
+              <target>1.8</target>
+             </configuration>
+        </plugin>
+   <plugin>
+   <groupId>org.codehaus.mojo</groupId>
+      <artifactId>exec-maven-plugin</artifactId>
+         <version>1.2.1</version>
+            <configuration>
+              <mainClass>com.fresco.play.App</mainClass>
+            </configuration>
+     </plugin>
+   </plugins>
+</build>
+
+===========================================================================
+
+

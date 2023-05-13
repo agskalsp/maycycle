@@ -1,0 +1,99 @@
+docker service create voting-app
+docker service create --name vote voting-app
+docker service create --name vote --replicas 3 voting-app docker service create --replicas 3 --name vote -p 8080:80 voting-app
+docker service create --replicas 3 --name vote -p 8080:80 --network front-end voting-app
+docker service update --replicas=6 vote
+
+
+@@NETWORKING@@
+
+docker network create -d overlay 10.0.9.0/24 my-overlay-network
+
+docker service create --replicas 2 --network my-overlay-network nginx
+
+
+
+@@Will have same known Docker Compose with deploy as new@@
+
+docker stack deploy --compose-file COMPOSE-FILE.yml
+
+
+services:
+  redis:
+     image: redis
+     deploy: 
+         replicas: 1
+         placement:
+             constraints:
+                 - node.hostname  == node1
+                 - node.role == manager
+         resources:
+           limits:
+             cpus: 0.01
+             memory: 100M
+
+
+
+version: '3'
+service:
+  redis:
+    image: redis
+    networks:
+      - back-end
+    volumes:
+      - redis-data:/var/lib/redis
+    deploy:
+      replicas: 1
+
+  db:
+    image: postgres:9.4
+    networks:
+        - back-end
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    deploy:
+          replicas: 1
+          placement:
+            constraints: [node.role == manager]
+
+  vote:
+    image: voting-app
+    ports:
+      - "5000:80"
+    networks:
+        - back-end
+        - front-end
+    deploy:
+          replicas: 2
+          update_config:
+            parallelism: 2
+
+  result:
+    image: result-app
+    ports:
+        - 5001:80
+    networks:
+        - back-end
+        - front-end
+    deploy:
+          replicas: 1
+
+  worker:
+    image: worker-app
+    networks:
+        - back-end
+    deploy:
+          replicas: 1
+          restart_policy:
+            condition: on-failure
+            delay: 10s
+
+networks:
+  front-end:
+    driver: bridge
+  back-end:
+    driver: bridge
+
+volumes:
+  redis-data:
+  db-data:

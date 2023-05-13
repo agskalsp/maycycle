@@ -1,0 +1,18 @@
+Single Command to Create WAR Project
+Create War file by passing all the dependencies value together.
+
+Enter mvn archetype:generate -DgroupId=com.fresco.play -DartifactId=First-WebApp -DarchetypeArtifactId=maven-archetype-webapp -DinteractiveMode=false in terminal.
+
+It will generate war file.
+
+Verify the war file:
+
+It should have pom.xml and src file.
+
+src file should have main file with resources and webapp.
+
+Create the war file:
+
+Change directory with cd First-WebApp
+
+Try yourself using war:war goal method and package method.

@@ -1,0 +1,235 @@
+============================================================================
+
+Conditionals In Ansible
+Conditionals In Ansible
+Recollect while reading the section on setting up your environment or while installing an application , you need different modules (apt and yum) to execute task.
+What will you do, if you have to configure 50 such servers with different OS and requirements?
+This is where conditionals can be used to decide and control the execution flow in Ansible.
+
+============================================================================
+
+Conditionals - When Clause
+When clause in Ansible is a raw jinja2 expression that defines the condition which will be evaluated for TRUE or FALSE.
+
+tasks:
+  - name: "shutdown Debian flavored systems"
+    command: /sbin/shutdown -t now
+    when: ansible_os_family == "Debian"
+
+============================================================================
+
+Conditionals - When Clause
+You can group conditions using parenthesis ()
+tasks:
+  - name: "shutdown CentOS 6 and Debian 7 systems"
+    command: /sbin/shutdown -t now
+    when: (ansible_distribution == "CentOS" and ansible_distribution_major_version == "6") or
+          (ansible_distribution == "Debian" and ansible_distribution_major_version == "7")+
+You can define multiple conditions, where all of them should be true to execute the tasks
+tasks:
+  - name: "shut down CentOS 6 systems"
+    command: /sbin/shutdown -t now
+    when:
+      - ansible_distribution == "CentOS"
+      - ansible_distribution_major_version == "6"
+
+============================================================================
+
+Looping in Ansible
+Looping in Ansible
+If you need to repeat the same task with different items (loop through), you can use with_items clause
+
+For example, consider you want to add several users
+
+- name: add several users
+  user:
+    name: "{{ item }}"
+    state: present
+    groups: "developer"
+  with_items:
+    - raj
+	- david
+	- john
+	- lauren
+
+============================================================================
+
+Looping Through The Inventory
+You can loop through the Inventory file to list all hosts or hosts from a play, using with_items with the play_hosts or groups variables,
+
+# show all the hosts in the inventory
+- debug:
+    msg: "{{ item }}"
+  with_items:
+    - "{{ groups['all'] }}"
+
+# show all the hosts in the current play
+- debug:
+    msg: "{{ item }}"
+  with_items:
+    - "{{ play_hosts }}"
+
+============================================================================
+
+Sample Playbook 3 - Conditions And Loop
+This Playbook will add Java Packages to different systems (handling Ubuntu/Debian OS)
+
+- name: debian | ubuntu | add java ppa repo
+  apt_repository:
+    repo=ppa:webupd8team/java
+    state=present
+  become: yes
+  when: ansible_distribution == 'Ubuntu'
+- name: debian | ensure the webupd8 launchpad apt repository is present
+    apt_repository:
+      repo="{{ item }} http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main"
+      update_cache=yes
+      state=present
+    with_items:
+      - deb
+      - deb-src
+    become: yes
+  when: ansible_distribution == 'Debian'
+
+============================================================================
+
+ansible.cfg
+You told how your hosts should behave (via Playbook). But how do you tell Ansible (your control machine) should behave?
+
+through ansible.cfg
+ansible.cfg is a configuration file that defines how Ansible should behave.
+
+It tells
+
+how to establish an ssh connection
+duration of ssh connection with the host
+how to run the playbook
+where to log errors that might occur while playing playbook on hosts etc.
+
+============================================================================
+
+Ansible Configuration Settings
+Your ansible.cfg file will have the following settings:
+
+[defaults]
+[privilege_escalation]
+[paramiko_connection]
+[ssh_connection]
+[accelerate]
+You will now learn the frequently used settings in upcoming cards. For detailed understanding, you may refer to the Ansible Official Docs.
+
+============================================================================
+
+[defaults]
+poll_interval
+For asynchronous tasks in Ansible, this tells the frequency of checking the status of task completion. The default value is 15 seconds; which implies, for every 15 sec, it will check if the task is completed.
+
+poll_interval = 15
+
+sudo_user
+This is the default user to sudo. If --sudo-user is not specified in an Ansible playbook, the default is the most logical: ‘root’:
+
+sudo_user = root
+
+============================================================================
+
+[defaults]
+ask_pass
+This tells if Ansible Playbook should ask for a password by default. If SSH key is used for authentication, the default behavior is no.
+
+ask_pass = True
+
+ask_sudo_pass
+Just like ask_pass, this asks for sudo password by default while sudoing.
+
+ask_sudo_pass = True
+
+remote_port
+If your systems did not define an alternate value in Inventory for SSH port, this sets the default value to 22.
+
+remote_port = 22
+
+============================================================================
+
+[privilege_escalation]
+*For some tasks to execute in Ansible, you require administrative access to the system.
+
+The settings under [privilege_escalation] will escalate your privileges.*
+
+become
+If set to true or yes, you activate privilege escalation.
+
+Default behavior is no.
+
+become=True
+
+become_method
+You can define the method for privilege escalation.
+
+Default is sudo, other options are su, pbrun, pfexec, doas, ksu.
+
+become_method=sudo
+
+============================================================================
+
+[privilege_escalation]
+become_user
+This allows you to become the user over privilege escalation.
+
+Default is root.
+
+become_user=root
+
+become_ask_pass
+Asks the password for privilege escalation, the default is False.
+
+become_ask_pass=False
+
+============================================================================
+
+Other Settings
+accelerate_timeout
+This setting will close the socket connection if no data is received from the client for the defined time duration.
+
+default: accelerate_timeout = 30
+
+record_host_keys
+If the setting is True(default value), this will record new hosts on the user's host file, provided host key checking is enabled. Setting it to False, the performance will improve and which is recommended when host key checking is disabled.
+
+record_host_keys=False
+
+pipelining
+If enabled, the number of SSH connections required for execution of a module on the remote server is reduced, improving the performance significantly.
+
+By default this is disabled: pipelining = False.
+
+============================================================================
+
+Expected Output - Try It Out
+On executing ansible-playbook -i myhosts demo.yml, you can expect the output as shown:
+
+PLAY [play1 install and start nginx] ******************************************
+GATHERING FACTS ***************************************************************
+ok: [host01]
+TASK: [Installs nginx web server] *********************************************
+changed: [host01]
+TASK: [start nginx] ***********************************************************
+ok: [host01]
+PLAY [play2 install PostgreSQL] ***********************************************
+GATHERING FACTS ***************************************************************
+ok: [host01]
+TASK: [Installing PostgreSQL] *************************************************
+changed: [host01]
+TASK: [ensure PostgreSQL is running] ******************************************
+ok: [host01]
+PLAY RECAP ********************************************************************
+host01                     : ok=6    changed=2    unreachable=0    failed=0
+
+============================================================================
+
+Ansible Is Idempotent
+Try executing the same playbook for the second time and observe the output. Thus, Ansible is Idempotent.
+
+An Idempotent operation results to the same output, if executed multiple times (no changes).
+
+============================================================================

@@ -1,0 +1,151 @@
+URLs:
+    |--> URL1: https://kubernetes.io/docs/reference/kubectl/cheatsheet/
+
+
+===========================================================
+
+Running Kubectl and Minikube
+To see if kubectl CLI tool is installed in your system and to check the version just type the following.
+
+$ kubectl version
+To check if minikube is installed in your system type
+
+$ minikube version
+
+===========================================================
+
+Installing Kubectl
+Before installing Minikube on your local machine and running Kubernetes you have to install kubectl CLI tool.
+
+The steps for installation are:
+
+$sudo apt-get update
+$sudo apt-get install apt-transport-https
+$curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+$sudo touch /etc/apt/sources.list.d/kubernetes.list
+$echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+$sudo apt-get update
+$sudo apt-get install -y kubectl
+
+===========================================================
+
+Installing Minikube
+Minikube is a lightweight version of Kubernetes that can run on your local machine. The minikube kubernetes cluster consists of only one master and node. The steps to install minikube are :
+
+curl -Lo minikube https://storage.googleapis.com/minikube/releases/v0.28.1/minikube-linux-amd64
+chmod +x minikube
+sudo mv minikube /usr/local/bin/
+
+===========================================================
+
+Creating and Deleting Namespaces
+Namepaces are created using YAML files. Ex:
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: <insert-namespace-name-here>
+the $kubectl create -f <namespace -name-here> command is run in CLI to create namespace. *
+
+===========================================================
+
+Creating Deployments: A deployment is created using a YAML file an then running the following command on Terminal.
+
+$kubectl create -f <file_name>.yaml
+To see the created deployments
+
+$kubectl get deployments
+
+===========================================================
+
+Types of ConfigMaps
+Creating configMaps files using literals
+To create configMaps using literals we use the kubectl CLI. Execute the following command to create a configMap.
+
+$ kubectl create configmap my-config --from-literal=key1=value1 --from-literal=key2=value2
+configmap "my-config" created 
+You can get the configuration information by executing the following command
+
+$ kubectl get configmaps my-config -o yaml
+Creating the configMap using YAML file
+This method of creating a configMap is more preferred because it gives you full control to change the different components of the configMap. The YAML file structure looks like this
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: imageName
+data:
+        image data
+To create the configMap file create a yaml file and run the kubectl create command Ex: $ kubectl create -f imageName-configmap.yaml
+
+===========================================================
+
+Secrets
+Secrets are volume spaces that are used to store sensitive information of the application.
+They are created using the kubectl create command
+ $ kubectl create secret generic userpassword --from-literal=password=loginpassword
+
+This creates a secret called userpassword that stores the login password.
+
+Secrets can be created manually by using YAMl files and encoding the information. -Ex:
+$ echo loginpassword | base64
+bG9naW5wYXNzd29yZAo=
+The YAML file
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: userpassword
+type: Opaque
+data:
+  password: bXlzcWxwYXNzd29yZAo=
+
+
+===========================================================
+
+Hands-on Scenario
+Minikube installation
+
+sudo apt install docker.io -y 
+sudo systemctl unmask docker
+sudo service docker restart
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
+sudo dpkg -i minikube_latest_amd64.deb
+rm -rf minikube_latest_amd64.deb
+In this hands on you are going to start your kubernetes journey by getting your hands dirty with few basics
+
+Environment Setup
+
+Check whether docker & minikube are properly installed and configured.
+
+Start Minikube and execute this command to sync host docker with minikube docker minikube -p minikube docker-env and eval $(minikube docker-env)
+Step - 1
+
+Create a pod object using kubectl run command with google's sample image: gcr.io/google-samples/kubernetes-bootcamp:v1 and expose it on port 8080, name the pod as firstapp.
+
+Check if the pod creation is successful by running the command: kubectl get pod firstapp
+
+Step - 2
+
+Expose the application to the local VM by creating a Service object of type NodePort.
+
+Check if the service is created by running the command: kubectl get svc firstapp
+
+Step - 3
+
+Create another deployment using a 'YAML' file, create a deployment.yaml file that contains information of the number of replicas and the images to be used. Use an nginx image to deploy. Name the deployment as 'nginx'
+
+Check if the deployment is created by running the command: kubectl get deployment nginx
+
+Step - 4
+
+Create a NodePort type service using a 'YAML' file, create a service.yaml file that contains information of the type of service and the port numbers. Name the Service nginx-svc and use port 30080 for nodePort.
+
+Check if the service is created by running the command: kubectl get svc nginx-svc
+
+Step - 5
+
+Use kubectl exec command to get inside the running nginx pod and write the string 'Welcome to fresco nginx pod' to /usr/share/nginx/html/index.html file
+
+===========================================================
+

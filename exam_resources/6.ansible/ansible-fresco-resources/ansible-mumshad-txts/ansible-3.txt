@@ -1,0 +1,87 @@
+become_user=root
+become_ask_pass=False
+become=True
+become_method=sudo
+
+ansible-playbook -i myhosts test.yml --extra-vars "ansible_bios_version=Ansible"
+
+#This is how you write in Playbook
+
+- name: copy a file, but do not copy if the file already exists
+
+  command: cp /home/dist/file1.txt /usr/someFolder/ creates=file1.txt
+
+ansible-playbook -i myhosts tag.yml --list-tasks : displays the list of tasks in the Playbook
+
+ansible-playbook -i myhosts tag.yml --list-tags : displays only tags in your Playbook
+
+ansible-playbook -i myhosts tag.yml --tags "tag1,mymessage"
+
+
+
+tasks:
+  - name: "shutdown CentOS 6 and Debian 7 systems"
+    command: /sbin/shutdown -t now
+    when: (ansible_distribution == "CentOS" and ansible_distribution_major_version == "6") or
+          (ansible_distribution == "Debian" and ansible_distribution_major_version == "7")
+
+---
+- name: Play1-install apache
+  hosts: all
+  sudo: yes
+  tasks:
+    - name: install apache2
+      apt: name=apache2 update_cache=yes state=latest      
+    - name: displaying "hello world"
+      debug: msg="hello world"
+      tags: 
+        - tag1
+- name: Play2-install nginx
+  hosts: all
+  sudo: yes
+  tags: 
+    - tag2
+  tasks:
+    - name: install nginx
+      apt: name=nginx update_cache=yes state=latest      
+    - name: debug module displays message in control machine
+      debug: msg="have a good day"
+      tags: 
+        - mymessage
+    - name: shell module displays message in host machine.
+      shell: echo "yet another task"
+      tags: 
+        - mymessage
+
+
+
+- name: debian | ubuntu | add java ppa repo
+  apt_repository:
+    repo=ppa:webupd8team/java
+    state=present
+  become: yes
+  when: ansible_distribution == 'Ubuntu'
+- name: debian | ensure the webupd8 launchpad apt repository is present
+    apt_repository:
+      repo="{{ item }} http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main"
+      update_cache=yes
+      state=present
+    with_items:
+      - deb
+      - deb-src
+    become: yes
+  when: ansible_distribution == 'Debian'
+
+
+Special Tags
+Ansible has some special keywords for tags:
+
+always: runs the task always
+
+tagged: run only those tasks which have some tag
+
+untagged: run only those tags which do not have any tags
+
+all: run all the tags
+
+You can skip always tag by defining: --skip-tags always

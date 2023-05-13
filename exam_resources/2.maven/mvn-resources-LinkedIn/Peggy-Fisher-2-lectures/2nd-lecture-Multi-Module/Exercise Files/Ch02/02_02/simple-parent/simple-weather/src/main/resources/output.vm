@@ -1,0 +1,9 @@
+*********************************
+ Current Weather Conditions for:
+  ${weather.city}
+  
+ Temperature: ${weather.temp}
+   Condition: ${weather.condition}
+    Humidity: ${weather.humidity}
+  Wind Speed: ${weather.windSpeed}
+*********************************

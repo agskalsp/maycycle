@@ -1,0 +1,64 @@
+plugins {
+  id 'java'
+  id 'war'
+}
+
+//group = 'com.denofprogramming'
+//version = '1.0'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+project.ext.tomcatVersion = 8.5.82
+project.ext.tomcatHome = '/opt/apache-tomcat-${tomcatVersion}'
+project.ext.tomcatWebapps = "$tomcatHome/webapps"
+
+sourceSets {
+        main {
+            java {
+                srcDir 'src'
+            }
+        }
+    }
+
+war{
+	archiveName = 'mywebapp.war'	
+}
+tomcatRun.contextPath = '/'
+tomcatRunWar.contextPath = '/'
+
+repositories{
+	mavenCentral()
+}
+
+task deployToTomcat(type: Copy, dependsOn: 'war'){	
+	from war
+    into "$tomcatWebapps/ROOT"	
+}
+
+dependencies { 
+	testImplementation	'junit:junit:4.11'
+
+}
+
+/*
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.bmuschko:gradle-tomcat-plugin:2.0'
+    }
+}
+
+
+// War file name
+war.baseName = 'jcg-gradle-war-example'
+// Web directory, this overrides the default value "webapp"
+project.webAppDirName = 'WebContent'
+
+// context where tomcat is deployed, by defautl localhost:8080/
+tomcatRun.contextPath = '/'
+tomcatRunWar.contextPath = '/'
+*/

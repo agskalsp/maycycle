@@ -1,0 +1,26 @@
+**************************     GRADLE  - INSTALLATION      ***************************
+
+sudo apt update
+sudo apt install openjdk-11-jdk
+
+java -version
+
+VERSION=6.5.1
+wget https://services.gradle.org/distributions/gradle-${VERSION}-bin.zip -P /tmp
+
+sudo apt install unzip
+sudo unzip -d /opt/gradle /tmp/gradle-${VERSION}-bin.zip
+
+sudo vi /etc/profile.d/gradle.sh
+ 
+ in the path /etc/profile.d/gradle.sh
+    export GRADLE_HOME=/opt/gradle/latest
+    export PATH=${GRADLE_HOME}/bin:${PATH}
+
+sudo chmod +x /etc/profile.d/gradle.sh
+
+source /etc/profile.d/gradle.sh
+
+gradle -v
+
+***************************************************************************************

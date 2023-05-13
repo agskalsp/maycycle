@@ -1,0 +1,169 @@
+// Configuring from existing tasks
+IMP url : 'https://docs.gradle.org/current/userguide/more_about_tasks.html'
+IMP url : 'https://docs.gradle.org/current/userguide/custom_tasks.html'
+IMP url : 'https://gradle.org/guides/'
+IMP url : 'https://docs.gradle.org/current/dsl/index.html'
+
+task copyDocs(type: Copy) {
+    from "src"
+    into "build/docs"
+    include "**/*.md"
+    includeEmptyDirs = false
+}
+
+task createZip(type: Zip) {
+    from "build/docs"
+    archiveFileName = "docs.zip"
+    destinationDirectory = file("build/dist")
+    dependsOn copyDocs
+}
+
+// For extending existing gradle tasks
+class myTask extends DefaultTask{
+    String dateMessage = "Date is :"
+
+    @TaskAction
+    void myTask{
+        println dateMessage + new Date()
+        println "Hello ${USER}" + dateMessage + new Date()
+    }
+}
+task myTask(type: MyTask)
+
+task myCustomtask(type: MyTask){
+    dateMessage = 'MyCustom date msg is: '
+}  // Now u can run gradle myCustomTask
+
+
+gradle taskName --dry-run  // Just shows the Direct Acyclic Graph Path I guess
+gradle build taskTree
+//  ****      MustRunAfter  / onlyIf   *****
+deployToProd.mustRunAfter deployToStage
+
+
+------
+--- ** 
+You can have a file named "somefile.gradle" that has all tasks and somethings
+you can get them to your project by
+
+apply plugin: '/path/**/somefile.gradle'
+
+
+AND in "somefile.gradle"if it is a base file u can add a line
+apply plugin: 'base'
+---  **
+------
+
+
+apply plugin: 'base'
+
+task tarTextFiles(type: Tar) {
+    from 'src'
+    into 'text'
+    include '*.txt'
+    rename '(.+).txt', '$1.text'
+    compression = Compression.GZIP
+
+    doFirst {
+        println "Creating TAR file"
+    }
+}
+
+// Here we have a dependency and createArchive don't have any tasks
+Such tasks are called Aggregation tasks
+So just we can the main tasks that they depend
+
+task createArchive {
+    dependsOn tarTextFiles
+}
+
+gradle taskName --console=verbose
+gradle createArchive --console=verbose
+
+plugins {
+    id 'java'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+compileJava {
+    options.compilerArgs << '-Werror'
+}
+
+
+jar {
+    archiveBaseName = 'myJarname'
+}
+
+war {    // for springboot war is replaced by bootWar
+baseName = 'service'
+archiveName 'service.war' // sometimes archiveFileName based on version
+}
+
+
+// if created the java-application using --type java-application 
+// we will get the mainClass setting if adding manual we need to like this
+
+plugin{
+    id 'application'
+}
+
+application{
+    mainClassName = 'com.fresco.play.Main '
+}
+
+>> gradle javadocs // generates the documents for us based on Our JAVA Code
+
+javadoc {
+    options.header = 'Calculator'
+    options.verbose()
+}
+
+gradle distTar // you can bundle the TAR distribution with the task named distTar.
+
+// for mavenPublishing
+resource-t5\3.gradle\gradle-resource-linkedin\Ex_Files_Gradle_Java\Ex_Files_Gradle_Java\Exercise Files\chapter_2\02_05-end
+
+plugins {
+    id 'maven-publish'
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'org.linkedinlearning'
+            artifactId = 'calculator'
+            from components.java
+        }
+    }
+    repositories {
+        /*maven {
+            url = "$rootProject.buildDir/m2repo"
+        }*/
+        maven {
+            url = 'http://localhost:8082/artifactory/libs-release-local/'
+            credentials {
+                username = 'admin'
+                password = 'admin_123'
+            }
+        }
+    }
+}
+
+
+dependencies {
+    implementation 'commons-cli:commons-cli:1.4'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+test {
+    useJUnitPlatform()
+
+    testLogging {
+        events 'started', 'skipped', 'failed'
+    }
+}

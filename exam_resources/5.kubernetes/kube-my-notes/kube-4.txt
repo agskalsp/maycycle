@@ -1,0 +1,34 @@
+
+$ echo  'admin' > ./username.txt
+$ echo  'pass' > ./password.txt
+
+kubectl create secret generic cred-secret --from-file=./username.txt --from-file=./password.txt
+
+kubectl get secrets
+
+
+kind: Pod
+apiVersion: v1
+metadata:
+  name: fresco-pod
+spec:
+  volumes:
+    - name: test-pv-storage
+      persistentVolumeClaim:
+         claimName: fresco-pvc
+  containers: 
+   -  name: test-pv-container
+     image: nginx
+     ports:
+       - containerPort: 80
+          name: "nginx-server"
+     volumeMounts:
+      -  mountPath: "/usr/share/nginx/html"
+         name: test-pv-storage
+
+minikube start --extra-config=apiserver.Authorization.Mode=RBAC
+kubectl create namespace dev
+openssl genrsa -out emp.key 2048
+openssl req -new -key emp.key -out emp.csr -subj "/CN=emp/O=dev"
+openssl x509 -req -in emp.csr -CA ~/.minikube/ca.crt -CAkey ~/.minikube/ca.key-CAcreateserial -out emp.crt -days 500
+kubectl config set-context dev-ctx --cluster=minikube --namespace=dev --user=emp

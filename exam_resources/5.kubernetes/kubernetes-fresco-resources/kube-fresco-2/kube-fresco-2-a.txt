@@ -1,0 +1,348 @@
+URLs:
+    |--> https://kubernetes.io/docs/concepts/storage/volumes/
+
+===========================================================
+
+Creating ConfigMaps
+To create ConfigMaps, we use kubectl create configmap.
+ConfigMaps can be created from directories,literlas or files.
+Syntax will be:
+
+kubectl create configmap <name> <source>
+Where <name> indicates name to assigned to the ConfigMap.
+<source> will be the data source(file,literal or directory) to fetch data from.
+<source> should be key-value pairs.
+key will be the file name or literal name given.
+value will the file content or literal value provided by you.
+You can even use yaml with kubectl apply command.
+
+===========================================================
+
+ConfigMaps from Directories
+Steps:
+
+Create a Directory with a name of your choice.
+mkdir fresco
+Create files inside the directory as per your requirements.
+cd fresco
+echo "theres are freso props">fresco.props
+echo "theres are freso ids">fresco.ids
+Create ConfigMap using directory.
+cd ..
+kubectl create configmap fresco-config --from-file=fresco/
+You can inspect ConfigMap using the following command.
+kubectl describe configmaps fresco-config
+You can use kubectl get configmaps fresco-config -o yaml to get yaml version of your ConfigMap.
+
+===========================================================
+
+ConfigMaps from Files
+You can even create ConfigMaps directly from files.
+
+Steps:
+
+Create file(s) to be passed for ConfigMap.
+
+echo "this is fresco props">fresco.props
+echo "this is fresco ids">fresco.ids
+Pass the file/s to kubectl command.
+
+kubectl create configmap fresco-config-2 --from-file=fresco.props
+Use multiple --from-file flags to send multiple files to ConfigMaps.
+
+kubectl create configmap fresco-config-3 --from-file=fresco.props --from-file=fresco.ids
+Use kubectl create configmap <name> --from-file=<your-key>=<file_path> to define your own key for ConfigMaps.
+
+===========================================================
+
+ConfigMaps from Literals
+You can even use Literal values directly to create a ConfigMaps.
+
+To create ConfigMap using literals use following command.
+
+kubectl create configmap fresco-literal-config --from-literal=fresco.props='this is fresco props'  --from-literal=fresco.ids='this is fresco ids'
+Verify the ConfigMaps creation using this command.
+
+kubectl get configmap fresco-literal-config -o yaml
+
+===========================================================
+
+ConfigMaps as Volumes
+We have already seen volumes can be used to share data among pods and keep data intact even in case of a pod failure.
+
+ConfigMaps can be mounted to pods as volumes.
+
+Steps:
+
+Create a ConfigMap.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: fresco-config
+    namespace: default
+data:
+    LOG_LEVEL: debug
+    SERVER_PORT: '8007'
+The above description creates a ConfigMap with data LOG_LEVEL and SERVER_PORT.
+
+===========================================================
+
+2. ConfigMaps as Volumes
+Steps:
+
+Create a pod with volume mount.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: config-test-pod
+spec:
+  containers:
+    - name: config-test-container
+      image: k8s.gcr.io/busybox
+      command: [ '/bin/sh', '-c', 'sleep 1000000' ]
+      volumeMounts:
+      - name: config-test-volume
+        mountPath: /etc/config
+  volumes:
+    - name: config-test-volume
+      configMap:
+        name:  fresco-config
+After you create both ConfigMap and Pod using kubectl, data field specified in ConfigMap will be mounted to /etc/config(mountPath:/etc/config) of the container.
+
+VolumeMouts specify to where in the container system you want to mount the external volume.
+
+Volumes define where to look for external volumes.
+
+===========================================================
+
+ConfigMap as Volumes
+What's the point of doing something if you cannot see the output. Don't worry, Kubernetes will not disappoint you. Use below commands to verify what you have done so far.
+
+$ kubectl exec -it config-test-pod sh
+# to list files (LOG_LEVEL and SERVER_PORT)
+$ ls /etc/config  
+# to print the value of LOG_LEVEL
+$ cat /etc/config/LOG_LEVEL          
+# to print the value of SERVER_PORT
+$ cat /etc/config/SERVER_PORT 
+Caution : This mount will delete existing files in /etc/config.
+
+===========================================================
+
+ConfigMap as ENVs
+ConfigMaps are for Configurations and usually, we grab app configurations from environmental variables.
+
+Kubernetes supports adding configmaps to env variables.
+
+Steps:
+
+Create a ConfigMap.
+kubectl create configmap fresco-config --from-literal=SERVER_PORT='9009'
+
+===========================================================
+
+ConfigMap as ENVs
+Steps:
+
+Add configMap to Pod's env definition.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: env-conf-test-pod
+spec:
+  containers:
+    - name:  env-conf-test-container
+      image: k8s.gcr.io/busybox
+      command: [ "/bin/sh", "-c", "sleep 100000" ]
+      env:
+        - name: SERVER_PORT_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: fresco-config
+              key: SERVER_PORT
+  restartPolicy: Never
+Observe we are specifying configMapKeyRef as valueFrom and we specify ConfigMap Name (name: fresco-config) and Key ( key: SERVER_PORT) to be assigned to env named SERVER_PORT_ENV.
+
+===========================================================
+
+ConfigMaps as ENVs
+To verify your environmental variables created by ConfigMaps, use the following steps.
+
+$ kubectl exec -it env-conf-test-pod sh
+$ env | grep SERVER_PORT_ENV
+
+===========================================================
+
+ConfigMap Restrictions
+It is necessary to create ConfigMap before referencing it to any pod, and the pod will not start until it finds ConfigMap.
+ConfigMap belongs namespaces, and can only be referenced by the pods in the same namespace.
+Any change made to configMaps after container's start will be updated to containers (except for volume mounts).
+
+===========================================================
+
+Creating Secrets from Files
+Just like ConfigMaps, secrets can also be created from files.
+
+Steps:
+
+Create files.
+$ echo  'admin' > ./username.txt
+$ echo  'pass' > ./password.txt
+Use kubectl create secret to create secrets.
+kubectl create secret generic cred-secret --from-file=./username.txt --from-file=./password.txt
+Verify secret creation by running,
+kubectl get secrets
+
+===========================================================
+
+Creating Secrets Manually
+Secret file's data is base64 encoded before adding it to the secret.
+
+So to create a Secret manually, we need to use base64 encoded data.
+
+Steps:
+
+Encode strings to base64, and copy its output.
+$ echo "admin" | base64
+$ echo "pass" | base64
+Create Secret using kubectl.
+kubectl create secret generic test --from-literal=admin=YWRtaW4K  --from-literal=pass=cGFzcwo= 
+Verify secret creation using,
+kubectl get secret test -o yaml
+You can even use yaml with 'kind:Secret` to create secrets manually.
+
+===========================================================
+
+Secret YAML Definition
+This is how a Secret yaml looks like.
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysecret
+type: Opaque
+data:
+  username: YWRtaW4K
+  password: cGFzcwo=
+Notice that username and password are base64 encoded strings.
+
+===========================================================
+
+Secrets with stringData
+If you don't want to encode string by yourself, you can use stringData field instead.
+
+You can directly put Secret String into the stringData field, and kubernetes will encode it for you.
+
+E.g.,
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: test-secret
+type: Opaque
+stringData:
+    username: admin
+    password: pass
+You can verify Secret creation using kubectl get secret test-secret -o yaml, and you will find your base64 encoded secret.
+
+===========================================================
+
+Mounting Secrets
+You can mount Secrets just like you did ConfigMaps and they can later be used by Pods.
+
+Steps:
+
+Create a new Secret or use an existing secret.
+kubectl create secret generic fresco-secret --from-literal=username=YWRtaW4K  --from-literal=password=cGFzcwo= 
+Above command creates a secret with username=admin and password=pass.
+
+
+===========================================================
+
+Mounting Secrets
+Steps:
+
+Create a pod definition and mount secret to it.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: secret-test-pod
+spec:
+  containers:
+  - name: secret-test-container
+    image: busybox
+    command: [/bin/sh, '-c', 'sleep 100000']
+    volumeMounts:
+    - name: test
+      mountPath: "/etc/test"
+      readOnly: true
+  volumes:
+  - name: test
+    secret:
+      secretName: fresco-secret 
+The above pod definition mounts fresco-secret to /etc/test.
+
+===========================================================
+
+Mouting Secrets
+Satisfaction is having fruit grown out of your hard work.
+
+So to taste your hard work execute following commands. You will see the Secret mounted to the file system of your container.
+
+$ kubectl exec -it secret-test-pod sh
+# to list files (username and password)
+$ ls /etc/test  
+# to print value of username(base64 encoded)
+$ cat /etc/test/username          
+# to print value of password
+$ cat /etc/test/password (base64 encoded)
+
+===========================================================
+
+Secrets as ENVs
+Secrets can also be used as environmental variables.
+
+Steps:
+
+Create a new Secret.
+kubectl create secret generic fresco-secret --from-literal=username=YWRtaW4K  --from-literal=password=cGFzcwo= 
+
+===========================================================
+
+Secrets as ENVs
+Steps:
+
+Provide env[].valueFrom.secretKeyRef in pod definition to refer to secret.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: secret-test-pod
+spec:
+  containers:
+  - name: secret-test-container
+    image: busybox
+    command: [/bin/sh, '-c', 'sleep 100000']
+    env:
+      - name: SECRET_USERNAME_ENV
+        valueFrom:
+          secretKeyRef:
+            name: fresco-secret
+            key: username
+      - name: SECRET_PASSWORD_ENV
+        valueFrom:
+          secretKeyRef:
+            name: fresco-secret
+            key: password
+  restartPolicy: Never
+
+===========================================================
+
+Secrets as ENVs
+Now, comes the favorite part. You can verify above steps using,
+
+$ kubectl exec -it  secret-test-pod sh
+$ env | grep SECRET_USERNAME_ENV
+$ env | grep SECRET_PASSWORD_ENV
+Restrictions mentioned in ConfigMaps applies to Secrets too.
+
+===========================================================

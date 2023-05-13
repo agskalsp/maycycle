@@ -1,0 +1,72 @@
+mvn install
+mvn install -DskipTests
+mvn compile
+mvn validate
+mvn sonar:sonar
+-B -DskipTests clean package
+
+java -cp /home/scrapbook/tutorial/test/target/test-1.0-SNAPSHOT.jar 
+java -cp /home/scrapbook/tutorial/test/target/test-1.0-SNAPSHOT.jar  <Name-of-class>
+com.fresco.play.App
+
+To set the variable, say, M2_HOME path, type export M2_HOME=/usr/share/maven.
+
+Following are the default phases of each build life cycle:
+
+validate - checks if the project is correct and all information is available.
+compile - compiles the source code in binary artifacts.
+test - executes the tests.
+package - takes the compiled code and packages it as, a war or jar or an ear file.
+integration-test - takes the packaged result and executes additional tests required for packaging.
+verify - checks if the package is valid.
+install - installs the result of the package phase into the local Maven repository.
+deploy - deploys the package to a target, i.e. a remote repository.
+
+mvn resources:resources
+mvn compiler:compile
+mvn resources:testResources
+mvn compiler:testCompile
+mvn surefire:test
+mvn jar:jar
+mvn prepare-package
+mvn clean package
+
+
+
+search.maven.org   ----> CENTRAL REPOSITORY
+
+mvn dependency:copy-dependencies
+mvn dependency:tree
+
+
+Setup Maven environment
+Open terminal and set path as
+
+export MAVEN_HOME=/usr/local/apache-maven/apache-maven-3.5.0
+
+export MAVEN=$MAVEN_HOME/bin
+
+Add maven bin directory path to system path
+
+export PATH=$MAVEN:$PATH
+
+Verify Maven Installation using
+
+$ mvn –version or $mvn --version or $mvn -v
+
+
+Super POM View
+Now, let us try to generate a view of Super POM by using a command mvn help:effective-pom. For this:
+
+Check the current directory by using pwd and change the directory to where pom.xml file exists.
+Example: cd first-maven-project.
+
+You can do an ls to ensure that you are in the same directory as that of pom.xml.
+
+Run the command mvn help:effective-pom to view Super POM.
+
+
+
+-------junit
+<scope>test</scope>
+<scope>provided</scope>

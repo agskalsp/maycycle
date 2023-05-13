@@ -1,0 +1,245 @@
+=================================================================================
+
+Practise Docker Commands
+Now that you have understand about docker architecture and its components, it is time to practice some of the docker commands.
+For this purpose, you can have docker installed on your local machine.
+
+=================================================================================
+
+Docker Basic Commands
+Here are few basic docker commands.
+
+Check the version of Docker:
+    docker version 
+Check the detailed information on the running/stopped containers:
+
+    docker info 
+Docker images can be downloaded from Docker hub using docker commands.
+
+Lets pull an image from docker hub using pull command.
+Download a image from docker hub
+
+docker pull <<image name>> 
+e.g. docker pull nginx
+
+=================================================================================
+
+Docker Commands - Images
+Verify the downloaded docker images:
+
+docker images ↵
+View all the commands that were run with an image via a container.
+
+docker history <<Image Name>>  ↵
+e.g. docker history nginx
+Remove Docker Images
+
+docker rmi <<Image Name>>  ↵
+e.g. docker rmi nginx
+Download and run an image in docker container using run command
+
+docker run <<Image Name>>  ↵
+e.g. docker run --name nginxservice -d nginx
+--name --> to specify a name for the running service. In this example, it is nginxservice
+
+-d --> to run the service in the background
+
+=================================================================================
+
+Docker Version Tag
+You must have noticed that on pulling the image from the Registry, the tagged version of the image is displayed:
+For example, docker pull busybox:1.24 will download the corresponding version:
+
+=================================================================================
+
+Docker Search
+We can also search for the images in the Docker Hub registry by using docker search subcommand. Let us search for ubuntu images in the Docker Hub, and limit the search result only to 20 because we have more than 2000 images on Ubuntu:
+docker search ubuntu | head -20
+
+=================================================================================
+
+Docker Commands - Container
+Now lets run list of commands on the service/ container
+
+List running containers
+
+docker ps
+Know the IP address of the running container:
+
+docker inspect <Container Name> 
+e.g. docker inspect nginxservice
+Print the stats for a running Container
+
+docker stats <<Container Name>> ↵
+e.g. docker stats nginxservice
+Pause the processes in a running container
+
+docker pause <<Container Name >> ↵
+e.g. docker pause nginxservice
+Unpause the processes in a running container
+
+docker unpause <<Container Name >> ↵
+e.g. docker unpause nginxservice
+
+=================================================================================
+
+Docker Commands - Container (Contd 1...)
+Kill the processes in a running container
+
+docker kill <<Container Name >> ↵
+e.g. docker kill nginxservice
+Start the same container:
+
+docker start <<Container Name>> ↵
+e.g. docker start nginxservice
+Stop the running container
+
+docker stop <<Container Name >> ↵
+e.g. docker stop nginxservice
+List all containers (This includes containers in a all states):
+
+We will be able to see the container we just stopped listed here.
+
+docker ps -a 
+Delete a container:
+
+docker rm <<Container Name >> ↵
+e.g. docker rm nginxservice
+To remove all stopped containers:
+
+docker container prune 
+Note: Instead of using the Container Name, all the above commands can be executed with the container id as well.
+
+=================================================================================
+
+Docker Commands - Container (Contd 2...)
+Export a container
+
+docker export <<Container Name>> <<file_Name>>.tar ↵
+e.g. 
+Lets run a service using docker run command.
+docker run --name newnginxservice -d nginx
+docker export newnginxservice > test.tar
+Import a container
+
+docker import <<Remote URL/Image Name.tar>>  ↵
+e.g. docker import test.tar
+
+=================================================================================
+
+Docker daemon Commands
+Stop Docker daemon process
+
+service docker stop  
+Start Docker daemon process
+
+service docker start 
+You may not be able to try these 2 commands since you would not have access to root on Katacoda playground.
+
+=================================================================================
+
+Diagnose Run Issues
+In case you are having a problem with downloading the images and running them, please follow these steps to check whether the docker service is running on your system or not:
+
+Check the running status of docker:
+service docker status
+
+Restart Docker service in your system:
+service docker restart
+
+=================================================================================
+
+Docker Installation
+Prerequisite for installation of Docker on Linux are:
+
+64-bit architecture Linux
+
+Linux kernel must be 3.10 or later
+
+Here are the steps for installing the community edition in Ubuntu 16.04:
+
+Add the GPG key for the official Docker repository to the system:
+$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+Now add the Docker repository to APT sources:
+$ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+
+=================================================================================
+
+Docker Installation...
+Now update the package database with the Docker packages:
+$ sudo apt-get update
+Check for the policy:
+
+$ apt-cache policy docker-ce
+Install Docker:
+
+$ sudo apt-get install -y docker-ce
+Check the installed version of Docker:
+
+$ sudo docker --version
+Congratulations! You have successfully installed Docker version 17.03.0 community edition.
+
+=================================================================================
+
+Installation Using Automated Script
+Are you feeling this procedure lengthy? There is a shortcut to this process.
+
+Just run the below command to install Docker
+
+curl command
+
+$ sudo curl -sSL https://get.docker.io/ | sh
+
+=================================================================================
+
+Uninstall Docker CE
+This command is used to uninstall Docker CE package in Ubuntu machine.
+
+$ sudo apt-get purge docker-ce
+
+=================================================================================
+
+Hands-on scenario
+Welcome to the Docker challenge, your task is to follow the below steps and complete them successfully.
+
+*Perform the following actions described below by executing the respective commands. Open terminal and execute the commands. *
+
+Check the version of Docker.
+Check the detailed information on the running/stopped containers.
+Download tomcat:latest image from docker hub.
+Verify the downloaded docker images.
+View all the commands that were run on the tomcat:latest image (check docker image history).
+Remove tomcat:latest docker image.
+Download and run an nginx:latest image in the docker container using the run command, name the container nginxservice.
+Pull busybox:1.24 docker image.
+Search for ubuntu images in the Docker hub, and limit the search result to 20.
+List all containers.
+Identify the IP address of the running container 'nginxservice'.
+Print the stats for a running container 'nginxservice'.
+Pause the processes in a running container 'nginxservice'.
+Start the processes in a running container 'nginxservice'.
+Kill the processes in a running container 'nginxservice'.
+Start the same container 'nginxservice'.
+Stop the running container 'nginxservice'.
+List all containers (including the containers in all states).
+Export the container 'nginxservice' and name the tar as 'test.tar'.
+Delete the container 'nginxservice'.
+Remove all stopped containers by pruning them.
+Import the container 'test.tar'
+Create an nginx Dockerfile with index page that returns the string 'Welcome to fresco'
+
+Build the image and name it 'nginximage', run the image and expose it on port 80 and name it 'nginxcontainer'
+
+Start a container registry image using following command docker run -d -p 5000:5000 --restart=always --name registry registry:2
+
+Write the following content to /etc/docker/daemon.json file to avoid http security error. Replace the string with registry container ip.
+
+{
+  "insecure-registries" : ["replace-with-registry-ip:5000"]
+}
+Restart docker service using the command 'sudo service docker restart'
+
+Push the nginximage image to registry. (Hint: need to tag the docker image with the registry ip and port)
+
+=================================================================================
+

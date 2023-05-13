@@ -1,0 +1,8 @@
+mvn groupId:artifactId:version:goal
+
+mvn archetype:generate -DartifactId=CustomPlugin -DgroupId=com.fresco.App -DarchetypeArtifactId=maven-archetype-plugin -DinteractiveMode=false
+
+mvn com.bharath:projectinfo-maven-plugin:info-renderer
+
+mvn projectinfo:info-renderer
+
