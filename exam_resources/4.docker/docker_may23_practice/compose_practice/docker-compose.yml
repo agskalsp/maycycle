@@ -1,0 +1,33 @@
+version: '3'
+services:
+  bookstack:
+    container_name: bookstack_container
+    image: ghcr.io/linuxserver/bookstack
+    depends_on:
+      - bookstack_db
+    ports:
+      - 8085:80
+    networks:
+      - my_external_network
+    environment:
+      - APP_URL=http://localhost:8085
+      - DB_HOST=bookstack_db
+      - DB_USER=bookstack_user
+      - DB_PASS=MySecurePassword
+      - DB_DATABASE=bookstack
+  bookstack_db:
+    container_name: bookstack_db_container
+    image: mysql
+    volumes:
+      - my_external_volume:/var/lib/mysql
+    networks:
+      - my_external_network
+    environment:
+      - MYSQL_ROOT_PASSWORD=MySecureRootPassword
+      - MYSQL_DATABASE=bookstack
+      - MYSQL_USER=bookstack_user
+      - MYSQL_PASSWORD=MySecurePassword
+networks:
+  my_external_network:
+volumes:
+  my_external_volume:
