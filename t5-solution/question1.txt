@@ -1,0 +1,24 @@
+1. Create a Docker network named "my_external_network" and a volume named "my_external_volume".
+
+2. Create a "docker-compose.yml file in the path "~/Desktop/Project/kickoffs-docker-compose-containerizing-bookstack" which creates two services named "bookstack" and "bookstack_db".
+
+3. The "bookstack" service should run the "ghcr.io/linuxserver/bookstack" image as a container named "bookstack_container". Configure the "bookstack" service to be dependent on the service "bookstack_db". Expose the "bookstack service to port 8885, connect it to the network "my_external_network" and set the environment variables as follows.
+
+APP URL http://localhost:8085
+DB_HOST> bookstack_db
+DB USER> bookstack user
+DB PASS -> MySecurePassword
+DB_DATABASE -> bookstack
+
+4. The "bookstack_db" service should run the "mysql" image as a container named "bookstack_db_container". Mount it to "my_external_volume" with source -/Desktop/Project/kickoffs-docker-compose-containerizing-bookstack/my external volume and target "/var/lib/mysql", connect it to the network "my external network" and set the environment variables as follows.
+
+MYSQL ROOT PASSWORD-> MySecureRoot Password 
+MYSQL DATABASE-> bookstack
+MYSQL USER > bookstack user
+MYSQL_PASSWORD-> MySecurePassword
+
+5. Run the docker-compose file, once both the services are running, hit the port of "bookstack" service and login to Bookstack with email Id "admin@admin.com" and password "password".
+
+6. Create a new book in Bookstack with title "Containerizing Bookstack" and give the description as "You have successfully containerized bookstack"
+
+7. Finally, Export the book as a contained webfile.
