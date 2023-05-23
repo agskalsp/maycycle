@@ -1,6 +1,6 @@
 #zip -r question-resources.zip /home/labuser/Desktop/Project/*
-cd /home/labuser/Desktop/Project/
-git clone https://github.com/agskalsp/maycycle.git
+#cd /home/labuser/Desktop/Project/
+#git clone https://github.com/agskalsp/maycycle.git
 cd /home/labuser/Desktop/Project/maycycle/quessolution/
 cp -r /home/labuser/Desktop/Project/* /home/labuser/Desktop/Project/maycycle/quessolution/
 git status

@@ -1,0 +1,285 @@
+--> If you need test-reports, use surefire report plugin
+/target/site/surefire-report.html 
+/target/site/index.html -> inside Project Reports
+--> reporting lives directly under project not under build
+--> need to use along with maven-site-plugin
+
+<reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>2.22.0</version>
+            </plugin>
+        </plugins>
+</reporting>
+
+FAILSAFE PLUGIN is specifically for INTEGRATION Tests
+The Failsafe Plugin has only two goals:
+    failsafe:integration-test runs the integration tests of an application.
+    failsafe:verify verifies that the integration tests of an application passed.
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-failsafe-plugin</artifactId>
+    <version>3.0.0-M2</version>
+    <executions>
+        <executions>
+          <execution>
+            <id>integration-test</id>
+            <goals>
+              <goal>integration-test</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>verify</id>
+            <goals>
+              <goal>verify</goal>
+            </goals>
+          </execution>
+        </executions>
+    </executions>
+</plugin>
+
+JACOCO UNIT TEST COVERAGE
+useful URL: https://www.petrikainulainen.net/programming/maven/creating-code-coverage-reports-for-unit-and-integration-tests-with-the-jacoco-maven-plugin/
+
+anotherUsefulURL: https://www.petrikainulainen.net/programming/tips-and-tricks/creating-profile-specific-configuration-files-with-maven/
+
+<plugin>
+    <groupId>org.jacoco</groupId>
+    <artifactId>jacoco-maven-plugin</artifactId>
+    <version>0.8.8</version>
+    <executions>
+            <!--
+            Prepares the property pointing to the JaCoCo runtime agent which
+            is passed as VM argument when Maven the Surefire plugin is executed.
+        -->
+        <!-------Configuring The Code Coverage Report for UNIT Tests-------->
+        <execution>
+            <id>pre-unit-test</id>
+            <goals>
+                <goal>prepare-agent</goal>
+            </goals>
+            <configuration>
+                <!-- Sets the path to the file which contains the execution data. -->
+                <destFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</destFile>
+                <!--
+                    Sets the name of the property containing the settings
+                    for JaCoCo runtime agent.
+                -->
+                <propertyName>surefireArgLine</propertyName>
+            </configuration>
+        </execution>
+        <!--
+            Ensures that the code coverage report for unit tests is created after
+            unit tests have been run.
+        -->
+        <execution>
+            <id>post-unit-test</id>
+            <phase>test</phase>
+            <goals>
+                <goal>report</goal>
+            </goals>
+            <configuration>
+                <!-- Sets the path to the file which contains the execution data. -->
+                <dataFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</dataFile>
+                <!-- Sets the output directory for the code coverage report. -->
+                <outputDirectory>${project.reporting.outputDirectory}/jacoco-ut</outputDirectory>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-surefire-plugin</artifactId>
+    <version>2.15</version>
+    <configuration>
+        <!-- Sets the VM argument line used when unit tests are run. -->
+        <argLine>${surefireArgLine}</argLine>
+        <!-- Skips unit tests if the value of skip.unit.tests property is true -->
+        <skipTests>${skip.unit.tests}</skipTests>
+        <!-- Excludes integration tests when unit tests are run. -->
+        <excludes>
+            <exclude>**/IT*.java</exclude>
+        </excludes>
+    </configuration>
+</plugin>
+
+JACOCO INTEGRATION TEST COVERAGE
+<plugin>
+    <groupId>org.jacoco</groupId>
+    <artifactId>jacoco-maven-plugin</artifactId>
+    <version>0.7.5.201505241946</version>
+    <executions>
+        <!-- The Executions required by unit tests are omitted. -->
+        <!--
+            Prepares the property pointing to the JaCoCo runtime agent which
+            is passed as VM argument when Maven the Failsafe plugin is executed.
+        -->
+        <execution>
+            <id>pre-integration-test</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+                <goal>prepare-agent</goal>
+            </goals>
+            <configuration>
+                <!-- Sets the path to the file which contains the execution data. -->
+                <destFile>${project.build.directory}/coverage-reports/jacoco-it.exec</destFile>
+                <!--
+                    Sets the name of the property containing the settings
+                    for JaCoCo runtime agent.
+                -->
+                <propertyName>failsafeArgLine</propertyName>
+            </configuration>
+        </execution>
+        <!--
+            Ensures that the code coverage report for integration tests after
+            integration tests have been run.
+        -->
+        <execution>
+            <id>post-integration-test</id>
+            <phase>post-integration-test</phase>
+            <goals>
+                <goal>report</goal>
+            </goals>
+            <configuration>
+                <!-- Sets the path to the file which contains the execution data. -->
+                <dataFile>${project.build.directory}/coverage-reports/jacoco-it.exec</dataFile>
+                <!-- Sets the output directory for the code coverage report. -->
+                <outputDirectory>${project.reporting.outputDirectory}/jacoco-it</outputDirectory>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-failsafe-plugin</artifactId>
+    <version>2.15</version>
+    <executions>
+        <!--
+            Ensures that both integration-test and verify goals of the Failsafe Maven
+            plugin are executed.
+        -->
+        <execution>
+            <id>integration-tests</id>
+            <goals>
+                <goal>integration-test</goal>
+                <goal>verify</goal>
+            </goals>
+            <configuration>
+                <!-- Sets the VM argument line used when integration tests are run. -->
+                <argLine>${failsafeArgLine}</argLine>
+                <!--
+                    Skips integration tests if the value of skip.integration.tests property
+                    is true
+                -->
+                <skipTests>${skip.integration.tests}</skipTests>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
+We can create different code coverage reports by running the following commands at command prompt:
+
+The command -->mvn clean test 
+runs unit tests and creates the code coverage report for unit tests to the directory target/site/jacoco-ut.
+The command -->mvn clean verify -P integration-test 
+runs integration tests and creates the code coverage report for integration tests to the directory target/site/jacoco-it.
+The command -->mvn clean verify -P all-tests 
+runs unit and integration tests and creates code coverage reports for unit and integration tests.
+
+
+SpotBugs Plugin:
+------------------
+<plugin>
+    <groupId>com.github.spotbugs</groupId>
+    <artifactId>spotbugs-maven-plugin</artifactId>
+    <version>3.1.9</version>
+</plugin>
+
+<reporting>
+        <plugins>
+            <plugin>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <version>3.1.9</version>
+            </plugin>
+        </plugins>
+</reporting>
+
+For Skipping Tests:
+-----------------------
+<properties>
+    <skipTests>true</skipTests>
+    <skipITs>true</skipITs>
+</properties>
+
+By CommandLine:
+mvn deploy -DskipTests or -DskipTests=true
+mvn deploy -DskipITs or -DskipITs=true
+
+FLATTEN MAVEN PLUGIN:
+here revision is set using maven property, in jar also we see <version>${project.revision}</version>
+which does not work in other system properly; so we use flatten plugin
+------------------------------
+ <properties>
+        <revision>1.0-SNAPSHOT</revision>
+        <java.version>11</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+    </properties>
+
+<build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <configuration>
+                    <flattenMode>bom</flattenMode>
+                </configuration>
+                <executions>
+                    <!-- enable flattening -->
+                    <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <!-- ensure proper cleanup -->
+                    <execution>
+                        <id>flatten.clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+</build>
+
+ENFORCER MAVEN PLUGIN:
+-------------------------------
+It enforces rules and sees if they are definitely followed
+usefulURL: https://maven.apache.org/enforcer/enforcer-rules/index.html
+<plugin>
+    <artifactId>maven-enforcer-plugin</artifactId>
+    <executions>
+        <execution>
+            <id>enforce-env-requirements</id>
+            <goals>
+                <goal>enforce</goal>
+            </goals>
+            <configuration>
+                <rules>
+                    <requireJavaVersion>
+                        <version>[11,)</version>
+                    </requireJavaVersion>
+                    <requireMavenVersion>
+                        <version>[3.5,)</version>
+                    </requireMavenVersion>
+                </rules>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>

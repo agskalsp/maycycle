@@ -1,0 +1,220 @@
+USEFUL URLS:
+--------------------
+https://maven.apache.org/ref/3.8.5/maven-core/plugin-management.html
+--------------------
+
+CLEAN:-> pre-clean ; clean ; post-clean
+
+Here below:-> we will always delete /target folder everytime by auto-cleaning in earliest phase(Intialize) and then build is done freshly
+
+<build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                   <execution>
+                       <id>auto-clean</id>
+                       <phase>initialize</phase>
+                       <goals>
+                           <goal>clean</goal>
+                       </goals>
+                   </execution>
+                </executions>
+            </plugin>
+        </plugins>
+</build>
+
+
+COMPILER PLUGIN:
+compiler:compile
+compiler:help
+compiler:testCompile
+
+<plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.11.0</version>
+          <configuration>
+            <!-- put your configurations here -->
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+          </configuration>
+</plugin>
+
+SUREFIRE PLUGIN
+surefire:test
+~/target/surefire-reports/
+
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-surefire-plugin</artifactId>
+    <version>3.0.0-M5</version>
+    <configuration>
+        <!-- Configuration for unit tests -->
+        <includes>
+            <include>**/Test*.java</include>
+        </includes>
+        <excludes>
+            <exclude>**/IntegrationTest*.java</exclude>
+        </excludes>
+    </configuration>
+    <executions>
+        <execution>
+            <id>unit-tests</id>
+            <phase>test</phase>
+            <goals>
+                <goal>test</goal>
+            </goals>
+            <configuration>
+                <!-- Additional execution configuration for unit tests -->
+            </configuration>
+        </execution>
+        <execution>
+            <id>integration-tests</id>
+            <phase>integration-test</phase>
+            <goals>
+                <goal>test</goal>
+            </goals>
+            <configuration>
+                <!-- Additional execution configuration for integration tests -->
+            </configuration>
+        </execution>
+    </executions>
+    <dependencies>
+        <!-- Additional dependencies for the Surefire plugin -->
+    </dependencies>
+</plugin>
+
+            <!-- Compiler plugin for generated sources -->
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-compiler-plugin</artifactId>
+    <version>3.8.1</version>
+    <executions>
+        <execution>
+            <id>generated-sources</id>
+            <phase>generate-sources</phase>
+            <goals>
+                <goal>compile</goal>
+            </goals>
+            <configuration>
+                <!-- Additional execution configuration for generated sources -->
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
+
+jar:jar
+<!-- Jar plugin -->
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-jar-plugin</artifactId>
+    <version>3.2.0</version>
+    <configuration>
+        <!-- Jar configuration -->
+        <archive>
+            <manifest>
+                <addClasspath>true</addClasspath>
+                <classpathPrefix>lib/</classpathPrefix>
+                <mainClass>com.example.MainClass</mainClass>
+            </manifest>
+        </archive>
+            </configuration>
+                <executions>
+                    <execution>
+                    <id>jar-packaging</id>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>jar</goal>
+                     </goals>
+            <configuration>
+                <!-- Additional execution configuration for Jar packaging -->
+                <excludes>
+                    <exclude>**/config/*.xml</exclude>
+                </excludes>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
+   
+resources:resources
+resources:copy-resources
+resources:testResources
+
+<!-- Resources plugin -->
+<plugin>
+<groupId>org.apache.maven.plugins</groupId>
+<artifactId>maven-resources-plugin</artifactId>
+<version>3.2.0</version>
+<configuration>
+    <!-- Resources configuration -->
+    <encoding>UTF-8</encoding>
+    <resources>
+        <resource>
+            <directory>src/main/resources</directory>
+            <includes>
+                <include>**/*.xml</include>
+            </includes>
+            <excludes>
+                <exclude>**/config/*.xml</exclude>
+            </excludes>
+        </resource>
+        <!-- Add more resource directories as needed -->
+    </resources>
+    <outputDirectory>${project.build.directory}/custom-resources</outputDirectory>
+</configuration>
+<executions>
+    <execution>
+        <id>copy-resources</id>
+        <phase>prepare-package</phase>
+        <goals>
+            <goal>copy-resources</goal>
+        </goals>
+        <configuration>
+            <!-- Additional execution configuration for copying resources -->
+        </configuration>
+    </execution>
+</executions>
+</plugin>
+
+
+DEPLOY
+deploy:deploy
+
+<distributionManagement>
+    <repository>
+      <id>internal.repo</id>
+      <name>MyCo Internal Repository</name>
+      <url>Host to Company Repository</url>
+    </repository>
+</distributionManagement>
+
+To separate snapshot artifacts from release artifacts, you can also specify a <snapshotRepository/> location. Finally, to deploy a project website, you must specify a <site/> section here as well. It's also important to note that this section can be inherited, allowing you to specify the deployment location one time for a set of related projects.
+
+If your repository is secured, you may also want to configure your settings.xml file to define corresponding <server/> entries which provides authentication information. Server entries are matched to the different parts of the distributionManagement using their <id/> elements. For example, your project may have a distributionManagement section similar to the following:
+
+In this case, you can specify a server definition in your settings.xml to provide authentication information for both of these repositories at once. Your server section might look like this:
+
+[...]
+    <server>
+      <id>internal.repo</id>
+      <username>maven</username>
+      <password>foobar</password>
+    </server>
+[...]
+
+SITE
+site:site
+<plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>3.7.1</version>
+        <version>4.0.0-M8</version>
+        <configuration>
+          <locales>default,fr</locales>
+        </configuration>
+</plugin>
+~/target/site
+~/target/site/index.html -> good info
+
