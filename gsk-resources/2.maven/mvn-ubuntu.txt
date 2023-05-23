@@ -1,6 +1,24 @@
 url1 : 'https://maven.apache.org/plugins/index.html'
 url2 : 'https://www.baeldung.com/maven-relativepath'
 
+<<<<<<<<<<<<<<
+
+For creating a JAR File from command line
+    -> java cvf myjar.jar *.class
+For running that created JAR File
+    java -classpath myjar.jar packageName
+    java -classpath myjar.jar com.siva.maven
+
+If there are dependencies from other jars then 
+    java -classpath ./lib/* Hello world.java
+    java -classpath filePathOfJar Helloworld.java
+
+For running the class file
+    java -classpath filePathOfJar:currentRootDirectory HelloWorld 
+    java -classpath ./lib/*: ./ HelloWorld
+>>>>>>>>
+
+
 mvn help:describe -Dplugin=<PLUGIN-NAME>
 mvn help:describe -Dplugin=archetype
 
@@ -167,3 +185,7 @@ For Skipping Tests in the lifecycle
       refer: resource-t5\2.maven\mvn-resources-udemy\bharath-thippireddy-resources\plugins.xml
 
 >> project.build.directory = **/target
+
+>> MAVEN Wrapper
+    mvn -N io.takari:maven:wrapper -Dmaven=3.6.0
+    ./mvnw --version 
