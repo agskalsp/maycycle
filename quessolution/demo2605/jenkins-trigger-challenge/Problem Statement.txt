@@ -1,0 +1,13 @@
+Configure Jenkins to do automated trigger build
+---------------------------------------------------------
+
+1. Bob wants to configure Jenkins to trigger a build automatically but he got stuck in few areas while 
+completing his task. Now, you're supposed to help Bob to complete his task as described below.
+2. The existing application is given as a folder named "wings-maven-jenkins".
+3. He need to create a job named JenkinsMaven. Configure the custom workspace of the job to invoke the application 
+present in the "wings-maven-jenkins" folder, poll for every 5 minutes and also clean, compile, and execute using maven.
+4. He also need to create another job named TriggerPackage that should automatically build only when JenkinsMaven job 
+build is successful and also to generate a jar file using a maven.
+
+Note:
+- Username and Password for jenkins : admin
