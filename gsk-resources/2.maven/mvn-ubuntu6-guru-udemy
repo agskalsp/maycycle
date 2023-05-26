@@ -1,0 +1,6 @@
+For getting GOT INFO In Build properties:
+
+<plugin>
+    <groupId>pl.project13.maven</groupId>
+    <artifactId>git-commit-id-plugin</artifactId>
+</plugin>

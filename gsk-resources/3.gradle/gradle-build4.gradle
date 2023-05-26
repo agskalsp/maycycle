@@ -1,0 +1,23 @@
+CONTENT OF archiving.gradle
+--------------------------------------
+apply plugin: 'base' // ******* IMPORTANT
+ 
+task copyDocs(type: Copy) {
+    from "src"
+    into "build/docs"
+    include "**/*.md"
+    includeEmptyDirs = false
+}
+
+task createZip(type: Zip) {
+    from "build/docs"
+    archiveFileName = "docs.zip"
+    destinationDirectory = file("build/dist")
+    dependsOn copyDocs
+}
+
+CONTENT OF implement.gradle
+-------------------------------------
+apply from: "archiving.gradle"
+
+Then in folder: /implement/:->  we can use tasks of archiving.gradle directly

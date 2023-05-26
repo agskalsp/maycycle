@@ -100,3 +100,174 @@ resource-t5\3.gradle\gradle-resource-linkedin\3_hrs_video_Gradle_Java_Dev\Ex_Fil
 rootProject.children.each { subproject -> 
      subproject.buildFileName = "${subproject.name}.gradle" 
 }
+
+task copyFiles(type: Copy) {
+    from 'sourceDir'
+    into 'destinationDir'
+    doLast {
+        println 'Files copied successfully.'
+    }
+        include "**/**.md"
+        includeEmptyDirs=false
+}
+
+task deleteFiles(type: Delete) {
+    delete 'filesToDelete'
+    doLast {
+        println 'Files deleted successfully.'
+    }
+}
+
+task syncFiles(type: Sync) {
+    from 'sourceDir'
+    into 'destinationDir'
+    doLast {
+        println 'Files synchronized successfully.'
+    }
+}
+
+task moveFiles(type: Copy) {
+    from 'sourceDir'
+    into 'destinationDir'
+    doLast {
+        println 'Files moved successfully.'
+    }
+}
+
+task createZip(type: Zip) {
+    from 'filesToZip'
+    archiveName 'archive.zip'
+    doLast {
+        println 'Zip file created successfully.'
+    }
+}
+
+task createTar(type: Tar) {
+    from 'filesToTar'
+    archiveName 'archive.tar'
+    doLast {
+        println 'Tar file created successfully.'
+    }
+}
+
+task extractZip(type: Copy) {
+    from zipTree(file('archive.zip'))
+    into 'destinationDir'
+    doLast {
+        println 'Zip file extracted successfully.'
+    }
+}
+
+task extractTar(type: Copy) {
+    from tarTree(resources.gzip('archive.tar'))
+    into 'destinationDir'
+    doLast {
+        println 'Tar file extracted successfully.'
+    }
+}
+
+task filterFiles(type: Copy) {
+    from 'sourceDir'
+    into 'destinationDir'
+    filter(ReplaceTokens, tokens: [token: 'replacement'])
+    doLast {
+        println 'Files filtered successfully.'
+    }
+}
+
+task processResources(type: Copy) {
+    from 'sourceDir'
+    into 'destinationDir'
+    // Add additional processing if needed
+    doLast {
+        println 'Resources processed successfully.'
+    }
+}
+
+task processTestResources(type: Copy) {
+    from 'testSourceDir'
+    into 'testDestinationDir'
+    // Add additional processing if needed
+    doLast {
+        println 'Test resources processed successfully.'
+    }
+}
+
+task createJar(type: Jar) {
+    from compileJava
+    from processResources
+    archiveFileName = 'app.jar'
+    doLast {
+        println 'Jar file created successfully.'
+    }
+}
+
+task createWar(type: War) {
+    from compileJava
+    from processResources
+    from webAppDir
+    archiveFileName = 'app.war'
+    doLast {
+        println 'War file created successfully.'
+    }
+}
+
+task createEar(type: Ear) {
+    from compileJava
+    from processResources
+    from webAppDir
+    archiveFileName = 'app.ear'
+    doLast {
+        println 'Ear file created successfully.'
+    }
+}
+
+task createBundle(type: Jar) {
+    from compileJava
+    from processResources
+    archiveFileName = 'bundle.jar'
+    manifest {
+        attributes 'Bundle-SymbolicName': 'com.example.bundle'
+    }
+    doLast {
+        println 'Bundle file created successfully.'
+    }
+}
+
+task createTarTree(type: Copy) {
+    from tarTree(file('archive.tar'))
+    into 'destinationDir'
+    doLast {
+        println 'Tar tree created successfully.'
+    }
+}
+
+task createZipTree(type: Copy) {
+    from zipTree(file('archive.zip'))
+    into 'destinationDir'
+    doLast {
+        println 'Zip tree created successfully.'
+    }
+}
+
+task taskName(dependsOn: 'anotherTask') {
+    // Task actions
+    doLast {
+        println 'TaskName completed successfully.'
+    }
+}
+
+task taskName(finalizedBy: 'anotherTask') {
+    // Task actions
+    doLast {
+        println 'TaskName completed successfully.'
+    }
+}
+
+task taskName {
+    mustRunAfter 'anotherTask'
+    // Task actions
+    doLast {
+        println 'TaskName completed successfully.'
+    }
+}
