@@ -1,3 +1,4 @@
+:) Added sol in solution.txt
 Hi , this is the sample solution
 
 Here are the step-by-step instructions to complete the tasks related to Kubernetes ConfigMaps, Secrets, Persistent Volumes, Persistent Volume Claims, and RBAC:
