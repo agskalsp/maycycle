@@ -44,6 +44,7 @@ gradle build --daemon
 gradle build --no-daemon  // if needed from start and no cache
 
 gradle dependencies 
+gradle dependencyInsight
 gradle dependencies --configuration compile
 gradle dependencies --configuration testCompile
 

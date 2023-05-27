@@ -21,3 +21,48 @@ CONTENT OF implement.gradle
 apply from: "archiving.gradle"
 
 Then in folder: /implement/:->  we can use tasks of archiving.gradle directly
+
+-------------------------------
+PUBLISHING IN GRADLE:
+--------------------------------
+plugins {
+    id 'maven-publish'
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'org.linkedinlearning'
+            artifactId = 'calculator'
+            from components.java
+        }
+    }
+    repositories {
+        /*maven {
+            url = "$rootProject.buildDir/m2repo"
+        }*/
+        maven {
+            url = 'http://localhost:8082/artifactory/libs-release-local/'
+            credentials {
+                username = 'admin'
+                password = 'admin_123'
+            }
+        }
+    }
+}
+
+TESTING IN GRADLE:
+--------------------------
+dependencies {
+    implementation 'commons-cli:commons-cli:1.4'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+test {
+    useJUnitPlatform() //--> helps in choosing junit 5 instead of junit 4?
+
+    testLogging {
+        events 'started', 'skipped', 'failed'
+    }
+}
