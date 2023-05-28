@@ -11,8 +11,8 @@ There are some pre-defined java files in all the 3 modules and ensure that they 
 
 *******************************************************************************
 ** IMP **>>/----  for MULTI-Module builds in maven
-Refer : resource-t5\2.maven\mvn-resources-LinkedIn\Detailedly-explained-guy\Chapter 1\01_07\01_07_begin
-     and also mydemo : >> resource-t5\2.maven\mvn-resources\my-multi-module-demo 
+Refer : gsk-resources\2.maven\mvn-resources-LinkedIn\Detailedly-explained-guy\Chapter 1\01_07\01_07_begin
+     and also mydemo : >> gsk-resources\2.maven\mvn-resources\my-multi-module-demo 
     >> here if we have dependencies in between child you need to add it in the <dependency> tag
     >> For a Project we can have only one "POM" as packaging remaining will be based on project
     >> And even <modules> are to be added in only parent and not for subparents

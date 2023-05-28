@@ -12,4 +12,24 @@ Green balls
 *Pipeline*
 *SSH Agent*
 Sonarqube scanner
-Jacoco
+Junit Plugin ; Code Coverage API Plugin
+Jacoco; Cobertura  
+Docker Pipeline -> helpful in making Docker available in Pipeline Declarative Syntax
+
+
+------------------------------------------------
+FINGERPRINTING IN JENKINS
+------------------------------------------------
+The artifacts are fingerprinted to yes when copying so that a MD5 checksum is created.
+It can then be used across any job using that MD5 checksum .
+When an artifact is created or used, Jenkins generates an MD5 checksum using the artifact. 
+This checksum and the job where it was created are tracked in an internal database. 
+This becomes the file’s fingerprint. 
+Jenkins can then use the fingerprint to determine what jobs either created or accessed a file.
+
+
+If a job needs to access an artifact created in another job, 
+the Copy Artifact Plugin can be used. 
+This plugin provides a build step for pulling artifacts from one job into another. 
+When you use the copy artifacts build step, security comes into play. 
+The job that creates the artifact must include an option that gives another job permission to copy the artifact.

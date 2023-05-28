@@ -86,16 +86,16 @@ org.gradle.logging.level = info
 
 *** FOR GRADLE WAR   *** AND TOMCAT-GRADLE Integratin as well
 USE these files 
-.resource-t5\3.gradle\gradle-resources-udemy-masterclass\gradle-java-web-application\sampleWebApp-complete
+.gsk-resources\3.gradle\gradle-resources-udemy-masterclass\gradle-java-web-application\sampleWebApp-complete
 
 *** FOR GRADLE MULTI-MODULE PROJECTs  ***
 USE these files 
-.resource-t5\3.gradle\gradle-resources-udemy-masterclass\gradle-java-web-application\gradle-multiProject
+.gsk-resources\3.gradle\gradle-resources-udemy-masterclass\gradle-java-web-application\gradle-multiProject
 
 *** FOR GRADLE CUSTOM Plugin   ***
 USE these files 
-resource-t5\3.gradle\gradle-resource-linkedin\3_hrs_video_Gradle_Java_Dev\Ex_Files_Gradle_Java_Dev\Exercise Files\05_05\
-resource-t5\3.gradle\gradle-resource-linkedin\3_hrs_video_Gradle_Java_Dev\Ex_Files_Gradle_Java_Dev\Exercise Files\05_05\End\java-project\show-date
+gsk-resources\3.gradle\gradle-resource-linkedin\3_hrs_video_Gradle_Java_Dev\Ex_Files_Gradle_Java_Dev\Exercise Files\05_05\
+gsk-resources\3.gradle\gradle-resource-linkedin\3_hrs_video_Gradle_Java_Dev\Ex_Files_Gradle_Java_Dev\Exercise Files\05_05\End\java-project\show-date
 
 ****  for settings.gradle in MULTI-MODULE PROJECT
 rootProject.children.each { subproject -> 

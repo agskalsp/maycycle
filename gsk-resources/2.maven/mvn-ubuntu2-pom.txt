@@ -43,7 +43,7 @@ Where u give all the dependencies and plugins needed for ur sub module projects
 and in that specific sub module projects u can remove VERSION, SCOPE and such things
 ** You can even add the properties needed in the PARENT POM and sub projects can GET THEM
     >>Because They are automatically done using pluginManagement
-    >> Refer : resource-t5\2.maven\mvn-resources-LinkedIn\Detailedly-explained-guy\Chapter 3\03_03\03_03_end
+    >> Refer : gsk-resources\2.maven\mvn-resources-LinkedIn\Detailedly-explained-guy\Chapter 3\03_03\03_03_end
 
 ******************************************************* 
 

@@ -49,8 +49,8 @@ site goal give us a document in the PATH
 ******************************************************************
 
 ** IMP **>>/----  for MULTI-Module builds in maven
-Refer : resource-t5\2.maven\mvn-resources-LinkedIn\Detailedly-explained-guy\Chapter 1\01_07\01_07_begin
-     and also mydemo : >> resource-t5\2.maven\mvn-resources\my-multi-module-demo 
+Refer : gsk-resources\2.maven\mvn-resources-LinkedIn\Detailedly-explained-guy\Chapter 1\01_07\01_07_begin
+     and also mydemo : >> gsk-resources\2.maven\mvn-resources\my-multi-module-demo 
        /// below statement is the most IMPORTANT
     >> here if we have dependencies in between child you need to add it in the <dependency> tag
     >> For a Project we can have only one "POM" as packaging remaining will be based on project
@@ -103,12 +103,13 @@ Where u give all the dependencies and plugins needed for ur sub module projects
 and in that specific sub module projects u can remove VERSION, SCOPE and such things
 ** You can even add the properties needed in the PARENT POM and sub projects can GET THEM
     >>Because They are automatically done using pluginManagement
-    >> Refer : resource-t5\2.maven\mvn-resources-LinkedIn\Detailedly-explained-guy\Chapter 3\03_03\03_03_end
+    >> Refer : gsk-resources\2.maven\mvn-resources-LinkedIn\Detailedly-explained-guy\Chapter 3\03_03\03_03_end
 
 
 mvn dependency:analyze
 mvn dependency:resolve
 mvn dependency:tree
+mvn dependency:go-offline --> it asks to do resolving of dependencies by OFFLINE and don't go online
 
 --Which version of an artifact will be chosen when both are transitive of dependencies or specified in the POM.xml file?
     Ans: The one closest to the final artifact.
@@ -152,12 +153,12 @@ For Skipping Tests in the lifecycle
 >> JaCoCo code test coverage plugin 
         >> it is used for generating test coverages
         >> test reports will be in target/sites/jacoco/
-        Refer : resource-t5\2.maven\mvn-resources-udemy\bharath-thippireddy-resources\jacoco.xml
+        Refer : gsk-resources\2.maven\mvn-resources-udemy\bharath-thippireddy-resources\jacoco.xml
 
 
 >> Sonarqube
      >> set the .m2/settings.xml
-     Refer : resource-t5\2.maven\mvn-resources-udemy\bharath-thippireddy-resources\settings(for-sonar).xml
+     Refer : gsk-resources\2.maven\mvn-resources-udemy\bharath-thippireddy-resources\settings(for-sonar).xml
      mvn clean verify sonar:sonar -Dsonar.login=<TOKEN-LOGIN-string>
 
 
@@ -167,22 +168,22 @@ For Skipping Tests in the lifecycle
        |--> Repository Types: (Based on Releases or Snapshots)
              -- hosted    -- proxy   --group 
     >> set the .m2/settings.xml
-     Refer : resource-t5\2.maven\mvn-resources-udemy\bharath-thippireddy-resources\settings(for-nexus).xml
+     Refer : gsk-resources\2.maven\mvn-resources-udemy\bharath-thippireddy-resources\settings(for-nexus).xml
   >> mvn deploy --> for nexus
 
 
 >> CustomPlugin
       Mojo
-      >> Refer : \resource-t5\2.maven\mvn-resources\mvn-Custom-plugin
+      >> Refer : \gsk-resources\2.maven\mvn-resources\mvn-Custom-plugin
     <packaging>maven-plugin</packaging>
-    for POM.xml of CustomPlugin refer : resource-t5\2.maven\mvn-resources\mvn-Custom-plugin\pluginhelpfiles\pluginpom.xml
+    for POM.xml of CustomPlugin refer : gsk-resources\2.maven\mvn-resources\mvn-Custom-plugin\pluginhelpfiles\pluginpom.xml
     >> need to have a Mojo.java file
-       refer: \\wsl$\Ubuntu-18.04\home\resource-t5\2.maven\mvn-resources\mvn-Custom-plugin\pluginhelpfiles\src\main\java\com\bharath\Mojo.java
+       refer: \\wsl$\Ubuntu-18.04\home\gsk-resources\2.maven\mvn-resources\mvn-Custom-plugin\pluginhelpfiles\src\main\java\com\bharath\Mojo.java
 
 
 >> Maven Ant Run Plugin
       |--> can print properties
-      refer: resource-t5\2.maven\mvn-resources-udemy\bharath-thippireddy-resources\plugins.xml
+      refer: gsk-resources\2.maven\mvn-resources-udemy\bharath-thippireddy-resources\plugins.xml
 
 >> project.build.directory = **/target
 

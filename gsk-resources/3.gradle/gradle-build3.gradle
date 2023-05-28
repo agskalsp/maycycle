@@ -125,7 +125,7 @@ javadoc {
 gradle distTar // you can bundle the TAR distribution with the task named distTar.
 
 // for mavenPublishing
-resource-t5\3.gradle\gradle-resource-linkedin\Ex_Files_Gradle_Java\Ex_Files_Gradle_Java\Exercise Files\chapter_2\02_05-end
+gsk-resources\3.gradle\gradle-resource-linkedin\Ex_Files_Gradle_Java\Ex_Files_Gradle_Java\Exercise Files\chapter_2\02_05-end
 
 plugins {
     id 'maven-publish'

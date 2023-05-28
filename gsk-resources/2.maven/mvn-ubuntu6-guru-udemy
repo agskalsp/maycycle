@@ -4,3 +4,324 @@ For getting GOT INFO In Build properties:
     <groupId>pl.project13.maven</groupId>
     <artifactId>git-commit-id-plugin</artifactId>
 </plugin>
+
+REPOSITORY MIRRORS:
+------------------------
+can add in POM.xml --> Specific to project
+or 
+~/.m2/settings.xml --> entire local projects
+
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+<mirrors>
+        <mirror>
+            <id>UK</id>
+            <name>UK Central</name>
+            <url>http://uk.maven.org/maven2</url>
+            <mirrorOf>central</mirrorOf>
+        </mirror>
+    </mirrors>
+</settings>
+
+<dependencies>
+        <dependency>
+            <groupId>org.jboss.ejb3</groupId>
+            <artifactId>jboss-ejb3-api</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+    </dependencies>
+
+<repositories>
+    <repository>
+        <id>redhat-ga</id>
+        <url>https://maven.repository.redhat.com/ga/</url>
+        <snapshots>
+            <enabled>false</enabled>
+        </snapshots>
+    </repository>
+</repositories>
+
+SETTINGS FOR MAVEN:
+-----------------------------
+default under ~/.m2/settings.xml
+if need to change : --> mvn package -s <PATH-OF-NEW-SETTINGS-file>
+
+For global settings: --> 
+/apache-maven-3.6.0/conf/settings.xml
+if need to change : --> mvn package -gs <PATH-OF-NEW-SETTINGS-file>
+
+ADDING PROFILES FOR REPOSITORY:
+-----------------------------
+<profiles>
+        <profile>
+            <id>jboss</id>
+            <repositories>
+                <repository>
+                    <id>redhat-ga</id>
+                    <url>https://maven.repository.redhat.com/ga/</url>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                </repository>
+            </repositories>
+        </profile>
+    </profiles>
+
+<activeProfiles>
+    <activeProfile>jboss</activeProfile>
+</activeProfiles>
+
+INSTALLING DEPENDENCIES MANUALLY:
+-------------------------------------
+You have a ojdbc7.jar downloaded manually from oracle and need to use in a project
+You generally gave 
+<dependency>
+        <groupId>org.oracle</groupId>
+        <artifactId>ojdbc7</artifactId>
+        <version>12.1.0.1</version>
+</dependency>
+But it is not in ~/.m2 folder as it was done manually
+
+So you can use the following command to install it to ~/.m2/repository folder:
+
+mvn install:install-file -Dfile=~/Downloads/ojdbc.jar -DgroupId=org.oracle.jdbc -DartifactId=ojdbc7 -Dversion=12.1.0.1 -Dpackaging=jar
+
+You can MAVEN Even creates a POM for us in local .m2/repository folder :)
+
+
+--------------------------------------------
+NEXUS
+===========
+mvn deploy --> only this will publish our artifacts
+--------------------------------------------
+The NEXUS will create a repo for us:
+we can use it for proxy as a repo; means we add backend public repos to fetch and store in nexus
+
+following should be added in ~/.m2/settings.xml :-->
+<server>
+    <id>nexus-snapshot</id>
+    <username>admin</username>
+    <password>admin123</password>
+</server>
+<server>
+    <id>nexus-release</id>
+    <username>admin</username>
+    <password>admin123</password>
+</server>
+
+following should be added in POM.xml
+based on version having SNAPSHOT or not it goes to particular NEXUS Repo
+-----------------------------------------
+<version>1.1-SNAPSHOT</version>
+<repositories>
+    <repository>
+        <id>nexus-snapshot</id>
+        <url>http://localhost:8081/repository/nexus-snapshot/</url>
+        <snapshots>
+            <enabled>true</enabled>
+        </snapshots>
+    </repository>
+    <repository>
+        <id>nexus-release</id>
+        <url>http://localhost:8081/repository/nexus-release/</url>
+        <snapshots>
+            <enabled>true</enabled>
+        </snapshots>
+    </repository>
+</repositories>
+
+<distributionManagement>
+    <snapshotRepository>
+        <id>nexus-snapshot</id>
+        <url>http://localhost:8081/repository/nexus-snapshot/</url>
+    </snapshotRepository>
+    <repository>
+        <id>nexus-release</id>
+        <url>http://localhost:8081/repository/nexus-release/</url>
+    </repository>
+</distributionManagement>
+
+--> SEE BHARATH THIPPIREDDY CONTENT SETTINGS for NEXUS as below
+It is so good :)
+>> Nexus 
+    >> docker run -d -p 8081:8081 --name nexus sonartype/nexus3
+       |--> Login as admin
+       |--> Repository Types: (Based on Releases or Snapshots)
+             -- hosted    -- proxy   --group 
+    >> set the .m2/settings.xml
+     Refer : gsk-resources\2.maven\mvn-resources-udemy\bharath-thippireddy-resources\settings(for-nexus).xml
+  >> mvn deploy --> for nexus
+
+
+NEXUS:
+---------------
+Repo types:
+hosted --> good for creating snapshots, releases
+group  --> groups the repos of nexus under one name and we can even get repos from online
+proxy --> ?
+
+when you have a group: nexus-group with maven-central;nexus-releases;nexus-snapshots
+you can add like this in ~/.m2/settings.xml
+<mirrors>
+    <mirror>
+        <id>central</id>
+        <name>central</name>
+        <url>http://localhost:8081/repository/nexus-group/</url>
+        <mirrorOf>*</mirrorOf>
+    </mirror>
+</mirrors>
+
+PROFILES:
+----------------------
+ <profiles>
+    <profile>
+        <id>packagecloud</id>
+        <distributionManagement>
+            <repository>
+                <id>packagecloud.release</id>
+                <url>packagecloud+https://packagecloud.io/springframeworkguru/release</url>
+            </repository>
+            <snapshotRepository>
+                <id>packagecloud.snapshot</id>
+                <url>packagecloud+https://packagecloud.io/springframeworkguru/snapshot</url>
+            </snapshotRepository>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation> 
+        </distributionManagement>
+    </profile>
+    <profile>
+        <id>nexus_distro</id>
+        <distributionManagement>
+            <snapshotRepository>
+                <id>nexus-snapshot</id>
+                <url>http://localhost:8081/repository/nexus-snapshot/</url>
+            </snapshotRepository>
+            <repository>
+                <id>nexus-release</id>
+                <url>http://localhost:8081/repository/nexus-release/</url>
+            </repository>
+        </distributionManagement>
+</profile>
+
+mvn help:active-profiles
+mvn help:active-profiles -Ppackagecloud 
+mvn clean deploy -Ppackagecloud
+mvn clean deploy -Pnexus_distro
+mvn help:active-profiles -P '!packagecloud' --> to make activebyDefault profile to not active using "!"
+mvn help:active-profiles -P '!packagecloud','!jboss','nexus_distro' -->will it work try?
+
+MAVEN RELEASE PLUGIN:
+----------------------------------
+mvn release:prepare --> it asks questions interactively for release versions; next release SNAPSHOTs versions; SCM Tags also
+mvn release:prepare --batch-mode --> ASKING cmd line to choose defaultely
+mvn release:preform 
+
+cmds for SCM:
+-------------
+mvn -Dmessage="<commit_log_here>" scm:checkin
+mvn scm:update
+
+<properties>
+        <project.scm.id>github</project.scm.id>
+</properties>
+
+<scm>
+    <connection>scm:svn:http://somerepository.com/svn_repo/trunk</connection>
+    <developerConnection>scm:svn:https://somerepository.com/svn_repo/trunk</developerConnection>
+    <url>http://somerepository.com/view.cgi</url>
+    <tag>HEAD</tag>
+</scm>
+or
+ <scm>
+    <developerConnection>scm:git:https://github.com/springframeworkguru/mb2g-release-plugin.git</developerConnection>
+    <url>https://github.com/springframeworkguru/mb2g-release-plugin</url>
+    <tag>HEAD</tag>
+</scm>
+<plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.5.3</version>
+</plugin>
+
+following should be added in ~/.m2/settings.xml for github authentication:-->
+<server>
+    <id>github</id>
+    <username><-USERNAME-></username>
+    <password><-PERSONAL-ACCESS-TOKEN-></password>
+</server>
+
+-----------------------
+For SSH connection to git use below:
+---------
+<scm>
+   <connection>scm:git:git@github.com:user/project.git</connection>
+   <url>scm:git:git@github.com:user/project.git</url>
+   <developerConnection>scm:git:git@github.com:user/project.git</developerConnection>
+</scm>
+
+Maven release Plugin extra Configurations:
+---------------------------------------------
+<plugin>
+   <groupId>org.apache.maven.plugins</groupId>
+   <artifactId>maven-release-plugin</artifactId>
+   <version>2.4.2</version>
+   <configuration>
+      <tagNameFormat>v@{project.version}</tagNameFormat>
+      <autoVersionSubmodules>true</autoVersionSubmodules>
+      <releaseProfiles>releases</releaseProfiles>
+   </configuration>
+</plugin>
+
+
+The maven release plugin has several goals, you can run each of them depending upon your need e.g.
+release:clean : performs clean-up after a release preparation.
+release:prepare  : prepare for a release in SCM.
+release:rollback : rollback a previous release.
+release:perform :  perform a release from SCM.
+mvn release:prepare -DdryRun=true -->You can even do a dry run before making a release by using mvn command
+
+This will ask all the same questions, run the same tests, and output a copy of how the POMs will look after transformation. You can check the output and review the POMs, then run:
+
+mvn release:clean
+--------------------
+This will remove all of the files created above, and the project will be ready to execute the proper release
+
+
+mvn release:prepare
+---------------------
+This command prepares for a release in SCM. It goes through several phases to ensure the POM is ready to be released and then creates a tag in SVN which can be used by release:perform to make a release.
+
+
+mvn release:perform
+----------------------
+This is the command which actually does the release by downloading the tagged version from SCM e.g. SVN or CVS or Git. We usually call this command after release:prepare, which creates the tag in SCM but you can also release any specified tag created previously.
+
+
+mvn release:rollback
+--------------------
+This command rollbacks the changes made by a previous release. This command needs the previous release descriptor release.properties to be available in the local working copy. So, if you think the release has not gone well, you can use this command to roll it back.
+
+Read more: https://javarevisited.blogspot.com/2016/10/difference-between-mvn-install-release-and-deploy-in-Maven.html#ixzz82z8JdBsd
+
+MVN RELEASE ERORR:
+------------------------
+If we have SNAPSHOTS in any dependencies it will ask for to continue or not?
+Also if we did some changes and not committed we will get error to release:prepare action.
+
+
+mvn release:prepare -DdryRun=true
+-------------------------------
+It will not tag any changes to git but only shows what actually it is preparing and any error that could potentially happen.
+
+
+Bill of Materials: (BOM) 
+-----------------------
+UpStream projects ->  BOM  -> Downstream Projects
+Mainlyu useful for Sprint Boot Parent
+-----------------------
+Take a project which has 3 modules and each modules has almost same properties, dependencies, plugins.
+Instead of writing it in each and every project, what we can do is we create a new parent project, and give all the things needed here. Then we can just configure this a parent to the 3 downstream projects.
+You won't add modules in BOM though.
