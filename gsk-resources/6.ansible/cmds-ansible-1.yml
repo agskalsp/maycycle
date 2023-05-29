@@ -1,0 +1,78 @@
+---
+#Good CONTENT
+#maycycle\gsk-resources\6.ansible\ansible-linkedIn-resources\robert_starmer\2-Tasks
+
+cd /etc/ansible
+       |--> ansible.cfg ; hosts ; roles
+
+ansible localhost -m find -a "paths=/resourcet5/ansible/file1.txt file_type=file"
+
+ansible-playbook tags.yaml --list-tags
+ansible-playbook tags.yaml --tags ntp
+ansible-playbook tags.yaml --skip-tags ntp_start
+
+ansible-playbook tags.yaml --start-at-task '2nd taskName'  # the name of task should definitely match
+ansible-playbook tags.yaml --start-at-task 'Install NTP'
+
+ansible-playbook tags.yaml --step   # Asks interactively to excute a Task or not
+ansible-playbook invvars.yaml -e file_state=touch -e temp_file="dir/path/path"
+
+ansible-playbook invvars.yaml -e file_state=absent
+
+sudo apt install python3-pip
+sudo pip3 install boto3
+
+---
+- hosts: all
+  tasks:
+  - name: create a file on a remote machine
+    file:
+      dest: /tmp/file
+      state: '{{file_state}}'
+
+-------------------
+- hosts: all:&backup:!web
+# we can make an exclusion of host_groups by using ! symbol
+ansible-playbook -i ../../inventory-file 2-1-tasks.yml -e file_state=touch
+ansible-playbook -i ../../inventory-file 2-1-tasks.yml -e file_state=absent
+
+
+ansible-playbook -i ../../inventory-file 2-2-tasks.yml --tags create-file
+ansible-playbook -i ../../inventory-file 2-2-tasks.yml --tags delete-file
+
+ansible-playbook -i ../../inventory-file 2-2-tasks.yml --skip-tags delete-file --tags create-file
+
+---
+# You see no connection as local ; means SSH into the localhost and exexutes tasks
+#which means slower
+- hosts: localhost
+  tasks:
+  - name: create a file via ssh connection
+    file:
+      dest: /tmp/ssh-created
+      state: touch
+
+# You see connection as local which means faster
+- hosts: localhost
+  connection: local
+
+  tasks:
+  - name: create a file via direct local connection
+    file:
+      dest: /tmp/direct-created
+      state: touch
+
+# the name of task should definitely match the task where you wanna start
+ansible-playbook tags.yaml --start-at-task '2nd taskName'  
+
+variables in inventory:
+---
+[backup]
+db2 backup_file=/tmp/backup_file
+[all:vars]
+all_file=/tmp/all_file
+[web:vars]
+web_file=/tmp/web_file
+
+#CHECK --check helps us see if it will it cause any error or not, just a dry run
+ansible-playbook -i ../../inventory-file 2-13-tasks.yml --tags create --check

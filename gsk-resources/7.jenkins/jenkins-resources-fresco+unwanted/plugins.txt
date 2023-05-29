@@ -1,6 +1,6 @@
 Copy Artifact
 Role based access or authorisation
-Deploy to war/ear container
+Deploy to container (war/ear )
 Build Pipeline
 Maven Integration
 CloudBees Docker Build and Publish

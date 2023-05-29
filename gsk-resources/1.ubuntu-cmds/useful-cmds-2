@@ -1,0 +1,81 @@
+date
+cal 
+uptime
+whoami
+sudo su -
+users
+id 
+who
+man <CMD> --> provides info on that CMD
+
+ls
+ls -lrta; t-> timestamp order of files shown ; r -> reverses the order 
+pwd
+cat <FILE-NAME>
+less <FILE-NAME>  --> shows only few data and you click SPACEBAR to view next data ; q --> to quit interactive mode
+more <FILE-NAME>
+head -n <FILE-NAME> --> no of lines you want to see
+tail -n <FILE-NAME>
+
+touch <FILE-NAME>
+cat > <FILE-NAME>
+cat > file1.txt ----> ASKS for some content to write, once done clicl ctrl+C to come out
+nano <FILE-NAME>
+vi <FILE-NAME> :wq -> save and quit :q! -> override
+
+cat > file1.txt --> overrides already existing content
+cat >> file1.txt  --> allows to use already existing content and append new content at end; but cannot edit any content that is already there
+mkdir <DIR-NAME>
+rmdir <DIR-NAME> -> remove directory
+tree
+rm <FILE_NAME>
+rm -rf *
+rm -rf <FILE_NAME>
+rm -rf <DIR-NAME>
+
+cp <SRC-FILE> <DEST-FILE>
+cp -r <SRC-FILE> <DEST-FILE>
+
+--------
+MV is cut and paste operation ; also a renaming command
+--------
+mv <SRC-FILE> <DEST-FILE>
+
+cd /home/${USER}
+when using cd it is from present DIR but when metioned
+/home/*/.. /usr/bin/ -> like this it from "/" the main directory
+
+find / -name <SEARCH-string>
+find / -<OPTION> filename
+OPTION -> name ; user ; group
+
+diff <DIR-1> <DIR2>
+diff <FILE-1> <FILE-2>
+file <FILE_NAME> _> tells us it dir or ASCII text or some text
+
+GREP : it is case sensitive: should give exact CAPS
+--------
+grep <WORD_NEEDED> <FILE_NAME>
+grep hello file1
+grep -i WORD_NEEDED> <SEARCH-string> -> i means ignore case sensitive
+find . -iname <SEARCH-string> -> i means ignore case sensitive
+ls -l | grep <WORD_NEEDED> --> output before pipe is used and grepped
+grep ^t file1 -> ^ wild card character; searches for all word starting with t in file1
+
+SED
+---------
+sed 's/old_text/new_text' <FILE_NAME> --> only shows output by changing the new text
+sed 's/old_text/new_text/i' <FILE_NAME> --> ig IGNORE CASE SENSITIVE
+sed 's/old_text/new_text/g' <FILE_NAME> --> if in word hi-> hello ; hitman has hi even that also changes globally, hellotman
+sed 's/old_text/new_text/ig' <FILE_NAME> --> ig IGNORE CASE SENSITIVE
+sed -i 's/old_text/new_text' <FILE_NAME> --> it saves the changes in the original file
+sed -n '5,10p' <FILE_NAME> -> to see 5 to 10 lines of file
+sed '10,20d' <FILE_NAME> -> deletes 10 to 20 lines and show remaining
+sed 's/#/ /' <FILE_NAME> -> replaces # with whitespace
+ 
+SSH
+---------
+cd /etc/ssh/sshd_config
+
+id <USER_NAME>
+cat /etc/passwd
