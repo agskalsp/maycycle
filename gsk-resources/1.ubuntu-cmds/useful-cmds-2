@@ -76,6 +76,135 @@ sed 's/#/ /' <FILE_NAME> -> replaces # with whitespace
 SSH
 ---------
 cd /etc/ssh/sshd_config
+service sshd reload
 
 id <USER_NAME>
 cat /etc/passwd
+
+useradd <username>
+passws <username>
+
+USER-MOD helps in adding a new user to one of the other groups; here mark is added to john group
+usermod -G john mark
+
+FILE PERMISSIONS:
+--------
+u=user/owner ; g = group ; o = other
+[+,- : add,delete]
+chmod u=rwx,g=rw,o=r <file-name>
+chmod ugo=rwx <file-name>
+chmod u+x,g-w <file-name>
+
+read(r)=4 ; write(w):2 ; execute(x):1
+chmod 777 <file-name>
+chown -R 777 ./
+
+ONLY ROOT user has permission to chown command
+chown john:john <file-name>
+chown -R john:john ./
+
+history
+free
+free -m
+cat /proc/meminfo
+cat /proc/cpuinfo
+uname -a --> kernel version
+cat /etc/*-release
+du 
+du -m
+man du
+du -k -->in KB
+df --> file system names
+df -m -> in MB
+df -k
+
+sudo apt [install|remove|update|info] <package-name> -y
+sudo list installed | grep <package-name>
+sudo list available | grep <package-name>
+
+hostname --> name of server
+cat /etc/hostname
+hostname temp-server
+ping google.com
+ping <IP_ADDRESS>
+wget <URL> --> helps us download that page details or tars or debs
+ip addr
+ifconfig -a
+curl <URL>
+
+TELNET : helps in knowning whether that port is working or not ; also what it is running 
+----------
+sudo apt install telnet
+telnet localhost 80
+telnet localhost 8085
+netstat -tulpn
+
+service <NAME-OF-SERVICE> [status|start|stop|reload|restart]
+
+chkconfig --list
+chkconfig <service> on
+chkconfig <service> off
+
+FOR SSH
+-----------
+port 22
+daemon : sshd
+conf file : /etc/ssh/sshd_config
+
+FOR HTTP
+-----------
+port 80
+daemon : httpd
+conf file : /etc/httpd/conf/htppd.conf
+
+you can write any index.html in /var/www/html/
+chkconfig httpd on
+
+PROCESS MANAGEMENT
+--------------------
+ps -ef
+kill / kill -9
+fg
+bg
+top
+
+ARCHIVING FILES:
+----------------
+zip -r <ZIP_NAME>.zip <DIR/FILE_NAME>
+gzip <FILE_NAME> -> GZIP works only on FILES
+gunzip <FILE_NAME>.gz
+
+tar -cvf <TAR_NAME>.tar <DIR_NAME>
+tar -xvf <TAR_NAME>.tar
+
+ON TOP OF TAR you can apply ZIPPING as well
+tar -zcvf <TAR_NAME>.tar.gz <DIR_NAME>
+tar -zxvf <TAR_NAME>.tar.gz
+
+SAVING OUTPUT:
+-------------
+curl <URL> -O <File-name>.txt
+wget <URL> -O <File-name>.txt
+
+DNS:
+------
+/etc/hosts -> you can add any no of ips and any no of dns for same ip
+192.168.1.10  web
+192.168.1.10  www.google.com
+192.168.1.11  db
+192.168.1.12  nfs
+
+*******
+cat /etc/resolv.conf
+nameserver 192.168.1.1000
+nameserver 8.8.8.8 -> posted by GOOGLE so it knows any url we ask the system to check
+This file has nameserver which has all the DNS names of ips we want to connect
+
+--------
+you have web.mycompany.com
+but you want ping web but the system does not web means web.mycompany.com
+So what you can do is add 
+
+search mycompany.com in /etc/resolv.conf file
+
+then when called ping web -> it would automatically append

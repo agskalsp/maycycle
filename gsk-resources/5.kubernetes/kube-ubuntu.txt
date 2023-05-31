@@ -1,0 +1,159 @@
+kubectl run firstpod --image=nginx
+kubectl get pods
+kubectl describe firstpod
+
+# to go inside a kube pod
+kubectl exec -it firstpod -- /bin/bash
+kube delete pod firstpod
+
+# shows output as yaml
+kubectl get pod firstpod -o yaml
+
+# shows output as json
+kubectl get pod firstpod -o json
+kubectl get deploy deploydemo -o json
+
+if a firstpod POD have two containers(db, web) then:
+kubectl exec -it firstpod --container db -- /bin/bash
+kubectl exec -it firstpod --container web -- /bin/bash
+
+labels:--> = != in notin exists
+
+kubectl get all --show-labels
+kubectl get all --selector='app=nginx'
+kubectl get pods --selector='app=nginx,team=red'
+
+kubectl get all --selector='app!=nginx'
+kubectl get all --selector='app in (nginx)'
+
+kubectl get namepaces
+kubectl get ns
+
+kubectl create namepace MyNamespace
+kubectl create -f firstpod.yml --namepace MyNamespace
+for above operation; firstpod will be created in MyNamespace ns not in default ns
+so u get no pods when just gave kubectl get pods
+kubectl get pods --namepace MyNamespace
+
+if u want; u can change ns from default to custom
+
+kubectl config view
+
+kubectl config set-context --current --namespace MyNamespace
+kubectl config set-context --current --namespace default
+
+# to check whether Syntax is correct or not
+kubectl create -f firstpod.yml --dry-run=client 
+
+kubectl run demo-pod --image=nginx
+
+# TO GET YAML for cmd created resource
+kubectl get pod/demo-pod --export=true
+
+kubectl explain <POD/SERVICE/ReplicaController/ReplicaSet/Deployment>
+kubectl explain pod
+kubectl explain pod.spec
+kubectl explain deployment.spec.template
+
+to get ip of node 
+---------------------
+minikube ip -> minikubeip:nodePort
+
+
+-------------------------------------------------
+Let's update the nginx Pods to use the nginx:1.16.1 image instead of the nginx:1.14.2 image.
+
+kubectl set image deployment.v1.apps/nginx-deployment nginx=nginx:1.16.1
+or 
+kubectl set image deployment/nginx-deployment nginx=nginx:1.16.1
+
+
+Deployed a deployment and eveything is fine 
+Then done some changes in deployment.yml
+Then how to make those changes to effect:
+
+kubectl replace -f deployment.yml
+
+ROLLOUT:
+------------------
+
+kubectl set image deployment myapp-deployment nginx=nginx:1.18-perl --record=true
+
+kubectl expose deployment my-simple-deployment --name=webapp-service --target-port=8080 --port 8080 --node-port=30090 --type=NodePort --dry-run=client -o yaml > MY-SVC.yml
+
+kubectl rollout status deployment/myapp-deployment
+kubectl rollout history deployment/myapp-deployment
+
+kubectl rollout history deployment/myapp-deployment --revision=2
+kubectl rollout history deployment/myapp-deployment --revision=1
+
+kubectl rollout undo deployment/myapp-deployment --to-revision=1
+
+kubectl rollout undo deployment/myapp-deployment
+kubectl rollout undo deployment myapp-deployment
+kubectl delete deployment/myapp-deployment
+kubectl delete deployment myapp-deployment
+
+kubectl create -f deployment.yaml --record
+kubectl edit deployment myapp-deployment --record
+
+kubectl scale --replicas=3 deployment/myapp-deployment
+
+kubectl scale --replicas=3 replicaset/myapp-replicaset
+
+
+
+---------------------------
+RollingUpdate strategy:
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 2    # no of pods to be unavailable
+      maxSurge: 3
+
+In this example, the maxUnavailable is set to 1, which means only one pod can be unavailable 
+at a time during the rolling update. 
+The maxSurge is also set to 1, which means one additional pod can be created 
+above the desired number of replicas.
+
+Recreate strategy:
+
+
+spec:
+  replicas: 3
+  strategy:
+    type: Recreate
+    
+In this example, the Recreate strategy is used, which means the old pods will be terminated before 
+new ones are created. Since the maxUnavailable and maxSurge properties are not specified, 
+their default values will be used (which is 25% for both).
+
+Canary strategy:
+
+spec:
+  replicas: 3
+  strategy:
+    type: Canary
+    canary:
+      maxUnavailable: 1
+      maxSurge: 1
+      steps:
+        - replicas: 1
+          weight: 10
+        - replicas: 2
+          weight: 50
+        - replicas: 3
+          weight: 100
+
+In this example, the Canary strategy is used, which gradually rolls out the new version of 
+the application. The steps field defines the replicas and their corresponding weights at 
+each step of the update. The maxUnavailable and maxSurge 
+properties specify the maximum number of unavailable and surge pods during the update.
+------------------------------------------------

@@ -25,5 +25,11 @@ java -cp <PATH-of-the-JAR>.jar com.fresco.App
 
 ifconfig // for getting IP of a system
 
+CREATING JAR JAR-file
+---------------------
+jar cf MyApp.jar MyClass.class Service.class Service2.class .........
 
+java -jar MyApp.jar
+
+javadoc -d doc MyClass.java
 

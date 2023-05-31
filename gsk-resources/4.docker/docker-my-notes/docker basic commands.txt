@@ -29,7 +29,15 @@ docker kill <<CONTAINER_NAME>>
 docker start <<CONTAINER_NAME>>
 docker stop <<CONTAINER_NAME>>
 docker rm <<CONTAINER_NAME>>   ---- to remove a particular container 
+docker rm -f <<CONTAINER_NAME>>  --- FORCEFUL REMOVAL EVEN RUNNING
 docker container prune      ---- removes all stopped containers
+docker image prune -a
+docker container prune -a
+docker network prune -a
+docker volume prune -a
+
+--> If you want the present status of container to be IMAGE and used elsewhere use below command
+docker commit <CONTAINER_NAME/CONTAINER_ID> <IMAGE_NAME>:<IMAGE_VERSION>
 
 docker export <<Container Name>> <<file_Name>>.tar
 docker import <<file_Name>>.tar

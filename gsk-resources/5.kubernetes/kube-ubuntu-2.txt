@@ -1,0 +1,26 @@
+spec:
+    containers:
+        -   name: myhttpd
+            image: httpd
+            ports:
+                - containerPort: 80
+            volumeMounts:
+                - name: demovol
+                    mountPath: /data
+                - name: demo-configmap-vol
+                    mountPath: /etc/config
+                - name: demo-pvc
+                    mountPath: /data/clustervol
+    volumes:
+        - name: demovol
+          hostPath: 
+            path: /data
+            type: Directory
+        - name: emptyDirVol
+          emptyDir: {}
+        - name: demo-configmap-vol
+          configMap:
+            name: demo-configmap
+        - name: demo-pvc
+          persistentVolumeClaim:
+            claimName: demo-pvc

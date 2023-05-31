@@ -1,0 +1,84 @@
+VOLUME vs BIND MOUNTS (readonly is optional though)
+-----------------------------
+docker run -d \
+  --name=nginxtest \
+  --mount source=nginx-vol,destination=/usr/share/nginx/html,readonly \
+  nginx:latest
+
+  docker run -d \
+  --name=nginxtest \
+  -v nginx-vol:/usr/share/nginx/html:ro \
+  nginx:latest
+
+  NETWORK:
+  ----------------
+When you create a new container, you can specify one or more --network flags. This example connects a Nginx container to the my-net network. It also publishes port 80 in the container to port 8080 on the Docker host, so external clients can access that port. Any other container connected to the my-net network has access to all ports on the my-nginx container, and vice versa.
+
+ docker create --name my-nginx \
+  --network my-net \
+  --publish 8080:80 \
+  nginx:latest
+
+
+To connect a running container to an existing user-defined bridge, use the docker network connect command. The following command connects an already-running my-nginx container to an already-existing my-net network:
+
+docker network connect my-net my-nginx
+docker network disconnect my-net my-nginx
+
+*********************************************
+In your service definitions, reference the external networks and volumes 
+ the names you provided in the previous steps.
+
+services:
+  my_service:
+    networks:
+      - my_network
+    volumes:
+      - my_volume:/path/to/mount/point
+
+volumes:
+  my_volume:
+    external:
+      name: my_volume
+
+networks:
+  my_network:
+    external:
+      name: my_network
+
+
+Docker Compose CMD:
+------------------
+docker-compose -f "docker-compose.yml" up -d --build
+
+version: '3'
+services:
+    reservation-app:
+      container_name: reservation
+      build: ./
+      dockerfile: <DOCKERFILE-PATH>
+      expose:
+        - 10222
+      ports: 
+        - 10222:8080
+      environment:
+        WAIT_HOST: docker-mysql:3306 
+      depends_on: 
+        - docker-mysql
+    docker-mysql:
+      restart: always
+      container_name: docker-mysql
+      image: mysql
+      environment: 
+          MYSQL_DATABASE: reservation
+          MYSQL_ROOT_PASSWORD: test1234
+          MYSQL_ROOT_HOST: '%'
+      volumes:
+        - ./sql:/docker-entrypoint-initdb.d
+      ports:
+          - 6666:3306
+      healthcheck:
+          test: "/usr/bin/mysql --user=root --password=test1234 --execute \"SHOW DATABASES \""
+          interval: 4s
+          timeout: 20s
+          retries: 5

@@ -112,6 +112,8 @@ For maven -> always remove the '/' context to have a freshly deployed webapp
 URL1: https://www.baeldung.com/tomcat-root-application
 ****************************************************************************************
 
-
-
-
+USE ONLINE AND SEARCH THESE: if asked on sonarqube
+-----------------------------
+sonarscanner for gradle
+sonarscanner for maven
+sonarscanner for jenkins
