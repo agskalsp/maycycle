@@ -1,6 +1,7 @@
 docker swarm init --advertise-addr <<IP_address>>
 docker swarm leave
 
+docker node update --availability [active|pause|drain] worker1
 docker node update --availability drain worker1
 docker node update --availability drain docker-master
 docker node inspect --pretty worker1

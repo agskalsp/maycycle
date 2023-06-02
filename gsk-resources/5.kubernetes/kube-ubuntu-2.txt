@@ -24,3 +24,168 @@ spec:
         - name: demo-pvc
           persistentVolumeClaim:
             claimName: demo-pvc
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+    name: demo-persistent-volume
+spec:
+    capacity:
+        storage: 128M
+    accessModes:
+        - ReadWriteOnce
+    hostPath:
+        path: /data/demo-persistent-volume 
+
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+    name: demo-pvc
+spec:
+    resources:
+        requests:
+            storage: 64M
+    accessModes:
+        - ReadWriteOnce
+
+
+JKube Docs:
+------------------
+https://www.eclipse.org/jkube/docs
+
+Maven Repo:
+-------------------
+https://mvnrepository.com/artifact/org.eclipse.jkube/jkube
+
+Use Plugin:
+----------------
+<plugin>
+	<groupId>org.eclipse.jkube</groupId>
+	<artifactId>kubernetes-maven-plugin</artifactId>
+	<version>1.0.0-rc-1</version>
+</plugin>
+
+
+Build Docker images:
+--------------------
+mvn k8s:build
+docker login
+mvn k8s:push
+
+
+Setup Minikube and Docker:
+--------------------------
+minikube status
+minikube start
+kubectl get pods -w
+kubectl cluster-info
+minikube docker-env
+eval $(minikube -p minikube docker-env)
+
+Generate Kubernetes Resource manifests:
+mvn k8s:resource
+
+Apply resources to cluster:
+mvn k8s:apply
+
+Test:
+--------
+kubectl get pods -w
+kubectl get svc
+minikube ssh
+curl <ip>:<port>
+
+update properties in pom.xml
+
+<properties>
+	<java.version>1.8</java.version>
+	<jkube.enricher.jkube-service.type>NodePort</jkube.enricher.jkube-service.type>
+</properties>
+
+Change Service type to NodePort:
+<jkube.enricher.jkube-service.type>NodePort</jkube.enricher.jkube-service.type>
+
+minikube ip
+curl <ip>:<port>
+
+Access Logs:
+mvn k8s:logs
+
+Debug:
+mvn k8s:debug
+
+Undeploy:
+mvn k8s:undeploy
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      component: server
+  template:
+    metadata:
+      labels:
+        component: server
+    spec:
+      containers:
+        - name: server
+          image: stephengrider/multi-server
+          ports:
+            - containerPort: 5000
+          env:
+            - name: REDIS_HOST
+              value: redis-cluster-ip-service
+            - name: REDIS_PORT
+              value: '6379'
+            - name: PGUSER
+              value: postgres
+            - name: PGHOST
+              value: postgres-cluster-ip-service
+            - name: PGPORT
+              value: '5432'
+            - name: PGDATABASE
+              value: postgres
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pgpassword
+                  key: PGPASSWORD
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: postgres
+  template:
+    metadata:
+      labels:
+        component: postgres
+    spec:
+      volumes:
+        - name: postgres-storage
+          persistentVolumeClaim:
+            claimName: database-persistent-volume-claim
+      containers:
+        - name: postgres
+          image: postgres
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: postgres-storage
+              mountPath: /var/lib/postgresql/data
+              subPath: postgres
+          env:
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pgpassword
+                  key: PGPASSWORD

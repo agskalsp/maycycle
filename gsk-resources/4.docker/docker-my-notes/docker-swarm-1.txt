@@ -3,7 +3,9 @@ docker service create --name vote voting-app
 docker service create --name vote --replicas 3 voting-app docker service create --replicas 3 --name vote -p 8080:80 voting-app
 docker service create --replicas 3 --name vote -p 8080:80 --network front-end voting-app
 docker service update --replicas=6 vote
-
+docker service update --image=nginx:1.12 <SERVICE-NAME>
+docker service scale --vote=6
+docker service rollback <SERVICE-NAME>
 
 @@NETWORKING@@
 
@@ -14,9 +16,12 @@ docker service create --replicas 2 --network my-overlay-network nginx
 
 
 @@Will have same known Docker Compose with deploy as new@@
+@@ But should remove the container_name from the compose file though @@
+docker stack deploy --compose-file COMPOSE-FILE.yml <STACK_NAME>
 
-docker stack deploy --compose-file COMPOSE-FILE.yml
-
+docker stack ls
+docker service ls
+docker node ls
 
 services:
   redis:

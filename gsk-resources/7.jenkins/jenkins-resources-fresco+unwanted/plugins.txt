@@ -9,6 +9,7 @@ Delivery Pipeline
 Parameterized Trigger
 Blue Ocean
 Green balls
+ThinBackup
 *Pipeline*
 *SSH Agent*
 Sonarqube scanner
@@ -16,6 +17,10 @@ Junit Plugin ; Code Coverage API Plugin
 Jacoco; Cobertura  
 Docker Pipeline -> helpful in making Docker available in Pipeline Declarative Syntax
 Maven Repository Server
+Docker API Plugin
+Docker Commons Plugin
+Docker Pipeline
+Docker Plugin
 
 ^awesome.*
 ^<-JOB-NAME->.*

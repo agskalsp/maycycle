@@ -1,9 +1,11 @@
 Program Execution with Maven
 Now, to make your Java program work with Maven, incorporate exec-maven-plugin in pom.xml file.
 
-This will eliminate the need for using jar with java path to run the source code. Java path gets configured in Maven itself by including exec-maven-plugin in pom.xml.
+This will eliminate the need for using jar with java path to run the source code. 
+Java path gets configured in Maven itself by including exec-maven-plugin in pom.xml.
 
-Once the pom file is ready with the exec maven plugin, source code can be executed using mvn exec:java.
+Once the pom file is ready with the exec maven plugin, source code can be executed using 
+mvn exec:java.
 
 Sample pom file with maven-compile and exec-maven plugin after <Dependencies></Dependencies> tag:
 <build>

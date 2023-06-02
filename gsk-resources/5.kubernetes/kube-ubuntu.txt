@@ -1,3 +1,10 @@
+minikube -p minikube docker-env
+eval $(minikube docker-env)
+
+minikube ip
+minikube start
+minikube status
+
 kubectl run firstpod --image=nginx
 kubectl get pods
 kubectl describe firstpod
@@ -100,7 +107,7 @@ kubectl edit deployment myapp-deployment --record
 kubectl scale --replicas=3 deployment/myapp-deployment
 
 kubectl scale --replicas=3 replicaset/myapp-replicaset
-
+kubectl get pv
 
 
 ---------------------------

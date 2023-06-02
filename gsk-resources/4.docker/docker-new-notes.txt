@@ -50,6 +50,9 @@ networks:
 Docker Compose CMD:
 ------------------
 docker-compose -f "docker-compose.yml" up -d --build
+# we always use default profile
+#only when a particular profiled service should be run
+docker-compose --profile storefront_profile [up|down|start|stop|restart]
 
 version: '3'
 services:
@@ -58,13 +61,16 @@ services:
       build: ./
       dockerfile: <DOCKERFILE-PATH>
       expose:
-        - 10222
+        - "10222"
       ports: 
         - 10222:8080
       environment:
         WAIT_HOST: docker-mysql:3306 
       depends_on: 
         - docker-mysql
+      profile:
+        - default
+        - storefront_profile
     docker-mysql:
       restart: always
       container_name: docker-mysql
@@ -82,3 +88,29 @@ services:
           interval: 4s
           timeout: 20s
           retries: 5
+
+version: "3.9"
+
+services:
+  scheduler:
+    build: scheduler/.
+    ports:
+      - "81:80"
+    depends_on:
+      - database
+  storefront: 
+    build: storefront/.
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - database
+  database: 
+    image: "mysql:${TAG}"
+    env_file:
+      - ./mysql/env_vars
+    volumes:
+      - ./mysql:/docker-entrypoint-initdb.d:ro
+      - kineteco:/var/lib/mysql
+volumes:
+  kineteco: 

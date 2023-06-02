@@ -72,10 +72,11 @@ tomcatup
 Add below users to conf/tomcat-user.xml file
 <role rolename="manager-gui"/>
 <role rolename="admin-gui"/>
+<role rolename="admin"/>
 <role rolename="manager-script"/>
 <role rolename="manager-jmx"/>
 <role rolename="manager-status"/>
-<user username="admin" password="admin" roles="manager-gui, admin-gui, manager-script, manager-jmx, manager-status"/>
+<user username="admin" password="admin" roles="manager-gui, admin-gui, admin, manager-script, manager-jmx, manager-status"/>
 <user username="deployer" password="deployer" roles="manager-script"/>
 <user username="tomcat" password="s3cret" roles="manager-gui"/>
 

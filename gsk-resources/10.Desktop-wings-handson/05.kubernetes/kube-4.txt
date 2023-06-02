@@ -21,7 +21,7 @@ spec:
      image: nginx
      ports:
        - containerPort: 80
-          name: "nginx-server"
+         name: "nginx-server"
      volumeMounts:
       -  mountPath: "/usr/share/nginx/html"
          name: test-pv-storage

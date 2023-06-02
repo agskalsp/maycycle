@@ -33,3 +33,5 @@ java -jar MyApp.jar
 
 javadoc -d doc MyClass.java
 
+cat /etc/hosts
+cat /etc/ansible/hosts

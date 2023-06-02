@@ -296,12 +296,12 @@ mvn spring-boot:stop build-info
 	<name>mb2g-spring-boot</name>
 	<description>Example Project fpr Spring Boot</description>
 
-	<properties>
+<properties>
 		<java.version>11</java.version>
 		<some.custom.prop>foo bar</some.custom.prop>
 	</properties>
 
-	<dependencies>
+<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
@@ -326,9 +326,9 @@ mvn spring-boot:stop build-info
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-	</dependencies>
+</dependencies>
 
-	<build>
+<build>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -340,6 +340,10 @@ mvn spring-boot:stop build-info
 							<goal>build-info</goal>
 						</goals>
 						<configuration>
+                            <image>
+        @@@@@@@@@@@ mvn package spring-boot:build-image
+        @@@@@@@@@@         <name>webapp:spring-boot</name>
+                            </image>
 							<additionalProperties>
 								<java.version>${java.version}</java.version>
 								<some.custom.prop>${some.custom.prop}</some.custom.prop>
