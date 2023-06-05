@@ -1,1 +1,3 @@
 javadoc -d doc MyClass.java 
+
+VS CODE :--> JAVA TEST RUNNER EXTENSION FOR JUNIT

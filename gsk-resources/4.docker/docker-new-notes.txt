@@ -1,8 +1,15 @@
-VOLUME vs BIND MOUNTS (readonly is optional though)
+VOLUME vs BIND MOUNTS (  @@@@@@@@ readonly is optional though    ) 
+-----------------------------
+MOUNT TYPES: VOLUME, BIND, NFS
 -----------------------------
 docker run -d \
   --name=nginxtest \
-  --mount source=nginx-vol,destination=/usr/share/nginx/html,readonly \
+  --mount type=volume,source=nginx-vol,destination=/usr/share/nginx/html,readonly \
+  nginx:latest
+
+  docker run -d \
+  --name=nginxtest \
+  --mount "type=bind,source=nginx-vol,destination=/usr/share/nginx/html,readonly"\
   nginx:latest
 
   docker run -d \

@@ -19,3 +19,7 @@ FOR DOCKER:
     https://github.com/mmumshad/docker-advanced-training-answers.git
     https://github.com/mmumshad/docker-node-mongo-ansible-redis.git
     https://github.com/mmumshad/docker-node-mongo-ansible.git
+
+FOR JIB PLUGIN:
+---------------
+    https://github.com/GoogleContainerTools/jib.git

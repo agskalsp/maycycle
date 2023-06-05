@@ -19,6 +19,16 @@ ansible-playbook invvars.yaml -e file_state=touch -e temp_file="dir/path/path"
 
 ansible-playbook invvars.yaml -e file_state=absent
 
+# for using secrets using ansible vault
+# here test2.yml is newly created, test3.yml is already existing
+ansible-vault create test2.yml
+ansible-playbook test2.yaml --ask-vault-pass
+ansible-vault edit test2.yaml
+ansible-playbook encrypt test3.yml
+ansible-playbook test3.yaml --ask-vault-pass
+
+ansible-vault encrypt_string --vault-id @prompt thisismysupersecretstring
+
 sudo apt install python3-pip
 sudo pip3 install boto3
 

@@ -76,3 +76,27 @@ docker build --no-cache=true -f PATH/Dockerfile .    --> can give Dockerfile pat
 # For squash to work we need to have EXPERIMENTAL_Feature must be enabled
 docker build --squash -f Dockerfile .  --> it will squash the top layers into a single layer
 docker image history IMAGENAME --> will give u the commands it run
+
+docker ps -aq --> gives us CONTAINER_ID of all containers
+
+to remove each and every container we can use
+
+docker ps -aq | xargs docker rm
+
+docker system prune --> deletes all docker things from system
+docker stats CONTAINER_NAME
+docker inspect CONTAINER_NAME
+docker top CONTAINER_NAME
+
+EPHIMERAL VOLUMES:
+-------------------------
+YOU CAN VOLUME OF OTHER CONTAINER using --volume-from
+
+docker run --volume-from <CONTAINER-having-vol-folder-u-wish-to-link> -d -p 8080:80 <NEW-CONTAINER_NAME>
+
+sudo apt-get install iptables
+sudo iptables -n -L -t nat 
+
+man dockerfile --> gives info about Dockerfile
+
+docker run --entrypoint useradd <IMAGE_NAME> CMD-to-run

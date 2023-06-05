@@ -109,6 +109,8 @@ kubectl scale --replicas=3 deployment/myapp-deployment
 kubectl scale --replicas=3 replicaset/myapp-replicaset
 kubectl get pv
 
+*********************
+kubectl label po/helloworld app=helloworldapp --overwrite
 
 ---------------------------
 RollingUpdate strategy:

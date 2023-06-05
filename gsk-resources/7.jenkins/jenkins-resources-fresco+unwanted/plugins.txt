@@ -2,11 +2,14 @@ Copy Artifact
 Role based access or authorisation
 Deploy to container (war/ear )
 Build Pipeline
+Build Monitor View Plugin
 Maven Integration
+Pipeline Maven Integration
 CloudBees Docker Build and Publish
 Docker plugin
 Delivery Pipeline
 Parameterized Trigger
+Rebuilder 
 Blue Ocean
 Green balls
 ThinBackup

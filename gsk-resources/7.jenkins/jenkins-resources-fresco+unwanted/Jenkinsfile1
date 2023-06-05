@@ -166,3 +166,128 @@ node {
       }
     }
 }
+
+pipeline{
+    agent any
+    tools {
+      maven 'maven3'
+    }
+    environment {
+      DOCKER_TAG = getVersion()
+    }
+    stages{
+        stage('SCM'){
+            steps{
+                git credentialsId: 'github', 
+                    url: 'https://github.com/javahometech/dockeransiblejenkins'
+            }
+        }
+        
+        stage('Maven Build'){
+            steps{
+                sh "mvn clean package"
+            }
+        }
+        
+        stage('Docker Build'){
+            steps{
+                sh "docker build . -t kammana/hariapp:${DOCKER_TAG} "
+            }
+        }
+        
+        stage('DockerHub Push'){
+            steps{
+                withCredentials([string(credentialsId: 'docker-hub', variable: 'dockerHubPwd')]) {
+                    sh "docker login -u kammana -p ${dockerHubPwd}"
+                }
+                
+                sh "docker push kammana/hariapp:${DOCKER_TAG} "
+            }
+        }
+        
+        stage('Docker Deploy'){
+            steps{
+              ansiblePlaybook credentialsId: 'dev-server', disableHostKeyChecking: true, extras: "-e DOCKER_TAG=${DOCKER_TAG}", installation: 'ansible', inventory: 'dev.inv', playbook: 'deploy-docker.yml'
+            }
+        }
+    }
+}
+
+def getVersion(){
+    def commitHash = sh label: '', returnStdout: true, script: 'git rev-parse --short HEAD'
+    return commitHash
+}
+
+
+pipeline {
+    agent any
+
+    tools {
+     maven 'Maven3'
+    }
+  
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: '50f6fddf-d641-43aa-ac88-881339c4ed19', url: 'https://github.com/akannan1087/myJan2021Repo']]])
+            }
+        }
+        
+       stage ('Build') {
+         steps {
+              sh 'mvn clean install -f MyWebApp/pom.xml'
+            }
+        }
+        
+        stage ('Code Quality') {
+        steps {
+            withSonarQubeEnv('My_SonarQube') {
+            sh 'mvn -f MyWebApp/pom.xml sonar:sonar'
+            }
+      }
+    }
+    
+            stage ('Nexus upload') {
+                steps {
+                           nexusArtifactUploader artifacts: [[artifactId: 'MyWebApp', classifier: '', file: 'MyWebApp/target/MyWebApp.war', type: 'war']], credentialsId: '6ff32036-ec16-4226-9c57-b84ad15d96a5', groupId: 'com.dept.app', nexusUrl: 'ec2-18-221-32-13.us-east-2.compute.amazonaws.com:8081/', nexusVersion: 'nexus3', protocol: 'http', repository: 'maven-snapshots', version: '1.0-SNAPSHOT'
+ 
+                }
+        
+            }
+        
+    }
+}
+
+node {
+    def app
+
+    stage('Clone repository') {
+        /* Cloning the Repository to our Workspace */
+
+        checkout scm
+    }
+
+    stage('Build image') {
+        /* This builds the actual image */
+
+        app = docker.build("anandr72/nodeapp")
+    }
+
+    stage('Test image') {
+        
+        app.inside {
+            echo "Tests passed"
+        }
+    }
+
+    stage('Push image') {
+        /* 
+			You would need to first register with DockerHub before you can push images to your account
+		*/
+        docker.withRegistry('https://registry.hub.docker.com', 'docker-hub') {
+            app.push("${env.BUILD_NUMBER}")
+            app.push("latest")
+            } 
+                echo "Trying to Push Docker Build to DockerHub"
+    }
+}

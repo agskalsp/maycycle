@@ -35,3 +35,5 @@ javadoc -d doc MyClass.java
 
 cat /etc/hosts
 cat /etc/ansible/hosts
+
+df -h --> to see space of system storage

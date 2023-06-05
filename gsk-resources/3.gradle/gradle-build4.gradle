@@ -140,3 +140,75 @@ publishing {
         }
     }
 }
+
+FAT JAR in GRADLE:
+-----------------------
+
+group 'com.example'
+version '1.0.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Add your project dependencies here
+    // For example:
+    implementation 'com.example:library:1.0.0'
+}
+
+task createFatJar(type: Jar) {
+    manifest {
+        attributes 'Main-Class': 'com.example.MainClass'
+    }
+
+    // Include the project classes
+    from sourceSets.main.output
+
+    // Include the project dependencies
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+
+    // Set the output directory and file name
+    archiveFileName = 'my-application-fat.jar'
+    destinationDirectory = file('build/libs')
+}
+
+// Make the createFatJar task run before the build task
+build.dependsOn createFatJar
+USING PLUGIN:
+-----------------------
+gradle shadowJar
+----------------------
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '7.1.0'
+}
+
+group 'com.example'
+version '1.0.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Add your project dependencies here
+    // For example:
+    implementation 'com.example:library:1.0.0'
+}
+
+shadowJar {
+    archiveBaseName.set('my-application') // Set the base name of the fat JAR
+    archiveClassifier.set('fat') // Set the classifier for the fat JAR (optional)
+
+    // Optional configurations
+    mergeServiceFiles() // Merge META-INF/services files (e.g., for SPI implementations)
+    exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA' // Exclude signature files
+
+    // Optional manifest attributes
+    manifest {
+        attributes 'Main-Class': 'com.example.MainClass'
+    }
+}

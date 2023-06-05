@@ -5,7 +5,7 @@ kubectl expose deployment my-simple-deployment --name=webapp-service --target-po
 kubectl rollout status deployment/myapp-deployment
 kubectl rollout history deployment/myapp-deployment
 kubectl rollout undo deployment/myapp-deployment
-kubectl rollout undo deployment myapp-deployment
+kubectl rollout undo deployment myapp-deployment --to-revision=2
 kubectl delete deployment/myapp-deployment
 kubectl delete deployment myapp-deployment
 
