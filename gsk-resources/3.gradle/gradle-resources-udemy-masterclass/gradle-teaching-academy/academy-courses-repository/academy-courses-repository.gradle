@@ -1,5 +1,0 @@
-description = 'Teaching Academy Courses Repository'
-
-dependencies {
-	implementation 'org.springframework:spring-webmvc:4.0.3.RELEASE'    
-}

@@ -1,0 +1,71 @@
+#PV Manifest (pv.yaml):
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: fresco-pv
+spec:
+  storageClassName: [fast|slow|manual]
+  capacity:
+    storage: 100Mi
+  accessModes:
+    - [ReadWriteOnce|ReadWriteMany|ReadOnlyMany]
+  hostPath:
+    path: /tmp/fresco
+
+#PVC Manifest (pvc.yaml):
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: fresco-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: [fast|slow|manual]
+  resources:
+    requests:
+      storage: 50Mi
+
+#Modified Nginx Pod Manifest (nginx-pod.yaml):
+apiVersion: v1
+kind: Pod
+metadata:
+  name: fresco-nginx-pod
+spec:
+  containers:
+    - name: nginx
+      image: nginx
+      volumeMounts:
+        - name: fresco-volume
+          mountPath: /usr/share/nginx/html
+  volumes:
+    - name: fresco-volume
+      persistentVolumeClaim:
+        claimName: fresco-pvc
+
+
+To create the PV, PVC, and modify the Nginx pod, follow these steps:
+
+Create the PV using the pv.yaml manifest:
+kubectl apply -f pv.yaml
+Create the PVC using the pvc.yaml manifest:
+kubectl apply -f pvc.yaml
+Verify that the PVC is successfully bound to the PV:
+kubectl get pvc
+The STATUS of the PVC should show as "Bound".
+
+Modify the Nginx pod using the nginx-pod.yaml manifest:
+kubectl apply -f nginx-pod.yaml
+
+The Nginx pod will now use the fresco-pvc as a volume mounted at /usr/share/nginx/html.
+
+You can check the status and details of the created resources using kubectl get commands:
+
+To check the PV:
+kubectl get pv fresco-pv
+
+To check the PVC:
+kubectl get pvc fresco-pvc
+
+To check the Nginx pod:
+kubectl get pod fresco-nginx-pod
+Make sure to apply these manifests in the same order as mentioned above. Adjust the file names and paths if necessary.

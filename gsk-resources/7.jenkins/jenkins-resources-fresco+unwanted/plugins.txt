@@ -7,6 +7,12 @@ Maven Integration
 Pipeline Maven Integration
 CloudBees Docker Build and Publish
 Docker plugin
+Ansible plugin
+AnsiColor plugin
+Mailer Plugin
+Git Plugin
+Maven Integration Plugin
+Job DSL Plugin
 Delivery Pipeline
 Parameterized Trigger
 Rebuilder 

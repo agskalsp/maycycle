@@ -15,8 +15,8 @@ Overview:
 
 2. Creating Configmap from "literal values" & Consuming it inside Pod from "environment variables" 
 
-   2a. Create configmap “redis-configmap-env” from "literal values"
-   2b. Consume “redis-configmap-env” configmap inside pod from “Environment Variables” inside pod
+   2a. Create configmap ï¿½redis-configmap-envï¿½ from "literal values"
+   2b. Consume ï¿½redis-configmap-envï¿½ configmap inside pod from ï¿½Environment Variablesï¿½ inside pod
    2c. Create | Display | Validate
 
 3. Cleanup
@@ -34,6 +34,9 @@ Overview:
 ------------------------------------------------------------------
 echo -n 'Non-sensitive data inside file-1' > file-1.txt
 echo -n 'Non-sensitive data inside file-2' > file-2.txt
+
+if both files are in same path we can give the Directory path as well:
+kubectl create configmap nginx-configmap-vol --from-file=/PATH/To/COMMON/files
 
 kubectl create configmap nginx-configmap-vol --from-file=file-1.txt --from-file=file-2.txt
 # rm -f file-1 file-2
@@ -105,7 +108,7 @@ kubectl exec nginx-pod-configmap-vol cat /etc/non-sensitive-data/file-b.txt
 2. Creating Configmap from "literal values" & Consuming it inside Pod from "environment variables"  
 
 
-2a.  Create configmap “redis-configmap-env” from "literal values"
+2a.  Create configmap ï¿½redis-configmap-envï¿½ from "literal values"
 -----------------------------------------------------------------
 
 kubectl create configmap redis-configmap-env --from-literal=file.1=file.a --from-literal=file.2=file.b
@@ -115,7 +118,7 @@ kubectl describe configmap redis-configmap-env
 
 ===============================================================================
 
-2b. Consume “redis-configmap-env” configmap inside pod from “Environment Variables” inside pod
+2b. Consume ï¿½redis-configmap-envï¿½ configmap inside pod from ï¿½Environment Variablesï¿½ inside pod
 -----------------------------------------------------------------------------------------------
 
 # redis-pod-configmap-env.yaml

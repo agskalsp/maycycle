@@ -1,5 +1,21 @@
 SOMETIMES we have to configure system for tools like NEXUS;SONARQUBE
 
+
+**********************
+For MVN tests we are getting an issue because of some bug in debian systems.
+So to overcome that we need to add a ENV in Jenkins Configuration(Global Configure -> ENVIRONMENT)
+
+KEY              =   VALUE
+_JAVA_OPTIONS    =   -Djdk.net.URLClassPath.disableClassPathURLCheck=true 
+
+******************
+
+For Junit Test Report in JEnkins:
+-------
+We use /target/surefire-reports/*.xml 
+*********************
+
+
 JENKINS Installation:
 -------------------------
 wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo

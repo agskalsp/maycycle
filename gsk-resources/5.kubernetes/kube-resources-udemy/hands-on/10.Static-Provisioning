@@ -1,41 +1,7 @@
-
-$ echo  'admin' > ./username.txt
-$ echo  'pass' > ./password.txt
-
-kubectl create secret generic cred-secret --from-file=./username.txt --from-file=./password.txt
-
-kubectl get secrets
-
-
-kind: Pod
-apiVersion: v1
-metadata:
-  name: fresco-pod
-spec:
-  volumes:
-    - name: test-pv-storage
-      persistentVolumeClaim:
-         claimName: fresco-pvc
-  containers: 
-   -  name: test-pv-container
-     image: nginx
-     ports:
-       - containerPort: 80
-         name: "nginx-server"
-     volumeMounts:
-      -  mountPath: "/usr/share/nginx/html"
-         name: test-pv-storage
-
-minikube start --extra-config=apiserver.Authorization.Mode=RBAC
-kubectl create namespace dev
-openssl genrsa -out emp.key 2048
-openssl req -new -key emp.key -out emp.csr -subj "/CN=emp/O=dev"
-openssl x509 -req -in emp.csr -CA ~/.minikube/ca.crt -CAkey ~/.minikube/ca.key-CAcreateserial -out emp.crt -days 500
-kubectl config set-context dev-ctx --cluster=minikube --namespace=dev --user=emp
-
 --------------------
 PV AND PVC's:
 ----------------
+storageClassName should be same in PV & PVC
 -----------------
 
 1. Persistent Volume
@@ -55,8 +21,6 @@ spec:
     fsType: ext4
 
 
-2.  Persistent Volume Claim
-----------------------------------
 # pv.yaml
 apiVersion: v1
 kind: PersistentVolume
@@ -64,14 +28,17 @@ metadata:
   name: pv-gce
 spec:
   capacity:
-  storage: 15Gi
+    storage: 15Gi
   accessModes:
-  - ReadWriteOnce
+    - ReadWriteOnce
   storageClassName: slow
   gcePersistentDisk:
     pdName: my-disk-123
     fsType: ext4
 
+
+2.  Persistent Volume Claim
+----------------------------------
 # pvc.yaml
 ----------------------
 apiVersion: v1
@@ -83,7 +50,7 @@ spec:
     requests:
       storage: 15Gi
   accessModes:
-  - ReadWriteOnce
+    - ReadWriteOnce
   storageClassName: slow
 
 3.  Reference Claim in Pod
