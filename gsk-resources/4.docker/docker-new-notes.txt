@@ -26,6 +26,12 @@ When you create a new container, you can specify one or more --network flags. Th
   --publish 8080:80 \
   nginx:latest
 
+  NEW DOCKER THING:
+  -------------------
+*************************
+Having -w as argument so we can pass the WORKDIR in CMD line itself
+docker run --rm  -v  $WORKSPACE/java-app:/app -v /root/.m2/:/root/.m2/ -w /app maven:3-alpine "$@"
+
 
 To connect a running container to an existing user-defined bridge, use the docker network connect command. The following command connects an already-running my-nginx container to an already-existing my-net network:
 
