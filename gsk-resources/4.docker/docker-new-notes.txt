@@ -175,3 +175,41 @@ networks:
 volumes:
   redis-data:
   db-data:
+
+
+version: '3'
+services:
+  bookstack:
+    image: ghcr.io/linuxserver/bookstack
+    container_name: bookstack_container
+    depends_on:
+      - bookstack_db
+    ports:
+      - 8885:8080
+    networks:
+      - my_external_network
+    environment:
+      APP_URL: http://localhost:8085
+      DB_HOST: bookstack_db
+      DB_USER: bookstack_user
+      DB_PASS: MySecurePassword
+      DB_DATABASE: bookstack
+
+  bookstack_db:
+    image: mysql
+    container_name: bookstack_db_container
+    volumes:
+      - my_external_volume:/var/lib/mysql
+    networks:
+      - my_external_network
+    environment:
+      MYSQL_ROOT_PASSWORD: MySecureRootPassword
+      MYSQL_DATABASE: bookstack
+      MYSQL_USER: bookstack_user
+      MYSQL_PASSWORD: MySecurePassword
+
+volumes:
+  my_external_volume:
+
+networks:
+  my_external_network:
