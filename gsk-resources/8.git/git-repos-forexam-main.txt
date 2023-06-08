@@ -11,6 +11,8 @@ FOR ANSIBLE & Kubernetes :
 
     https://github.com/mmumshad/kubernetes-training-answers.git
     https://github.com/mmumshad/kubernetes-example-voting-app.git
+    https://github.com/mmumshad/simple-webapp.git
+    https://github.com/mmumshad/simple-webapp-flask.git
     
 
 FOR DOCKER:
@@ -19,7 +21,12 @@ FOR DOCKER:
     https://github.com/mmumshad/docker-advanced-training-answers.git
     https://github.com/mmumshad/docker-node-mongo-ansible-redis.git
     https://github.com/mmumshad/docker-node-mongo-ansible.git
+    https://github.com/dockersamples/example-voting-app.git
 
 FOR JIB PLUGIN:
 ---------------
     https://github.com/GoogleContainerTools/jib.git
+
+
+https://auth.ultimatix.net/utxLogin/login?TYPE=33554432&REALMOID=06-000e128c-664b-1c1a-9ba7-abcac0a8f081&GUID=&SMAUTHREASON=0&METHOD=GET&SMAGENTNAME=-SM-EdbHMX6T%2bWb8DN7DVmL5sbY%2bn%2b30S7n%2fgIBptYa9dLbudResX4AYm9ObPeNozoDH&TARGET=-SM-HTTPS%3a%2f%2fwww%2eultimatix%2enet%2futxHomeApp%2fredirectToHome%3fTARGET%3dhttps-%3A-%2F-%2Fwww%2eultimatix%2enet-%2Fuxportal-%2Fuxportalhome%2ehtml-%2FMegamenu
+https://www.ultimatix.net/uxportal/uxportalhome.html/Megamenu

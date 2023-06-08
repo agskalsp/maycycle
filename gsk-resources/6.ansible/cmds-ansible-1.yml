@@ -47,7 +47,7 @@ ansible-playbook -i ../../inventory-file 2-1-tasks.yml -e file_state=touch
 ansible-playbook -i ../../inventory-file 2-1-tasks.yml -e file_state=absent
 
 
-ansible-playbook -i ../../inventory-file 2-2-tasks.yml --tags create-file
+ansible-playbook -i ../../inventory-file 2-2-tasks.yml --tags create-file,delete-file
 ansible-playbook -i ../../inventory-file 2-2-tasks.yml --tags delete-file
 
 ansible-playbook -i ../../inventory-file 2-2-tasks.yml --skip-tags delete-file --tags create-file

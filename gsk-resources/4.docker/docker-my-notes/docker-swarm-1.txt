@@ -23,6 +23,7 @@ docker stack ls
 docker service ls
 docker node ls
 
+version: '3'
 services:
   redis:
      image: redis

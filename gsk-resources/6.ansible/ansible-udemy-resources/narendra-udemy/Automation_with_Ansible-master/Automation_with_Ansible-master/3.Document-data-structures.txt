@@ -15,3 +15,4 @@
    gather_facts: false
    tasks:
    - debug: var=web_servers.get('Linux')
+   - debug: var=web_servers['Linux']

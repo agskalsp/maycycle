@@ -1,0 +1,57 @@
+# The below cmd keeps the sent py script by module in remotes host under ~/.ansible/tmp
+ANSIBLE_KEEP_REMOTE_FILES=1 ansible -i inventory -m ping
+
+here '-k' for asking SSH connection password '--ask-pass'
+here '-b' for becoming ROOT USER '--become'
+here '-K ' for asking SUDO password '--ask-become-pass'
+ansible all -i inventory -m apt -a "name=httpd state=latest" -k -b -K -u <REMOTE-USERNAME>
+
+# it checks syntax of the yaml playbook
+ansible-playbook mainplaybook.yml --syntax-check
+
+# it will do a DRY RUN just to see if it can execute perfectly and see what will happen
+ansible-playbook mainplaybook.yml --check
+
+---
+- hosts: localhost
+  
+  tasks:
+    - name: Get local information
+      debug:
+       var: hostvars[inventory_hostname]
+       verbosity: 2
+# to run above playbook -vv should be provided else it will be skipped due to verbosity threshold limit
+ansible-playbook mainplaybook.yml -vv
+
+#to pass args from CMDLINE use "-e" or "--extra-var"
+ansible-playbook cmdline.yml -e "x=45"
+ansible-playbook cmdline.yml -e {'x': 45}
+ansible-playbook cmdline.yml --extra-var "x=45"
+#passing a MAP
+ansible-playbook cmdline.yml -e {'x': { 'a': 1,'b': 2}}
+#passing a file a var
+ansible-playbook cmdline.yml -e '@FILENAME.yml'
+
+HANDLERS ARE NOTIFIED
+
+ANSIBLE-VAULT:
+-----------------
+# for already existing files; here test2.yml
+ansible-vault encrypt test2.yaml
+ansible-vault encrypt test2.yaml --ask-vault-pass
+ansible-playbook test2.yaml --ask-vault-pass
+ansible-vault edit test2.yaml
+ansible-playbook encrypt test3.yml
+ansible-playbook test3.yaml --ask-vault-pass
+
+# for creating new files; here newfile.yml
+ansible-vault create newfile.yml
+ansible-vault view newfile.yml
+ansible-vault edit newfile.yml
+
+# CHANGE new password
+ansible-vault rekey newfile.yml
+
+# if you have the password stored in a file you can give it
+ansible-playbook newfile.yml --vault-password-file passwdfile.yml
+ansible-playbook newfile.yml --vault-id passwdfile.yml

@@ -166,3 +166,5 @@ the application. The steps field defines the replicas and their corresponding we
 each step of the update. The maxUnavailable and maxSurge 
 properties specify the maximum number of unavailable and surge pods during the update.
 ------------------------------------------------
+
+minikube service <SERVICE_NAME> --url
