@@ -47,3 +47,19 @@ docker service update --help
 docker service update NODE_ID --publish-add 8000:80
 docker service rm NODE_ID
 docker service ps NODE_NAME
+
+
+Docker Swarm Hands On
+---------------------
+-> docker swarm init
+-> docker service create - -name http --replies 2 -p 80 --update-delay=10s tomcat
+-> docker service update --image tomcat http
+-> docker service scale http=4
+-> docker network create -d overlay app-network
+-> docker service update --network-ad app-network http
+-> echo "frescoPass" > sec.txt
+-> docker secret create redis_pass ./sec.txt
+-> docker service create --name redis --secret redis-pass -mode global redis:alpine
+-> docker mode update --label-add=red (IPaddress of node)
+-> docker service create --name tomcat-red-only --constraint node.labels.colour=red tomcat
+-> docker node update --availability drain(IP address of node)

@@ -31,7 +31,32 @@
     name: nginx
     state: restarted
 
+- name: install nginx
+  apt: 
+    name: nginx 
+    state: present
+    update_cache: yes
 
+- name: start nginx
+  service:
+    name: nginx
+    state: started
+
+- name: template code
+  template:
+    src: sites-enabled.j2
+    dest: /etc/nginx/sites-enabled/default
+
+- name: start nginx
+  shell: service nginx start
+
+---
+port: 9090
+os: ubuntu
+access_log: /var/log/nginx/localhost.access.log
+url: https://www.google.com
+buffer_request: 2
+request_per_min: 6
 
 limit_req_zone $binary_remote_addr zone=mylimit:10m rate={{ request_per_min }}r/m;
 

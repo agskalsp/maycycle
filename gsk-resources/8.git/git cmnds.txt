@@ -8,3 +8,10 @@ git bisect reset  --> TO COME out of the GIT BISECT
 
 git add -p   --> adds patch to a stage i.e., it stages the changes separately 
 it will show our recent chnages and asks whether Y or N to stage that changes :)
+
+git clone: Get the complete project from remote to your local machine
+git pull origin <branch_name>: Get the new changes from remote branch to local branch
+git push origin <branch_name>: Send your local branch changes to the remote branch
+git remote add <name> <url>: Add a new remote repo link to your local repo
+git remote -v: List all the remote repo URLs linked to your local repo
+image: git collaboration commands
