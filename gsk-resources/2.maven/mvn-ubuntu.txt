@@ -190,3 +190,61 @@ For Skipping Tests in the lifecycle
 >> MAVEN Wrapper
     mvn -N io.takari:maven:wrapper -Dmaven=3.6.0
     ./mvnw --version 
+
+------------------------  DOCKER MAVEN PLUGIN FABRIC  --------------------
+
+<!-- Just add this to the <build><plugins> section of your POM and make changes appropriately -->
+
+<plugin>
+	<groupId>io.fabric8</groupId>
+	<artifactId>docker-maven-plugin</artifactId>
+	<version>0.21.0</version>
+
+	<configuration>
+        <!--  <dockerHost>http://127.0.0.1:2375</dockerHost> -->        
+        <!--  this is for Mac and Amazon Linux -->
+        <!-- <dockerHost>unix:///var/run/docker.sock</dockerHost> -->
+
+        <verbose>true</verbose>
+        
+        <!-- Needed if pushing to DockerHub: preferred to store these in local environment (see the course) -->
+        <authConfig>
+			  <username>YOUR-USERNAME</username>
+              <password>YOUR-PASSWORD</password>
+        </authConfig>
+        
+		<images>
+			<image>
+				<name>NAME OF IMAGE TO BUILD</name>
+				<build>
+					<dockerFileDir>${project.basedir}/src/main/docker/</dockerFileDir>
+
+                    <!--copies Jar to the maven directory (uses Assembly system)-->
+					<assembly>
+						<descriptorRef>artifact</descriptorRef>
+					</assembly>
+					<tags>
+						<tag>latest</tag>
+					</tags>
+				</build>
+			</image>
+		</images>
+	</configuration>
+</plugin>	
+
+---------  Settings.xml for above docker maven plugin -------
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                              https://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+   <servers>
+     <server>
+       <id>docker.io</id>
+       <username>username</username>
+       <password>password</password>
+     </server>
+   </servers>
+</settings>
+
+------------------

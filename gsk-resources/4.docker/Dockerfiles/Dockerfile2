@@ -1,0 +1,68 @@
+Section Quick Start
+Lecture Build & Run Flask REST API Server Container
+Links:
+• https://github.com/d4py/d4py
+• https://gunicorn.org/
+• https://chrome.google.com/webstore/detail/talend-api-tester-freeed/aejoelaoggembcahagimdiliamlcdmfm
+Commands:
+$ docker build -t d4py/myflask:0.1 .
+$ docker push d4py/myflask:0.1
+$ docker run -p 5000:5000 d4py/myflask:0.1
+$ cd d4py/section-3/build-flask
+$ atom .
+$ docker run -it --rm -p 5000:5000 -v ${PWD}:/app python:3 bash
+# cd /app
+# pip install -r requirements.txt
+# gunicorn --bind=0.0.0.0:5000 --workers=1 color-boxes:app
+# exit
+$ docker build -t d4py/myflask:0.1 .
+$ docker login
+$ docker push d4py/myflask:0.1
+$ docker run -p 5000:5000 d4py/myflask:0.1
+
+
+# Use the official Python base image with the desired Python version
+FROM python:3.9
+
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the requirements file to the container
+COPY requirements.txt .
+
+# Install the Python dependencies
+RUN pip install -r requirements.txt
+
+# Copy the project files to the container
+COPY . .
+
+# Expose the desired port (e.g., 8000) for the Django web server
+EXPOSE 8000
+
+# Run the Django development server
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+
+
+Section Quick Start
+Lecture Build & Run Django Web Server Container
+Links:
+• https://github.com/d4py/d4py
+• https://uwsgi-docs.readthedocs.io/en/latest/
+Commands:
+$ cd d4py/section-3/build-django
+$ atom .
+$ docker build -t d4py/mydjango:0.1 .
+$ docker push d4py/mydjango:0.1
+$ docker volume create bookmarks_db
+$ docker run -it --rm -v bookmarks_db:/data d4py/mydjango:0.1 python
+manage.py migrate
+$ docker run -it --rm -v bookmarks_db:/data d4py/mydjango:0.1 python
+manage.py createsuperuser
+$ docker run -it --name bm -p 8000:8000 -v bookmarks_db:/data
+d4py/mydjango:0.1
+$ docker run -it --rm --name dj-dev -p 8000:8000 -v ${PWD}:/app
+python:3 bash
