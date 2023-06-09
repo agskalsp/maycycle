@@ -37,3 +37,7 @@ cat /etc/hosts
 cat /etc/ansible/hosts
 
 df -h --> to see space of system storage
+
+FOR KUBERNETES CMDS:
+----------------------
+https://kubernetes.io/docs/reference/kubectl/cheatsheet/

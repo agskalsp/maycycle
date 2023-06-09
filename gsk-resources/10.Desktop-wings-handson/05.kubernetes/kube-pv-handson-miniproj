@@ -69,3 +69,84 @@ kubectl get pvc fresco-pvc
 To check the Nginx pod:
 kubectl get pod fresco-nginx-pod
 Make sure to apply these manifests in the same order as mentioned above. Adjust the file names and paths if necessary.
+
+Here are the steps to complete the RBAC task:
+
+Step 1: Create the namespace dev
+```
+kubectl create namespace dev
+```
+
+Step 2: Generate a private key named emp.key
+```
+openssl genrsa -out emp.key 2048
+```
+
+Step 3: Create a certificate sign request named emp.csr using the private key
+```
+openssl req -new -key emp.key -out emp.csr -subj "/CN=emp/O=dev"
+```
+
+Step 4: Approve the certificate sign request and generate emp.crt
+```
+kubectl certificate approve emp.csr
+kubectl get csr emp.csr -o jsonpath='{.status.certificate}' | base64 -d > emp.crt
+```
+
+Step 5: Create a new context pointing to the cluster minikube
+```
+kubectl config set-context dev-ctx --cluster=minikube --namespace=dev --user=emp
+```
+
+Step 6: Set credentials for emp
+```
+kubectl config set-credentials emp --client-certificate=emp.crt --client-key=emp.key
+```
+
+Step 7: Create a role named emp-role
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: emp-role
+  namespace: dev
+rules:
+- apiGroups: [""]
+  resources: ["pods", "deployments"]
+  verbs: ["get", "list"]
+```
+
+Step 8: Bind emp to the role emp-role
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: emp-bind
+  namespace: dev
+subjects:
+- kind: User
+  name: emp
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: emp-role
+  apiGroup: rbac.authorization.k8s.io
+```
+
+Step 9: Deploy an nginx pod under the dev-ctx and dev namespace
+```
+kubectl --context=dev-ctx create deployment nginx --image=nginx --namespace=dev
+```
+
+Step 10: Verify the deployment
+```
+kubectl --context=dev-ctx get pods -n dev -o wide
+```
+
+Step 11: Verify restricted access to the default namespace
+```
+kubectl --context=dev-ctx get pods -n default
+```
+You should receive a forbidden error as only employees are authorized to access the dev namespace.
+
+These steps will help you complete the RBAC task successfully.
