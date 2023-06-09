@@ -176,6 +176,7 @@ volumes:
   redis-data:
   db-data:
 
+---------------------------------------------------------
 
 version: '3'
 services:

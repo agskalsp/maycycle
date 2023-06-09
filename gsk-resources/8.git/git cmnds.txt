@@ -9,9 +9,156 @@ git bisect reset  --> TO COME out of the GIT BISECT
 git add -p   --> adds patch to a stage i.e., it stages the changes separately 
 it will show our recent chnages and asks whether Y or N to stage that changes :)
 
+You can keep your project code in remote servers like GitHub, GitLab or on a self-hosted server. Git sets a default name for your remote URL as origin
+
+Remote URL can be one of the two types:
+
+HTTPS URL like https://github.com/user/repo.git: You can clone/push using your user name and password
+
+SSH URL, like git@github.com:user/repo.git: You need to configure SSH keys in Github/Gitlab account and local machine
+
+Keep reading to find out the Git commands used to collaborate with other developers.
+
 git clone: Get the complete project from remote to your local machine
 git pull origin <branch_name>: Get the new changes from remote branch to local branch
 git push origin <branch_name>: Send your local branch changes to the remote branch
 git remote add <name> <url>: Add a new remote repo link to your local repo
 git remote -v: List all the remote repo URLs linked to your local repo
 image: git collaboration commands
+
+git init adds .git folder and initializes the current folder to track its changes
+git status displays the current state of the staging area and the working directory, that is, which files are added/removed/modified
+git diff shows the exact changes with line and column number
+git add adds the changes to the staging area. If you have added a new file, this command starts tracking the file for modifications.
+git commit will save all the changes with a unique hash number in the local repository
+git push sends the changes to the remote repository (server)
+
+You can use both tilde and caret symbols in combination with HEAD to refer specific commit:
+
+HEAD means (the reference to) the recent commit of current branch -> F
+HEAD^1 means First parent of F -> E
+HEAD^2 means Second parent of F -> error as there is only one immediate parent commit
+HEAD~1 means (the reference to) one commit before HEAD -> E
+HEAD~1^1 means First parent of E -> C
+HEAD~1^2 means Second parent of E -> D
+HEAD~1^3 means Third parent of E -> error
+HEAD~3 means (the reference to) three commits before HEAD -> B
+
+Double Dot Operator
+It is the default operator in git diff
+git diff master..feature or git diff master feature command will display all the differences from G to C (that is, including F and G)
+Triple Dot Operator
+It shows the difference between master and feature branch starting at the last common commit E.
+git diff master...feature command's output would be the difference in feature branch (that is, only A, B, and C)
+
+Git log command shows the list of commits in the current branch. You can use it in the following ways:
+
+git log -2 displays the history of last two commits
+git log commit_id shows the history starting from commit_id
+git log filename displays the list of commits for the file
+Flags
+
+You can enhance the output of git log command using these optional flags:
+
+--oneline: Fits the log output to a single line
+--decorate: Adds a symbolic pointer to the output
+--graph: Gives a graphical representation to the log output
+--grep=<pattern>: Filters the log output and displays the output which matches the specified pattern
+For example, git log --oneline
+
+git log -p: Prints full details of each commit
+git log --grep-reflog=<pattern>: Shows the list of commits when commit message matches regular expression pattern
+git log --follow ./path/to/filename: Shows the history for the current file
+git show: Outputs content changes of the specified commit
+git diff --color-words: Output has only the color-coded words that have changed
+git diff –staged: Shows the file differences between staging and the last committed version
+git diff .path/to/file: Shows changes in a file compared to the previous commit
+
+
+Git Remote
+The syntax to link your local repo with remote repo is:
+
+git remote add <remote_name> <remote_url>
+It takes two arguments, namely:
+
+<remote_name>, let us take default name origin
+<remote_url>, let us take https_url https://github.com/play/repo.git
+For example: git remote add origin https://github.com/play/repo.git
+
+Note: Your local repository can be linked to multiple remote repositories as git remote add origin1 <url>, git remote add origin2 <url>
+
+
+Branch Operations
+You can do the following with branch:
+
+Creating new branch: git checkout -b <branch-name>
+Pushing branch from local to remote repo: git push origin <branch-name>
+Renaming branch:
+Renaming local branch: git branch -m old-name new-name
+Renaming remote branch: git push origin :old-name new-name
+Deleting branch:
+Deleting local branch: git branch -d <branch-name>
+Deleting remote branch: git push origin -d <branch-name>
+
+Cheat Sheet
+git branch -a: Lists all the branches
+git branch -d <branch-name>: Deletes the branch in local repo
+git checkout -b: Creates a branch and switches to it
+git checkout <branch-name>: Switches to the provided branch
+
+Merge vs. Rebase
+While merge and rebase are both used to integrate changes of two branches, let us see how they differ and which one you can use.
+
+Merge	Rebase
+What it does?	Creates new commit while integrating changes from one branch to another	Does not create any new commit while integrating changes from one branch to another
+Safe or not?	It is safe in nature, as it does not re-write the history of feature branch	It is destructive in nature, if you rebase feature branch with latest changes in master, your feature branch commit hashes changes.
+When to use?	When your feature branch is in remote and someone else is creating new branch on top of your feature branch. Use git merge to get the changes from master to feature.	When your feature branch is local and changing history will not affect others. Use git rebase to get new changes from master to your feature branch.
+
+Cheat Sheet
+git merge <branch>: Merges <branch> to current branch
+git rebase <base>: Rebases the current branch onto the base (branch name, commit ID, tag)
+git rebase -i <base>: Performs interactive rebase. Launches editor where you can specify command on each commit to transform it.
+git rebase --abort: Cancels rebasing and goes back to the previous commit
+git rebase --continue: Continues rebasing after resolving the rebase conflicts
+git pull --rebase: Fetches the remote copy and rebases it into the current branch of the local copy
+
+git commit --amend command is used to fix your previous commit where you do not want to add a new commit. You can:
+
+Correct your typos in commit messages
+Add small changes in the file that you missed adding in the last commit
+
+Cheat Sheet
+git revert <commit>: Creates a new commit that undoes all changes made in the commit and applies it to the current branch
+
+git reset <file>: Moves file changes from staging area to working directory.
+
+git reset <commit>: Moves current branch's HEAD tip to the old <commit>. All the changes in the commits (that you skipped to move to the old commit) are moved to the working area.
+
+git commit --amend: Adds staged changes to the last commit and allows for editing the old commit message
+
+git rm --cached(file_name): Untracks the current file
+
+git checkout <commit>: Switches the HEAD to the provided commit
+
+Stash Tips
+Stashes are not transferred to the server when you push
+By default, Git will not stash changes made to untracked or ignored files
+Adding the -u option (or --include-untracked) tells git stash to stash your untracked files
+
+Cheat Sheet
+git stash: Saves all the modified files temporarily
+git stash list: Lists all the stashed sets
+git stash apply: Applies the latest stashed content
+git stash pop: Applies the latest stashed set and drops it
+git tag: Adds a tag to a commit
+git tag -a -m: Adds an annotated tag with a message
+git push tag name: Pushes tag to the remote repo
+
+Git Bisect - Cheat Sheet
+Examples:
+
+git bisect start - To start Git Bisect
+
+git bisect good - To declare that the commit is good
+
+git bisect bad - To declare that the commit has an error

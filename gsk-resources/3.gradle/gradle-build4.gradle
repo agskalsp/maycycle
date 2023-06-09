@@ -177,6 +177,8 @@ task createFatJar(type: Jar) {
 
 // Make the createFatJar task run before the build task
 build.dependsOn createFatJar
+
+
 USING PLUGIN:
 -----------------------
 gradle shadowJar
