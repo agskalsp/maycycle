@@ -1,0 +1,305 @@
+To complete the hands-on exercises, follow the steps provided below.
+
+Step 1: Check Docker and Minikube Setup
+Make sure that Docker and Minikube are properly installed and configured on your system. Start Minikube and sync the host Docker with Minikube's Docker by running the following commands:
+
+```
+minikube -p minikube docker-env
+eval $(minikube docker-env)
+```
+
+Step 2: Create a ConfigMap
+Create a ConfigMap named `fresco-config` with the key `SERVER_URL` and value `https://www.fresco.me` using the following command:
+
+```
+kubectl create configmap fresco-config --from-literal=SERVER_URL=https://www.fresco.me
+```
+
+Verify if the ConfigMap is created:
+
+```
+kubectl get configmap fresco-config
+```
+
+Step 3: Create an Nginx Pod with ConfigMap
+Create an Nginx pod named `fresco-nginx-pod` and pass the environment variable `SERVER_URL_ENV` with the value from the ConfigMap. Use the following YAML template:
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: fresco-nginx-pod
+spec:
+  containers:
+    - name: fresco-nginx-container
+      image: nginx
+      env:
+        - name: SERVER_URL_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: fresco-config
+              key: SERVER_URL
+```
+
+Create the pod using the following command:
+
+```
+kubectl apply -f <filename>.yaml
+```
+
+Replace `<filename>` with the name of the file containing the YAML template.
+
+Test the configuration by executing the following command:
+
+```
+kubectl exec -it fresco-nginx-pod -- sh -c "env | grep SERVER_URL_ENV"
+```
+
+It should display: `SERVER_URL_ENV=https://www.fresco.me`.
+
+Step 4: Create a Secret
+Create a Secret named `fresco-secret` with the data `user:admin` and `pass:pass` using the following command:
+
+```
+kubectl create secret generic fresco-secret --from-literal=user=admin --from-literal=pass=pass
+```
+
+Step 5: Mount the Secret in the Nginx Pod
+Modify the Nginx pod `fresco-nginx-pod` to add the `fresco-secret` and mount it to the path `/etc/test`. Use the following YAML template:
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: fresco-nginx-pod
+spec:
+  containers:
+    - name: fresco-nginx-container
+      image: nginx
+      env:
+        - name: SERVER_URL_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: fresco-config
+              key: SERVER_URL
+      volumeMounts:
+        - name: test-volume
+          mountPath: /etc/test
+  volumes:
+    - name: test-volume
+      secret:
+        secretName: fresco-secret
+```
+
+Apply the changes to the pod using the following command:
+
+```
+kubectl apply -f <filename>.yaml
+```
+
+Replace `<filename>` with the name of the file containing the YAML template.
+
+Check if the pod and secret are successfully configured by running the following command:
+
+```
+kubectl exec -it fresco-nginx-pod -- sh -c "cat /etc/test/*"
+```
+
+It should display the username and password from the secret.
+
+Step 6: Create Persistence Volume and Persistence Volume Claim
+Create a Persistence Volume (PV) named `fresco-pv` with the following parameters:
+
+```yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name
+
+: fresco-pv
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 100Mi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /tmp/fresco
+```
+
+Create the PV using the following command:
+
+```
+kubectl apply -f <filename>.yaml
+```
+
+Replace `<filename>` with the name of the file containing the YAML template.
+
+Create a Persistence Volume Claim (PVC) named `fresco-pvc` requesting 50MB using the following YAML template:
+
+```yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: fresco-pvc
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Mi
+```
+
+Create the PVC using the following command:
+
+```
+kubectl apply -f <filename>.yaml
+```
+
+Replace `<filename>` with the name of the file containing the YAML template.
+
+Verify that the PVC is successfully bound to the PV:
+
+```
+kubectl get pvc fresco-pvc
+```
+
+Step 7: Modify Nginx Pod with Persistence Volume Claim
+Modify the Nginx pod `fresco-nginx-pod` to request the `fresco-pvc` as a volume and mount it to the path `/usr/share/nginx/html`. Use the following YAML template:
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: fresco-nginx-pod
+spec:
+  containers:
+    - name: fresco-nginx-container
+      image: nginx
+      env:
+        - name: SERVER_URL_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: fresco-config
+              key: SERVER_URL
+      volumeMounts:
+        - name: html-volume
+          mountPath: /usr/share/nginx/html
+  volumes:
+    - name: html-volume
+      persistentVolumeClaim:
+        claimName: fresco-pvc
+```
+
+Apply the changes to the pod using the following command:
+
+```
+kubectl apply -f <filename>.yaml
+```
+
+Replace `<filename>` with the name of the file containing the YAML template.
+
+Step 8: RBAC Setup
+Create a namespace named `dev` using the following command:
+
+```
+kubectl create namespace dev
+```
+
+Generate a private key named `emp.key` using `openssl`:
+
+```
+openssl genrsa -out emp.key 2048
+```
+
+Create a certificate signing request (CSR) named `emp.csr` using the private key generated earlier and the following information:
+
+- Name: emp
+- Group: dev
+
+```
+openssl req -new -key emp.key -out emp.csr -subj "/CN=emp/O=dev"
+```
+
+Approve the certificate signing request and generate `emp.crt`:
+
+```
+openssl x509 -req -in emp.csr -CA /root/.minikube/ca.crt -CAkey /root/.minikube/ca.key -CAcreateserial -out emp.crt
+```
+
+Create a new context named `dev-ctx` pointing to the Minikube cluster, namespace `dev`, and user `emp` using the following command:
+
+```
+kubectl config set-context dev-ctx --cluster=minikube --namespace=dev --user=emp
+```
+
+Set credentials for `emp` using the private key and certificate created earlier:
+
+```
+kubectl config set-credentials emp --client-key=emp.key --client-certificate=emp.crt
+```
+
+Create a role named `emp-role` with `get` and `list` access on `pods` and `deployments` in the `dev` namespace using the following YAML template:
+
+```yaml
+api
+
+Version: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: emp-role
+  namespace: dev
+rules:
+  - apiGroups: [""]
+    resources: ["pods", "deployments"]
+    verbs: ["get", "list"]
+```
+
+Apply the role using the following command:
+
+```
+kubectl apply -f <filename>.yaml
+```
+
+Replace `<filename>` with the name of the file containing the YAML template.
+
+Bind the user `emp` to the `emp-role` using the following YAML template:
+
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: emp-bind
+  namespace: dev
+subjects:
+  - kind: User
+    name: emp
+    apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: emp-role
+  apiGroup: rbac.authorization.k8s.io
+```
+
+Apply the role binding using the following command:
+
+```
+kubectl apply -f <filename>.yaml
+```
+
+Replace `<filename>` with the name of the file containing the YAML template.
+
+Run an Nginx pod under the `dev-ctx` and `dev` namespace with the name `nginx` using the following command:
+
+```
+kubectl run nginx --image=nginx --context=dev-ctx --namespace=dev
+```
+
+Check if the pod is deployed successfully using the following command:
+
+```
+kubectl --context=dev-ctx get pods -o wide
+```
+
+If you try to execute `kubectl --context=dev-ctx get pods -n default`, a `forbidden` error will appear because only employees are authorized to access the `dev` namespace.
