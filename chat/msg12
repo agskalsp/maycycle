@@ -1,0 +1,38 @@
+Good news all test cases passed
+just left for docker image
+docker file is having issue
+
+
+-------
+new dockerfile kuda same issue
+
+-----------
+
+  Downloading wcwidth-0.1.8-py2.py3-none-any.whl (17 kB)
+Collecting zope.interface==4.7.1 (from -r requirements.txt (line 36))
+  Downloading zope.interface-4.7.1.tar.gz (151 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 151.4/151.4 kB 95.0 MB/s eta 0:00:00
+  Preparing metadata (setup.py): started
+  Preparing metadata (setup.py): finished with status 'error'
+  error: subprocess-exited-with-error
+  
+  × python setup.py egg_info did not run successfully.
+  │ exit code: 1
+  ╰─> [6 lines of output]
+      Traceback (most recent call last):
+        File "<string>", line 36, in <module>
+        File "<pip-setuptools-caller>", line 34, in <module>
+        File "/tmp/pip-install-xhbf1o9d/zope-interface_a3b038fa5d1b4526a20f10e26e993379/setup.py", line 26, in <module>
+          from setuptools import setup, Extension, Feature
+      ImportError: cannot import name 'Feature' from 'setuptools' (/usr/local/lib/python3.7/site-packages/setuptools/__init__.py)
+      [end of output]
+  
+  note: This error originates from a subprocess, and is likely not a problem with pip.
+error: metadata-generation-failed
+
+× Encountered error while generating package metadata.
+╰─> See above for output.
+
+note: This is an issue with the package mentioned above, not pip.
+hint: See above for details.
+The command '/bin/sh -c apk update &&     apk add --no-cache gcc musl-dev &&     pip install --no-cache-dir --upgrade pip &&     pip install --no-cache-dir -r requirements.txt' returned a non-zero code: 1
