@@ -1,0 +1,78 @@
+Sure, I can help you with that. Here are the steps involved in writing the unit test cases for the Kanban board Flask application using Pytest and deploying the application using Docker Compose:
+
+Write the unit test cases using Pytest testing framework in the following path '~/Desktop/Project/wingst5-may2023-s1h1/test.py'
+The unit test cases should be written in the Python programming language using the Pytest testing framework. The test cases should test the functionality of the Kanban board Flask application.
+
+Here is an example of a unit test case:
+
+Code snippet
+def test_add_task(self):
+    """Test that a task can be added to the Kanban board."""
+
+    # Create a new task
+    task = {
+        "title": "Test Task",
+        "status": "To Do",
+    }
+
+    # Add the task to the Kanban board
+    self.app.add_task(task)
+
+    # Assert that the task was added successfully
+    assert task in self.app.tasks
+Use code with caution. Learn more
+Refer 'test.py' file for further instructions.
+The 'test.py' file contains further instructions on how to write the unit test cases.
+
+Commands to Execute:
+
+'export FLASK_APP=app.py' to set an environment variable.
+'python3 -m flask run' to run the Flask application.
+'python3 -m pytest test.py' to run the test cases.
+These commands can be used to set up the environment, run the Flask application, and run the unit test cases.
+
+Once you done with test cases. Deploy the Kanbanboard Flask application in Docker using Docker Compose.
+To deploy the Kanbanboard Flask application in Docker using Docker Compose, you need to create a 'Dockerfile' and a 'docker-compose.yml' file.
+
+The 'Dockerfile' is used to build the Docker image for the Kanbanboard Flask application. The 'docker-compose.yml' file is used to define the services that make up the Kanbanboard Flask application.
+
+Here is an example of a 'Dockerfile':
+
+Code snippet
+FROM python:alpine3.7
+
+WORKDIR /app
+
+COPY . .
+
+RUN pip install -r requirements.txt
+
+CMD ["python3", "app.py"]
+Use code with caution. Learn more
+This Dockerfile builds a Docker image for the Kanbanboard Flask application using the Python Alpine 3.7 image as its base image. The Docker image is then run using the python3 app.py command.
+
+Here is an example of a 'docker-compose.yml' file:
+
+Code snippet
+version: '3'
+
+services:
+  app:
+    image: kanbanboard_app_image
+    container_name: kanbanboard_app_container
+    networks:
+      - app_network
+    volumes:
+      - ./app_volume:/app
+    ports:
+      - 5005:5005
+
+networks:
+  app_network:
+Use code with caution. Learn more
+This 'docker-compose.yml' file defines a service named 'app' with the Docker image (kanbanboard_app_image), container named 'kanbanboard_app_container', connect a bridge network named 'app_network', attach a volume named 'app_volume' and deploy the application in 5005 port.
+
+Visit "http://localhost:5005/" URL in the browser and ensure that the application is running successful.
+Once the Kanbanboard Flask application is deployed using Docker Compose, you can visit the "http://localhost:5005/" URL in the browser to ensure that the application is running successfully.
+
+I hope this helps! Let me know if you have any other questions.
