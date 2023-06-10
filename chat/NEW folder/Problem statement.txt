@@ -1,0 +1,30 @@
+A kanban board is a project management tool designed to help visualize work, manage project tasks, workflows and communication.
+ 
+In this challenge, you are going to write the unit test cases for the given Kanban board Flask application using Pytest and 
+deploy the application using Docker Compose.
+
+Instructions:
+
+1. Write the unit test cases using Pytest testing framework in the following path '~/Desktop/Project/wingst5-may2023-s1h1/test.py'
+2. Refer 'test.py' file for further instructions.
+3. Commands to Execute:
+    - 'export FLASK_APP=app.py' to set an environment variable.
+    - 'python3 -m flask run' to run the Flask application.
+    - 'python3 -m pytest test.py' to run the test cases.
+4. Once you done with test cases. Deploy the Kanbanboard Flask application in Docker using Docker Compose.
+5. Create a 'Dockerfile' to dockerize the Kanbanboard Flask application with 'python alpine3.7' as its base image named 'kanbanboard_app_image'.
+6. Create 'docker-compose.yml' file to create a service named 'app' with the docker image (kanbanboard_app_image), container named 'kanbanboard_app_container', connect a bridge network named 'app_network', attach a volume named 'app_volume' and deploy the application in 5005 port.
+7. Visit "http://localhost:5005/" URL in the browser and ensure that the application is running successful.
+
+
+Note:
+    - Run 'setup.sh' to install the dependencies.
+    - Please follow exact naming conventions.
+    - Create 'Dockerfile' and 'docker-compose.yml' file inside the path '~/Desktop/Project/wingst5-may2023-s1h1'
+    - If you face any Docker daemon related issues while running docker, Execute the below commands and retry,
+        $ sudo apt-get update 
+        $ sudo apt install docker.io -y 
+        $ cd /var/run 
+        $ sudo rm -f docker.pid 
+
+ 

@@ -1,0 +1,20 @@
+version: "3"
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: kanbanboard_app_container
+    ports:
+      - "5005:5005"
+    networks:
+      - app_network
+    volumes:
+      - app_volume:/app
+
+networks:
+  app_network:
+    driver: bridge
+
+volumes:
+  app_volume:
