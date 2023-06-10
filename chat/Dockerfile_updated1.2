@@ -1,0 +1,22 @@
+I apologize for the inconvenience. It seems that the issue persists even after upgrading `pip`. The error is related to the `zope.interface` package. 
+
+One possible solution is to modify the `requirements.txt` file to specify a version of `zope.interface` that is compatible with the `setuptools` version installed in the Alpine image. You can try changing the `zope.interface` line in `requirements.txt` to `zope.interface==5.4.0` (or any other version that is known to work with your setup).
+
+After making this change, update your Dockerfile as follows:
+
+```Dockerfile
+FROM python:3.7-alpine
+
+WORKDIR /app
+
+COPY . .
+
+RUN apk update && \
+    apk add --no-cache gcc musl-dev && \
+    pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
+
+CMD ["python3", "app.py"]
+```
+
+Please update the `requirements.txt` file and the Dockerfile with the changes, and try building the Docker image again. Let me know if you encounter any further issues.
