@@ -1,0 +1,29 @@
+If your Docker image was created successfully but the application is not running on port 5005, there might be an issue with the application code or the Docker configuration.
+
+Here are a few steps you can follow to troubleshoot the problem:
+
+1. Check the Flask application's code (`app.py`) to ensure that the Flask server is configured to run on port 5005. Look for the following line in `app.py`:
+
+   ```python
+   app.run(port=5005)
+   ```
+
+   Make sure this line is present and uncommented. If it's commented out, remove the comment (`#`) to enable it.
+
+2. Verify that the Flask application is running correctly outside of Docker. Run the Flask application locally on your machine using the command `python3 app.py` and check if it's accessible on port 5005. Open your web browser and visit `http://localhost:5005` to see if the Flask application is running and responding properly.
+
+   If the Flask application works fine locally, proceed to the next step. Otherwise, debug and fix any issues with the application code before attempting to run it in Docker.
+
+3. Check the Docker command you are using to run the container. Ensure that you are mapping the container's port 5005 to a port on your host machine. The `-p` or `--publish` option is used for port mapping.
+
+   For example, to map the container's port 5005 to port 5005 on your host machine, use the following Docker command:
+
+   ```shell
+   docker run -p 5005:5005 <your-image-name>
+   ```
+
+   Make sure to replace `<your-image-name>` with the actual name or ID of your Docker image.
+
+4. Once the Docker container is running, access the Flask application by visiting `http://localhost:5005` in your web browser. If everything is set up correctly, you should be able to see the Flask application's response.
+
+If you're still encountering issues, please provide more details about any error messages or logs you're seeing, and I'll do my best to assist you further.
