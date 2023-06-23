@@ -1,0 +1,30 @@
+To create the models in Django with the specified fields and constraints, you can define the models in a Django app's `models.py` file. Here's the code for creating the `Borrower`, `Loan`, and `Payment` models:
+
+```python
+from django.db import models
+
+class Borrower(models.Model):
+    name = models.CharField(max_length=255)
+    email = models.EmailField(unique=True)
+
+class Loan(models.Model):
+    amount = models.FloatField()
+    interest_rate = models.FloatField()
+    borrower = models.ForeignKey(Borrower, on_delete=models.CASCADE, related_name='loans')
+
+class Payment(models.Model):
+    amount = models.FloatField()
+    date = models.DateField(default=models.DateField(auto_now_add=True))
+    loan = models.ForeignKey(Loan, on_delete=models.CASCADE, related_name='payments')
+```
+
+Make sure you have Django installed and configured properly in your project. Once you have defined these models, you can run the following Django management commands to create the corresponding database tables:
+
+```
+python manage.py makemigrations
+python manage.py migrate
+```
+
+These commands will create the necessary database tables based on the models you defined.
+
+Note: This code assumes you have Django installed and configured in your project.
