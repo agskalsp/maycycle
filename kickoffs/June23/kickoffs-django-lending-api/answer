@@ -1,83 +1,133 @@
-To create the models in Django with the specified fields and constraints, you can define the models in a Django app's `models.py` file. Here's the code for creating the `Borrower`, `Loan`, and `Payment` models:
+To implement the project confirmation application in Node.js with Express.js and MongoDB, follow the steps below:
 
-```python
-from django.db import models
-
-class Borrower(models.Model):
-    name = models.CharField(max_length=255)
-    email = models.EmailField(unique=True)
-
-class Loan(models.Model):
-    amount = models.FloatField()
-    interest_rate = models.FloatField()
-    borrower = models.ForeignKey(Borrower, on_delete=models.CASCADE, related_name='loans')
-
-class Payment(models.Model):
-    amount = models.FloatField()
-    date = models.DateField(default=models.DateField(auto_now_add=True))
-    loan = models.ForeignKey(Loan, on_delete=models.CASCADE, related_name='payments')
+1. Install the necessary dependencies by running the following command in the terminal:
+```
+npm install express mongoose
 ```
 
-Make sure you have Django installed and configured properly in your project. Once you have defined these models, you can run the following Django management commands to create the corresponding database tables:
+2. Create a file named `projects.js` inside the `src/models` directory to define the project schema:
+```javascript
+const mongoose = require('mongoose');
 
-```
-python manage.py makemigrations
-python manage.py migrate
-```
+const projectSchema = new mongoose.Schema({
+  title: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  description: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  complexity: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  technology: {
+    type: String,
+    required: true,
+    trim: true
+  }
+}, { timestamps: true });
 
-These commands will create the necessary database tables based on the models you defined.
+const Project = mongoose.model('Project', projectSchema);
 
-Note: This code assumes you have Django installed and configured in your project.
-
-
-PART 2
-----------------------
-
-To assign the URL for the "/lends/borrower" endpoint in your Django project, you need to update the `lendingapi/urls.py` file. Here's an example of how you can define the endpoint and implement the POST method to store the borrower details in the Borrower model:
-
-In your `lendingapi/urls.py` file, add the following code:
-
-```python
-from django.urls import path
-from lendingapi.views import BorrowerView
-
-urlpatterns = [
-    path('lends/borrower', BorrowerView.as_view(), name='create_borrower'),
-]
-```
-
-Next, create a new file called `views.py` in the same directory as `urls.py`, and add the following code to implement the POST method for the "/lends/borrower" endpoint:
-
-```python
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
-from lendingapi.models import Borrower
-from lendingapi.serializers import BorrowerSerializer
-
-class BorrowerView(APIView):
-    def post(self, request):
-        serializer = BorrowerSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+module.exports = Project;
 ```
 
-In this code, we import the necessary modules and classes from Django REST Framework. The BorrowerView class is derived from the APIView class provided by Django REST Framework. It implements the POST method, which receives the borrower details in the request data, validates the data using the BorrowerSerializer, saves the data in the Borrower model, and returns the serialized data in the response with a status code of 201 (Created) if the data is valid.
+3. Create a file named `project.js` inside the `src/routers` directory to define the project routes:
+```javascript
+const express = require('express');
+const Project = require('../models/projects');
 
-You will also need to create a serializer class to handle the data serialization. Create a new file called `serializers.py` in the same directory as `views.py` and add the following code:
+const router = express.Router();
 
-```python
-from rest_framework import serializers
-from lendingapi.models import Borrower
+// GET /project
+router.get('/project', async (req, res) => {
+  try {
+    const { title, technology, sortBy } = req.query;
+    const query = {};
 
-class BorrowerSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Borrower
-        fields = ['name', 'email']
+    if (title) {
+      query.title = title;
+    }
+    if (technology) {
+      query.technology = technology;
+    }
+
+    let projects;
+    if (sortBy) {
+      const [sortField, sortOrder] = sortBy.split(':');
+      projects = await Project.find(query).sort({ [sortField]: sortOrder });
+    } else {
+      projects = await Project.find(query);
+    }
+
+    res.status(201).json(projects);
+  } catch (error) {
+    res.status(400).json({ error: 'Failed to fetch projects' });
+  }
+});
+
+// POST /project
+router.post('/project', async (req, res) => {
+  try {
+    const projectData = req.body;
+    const project = new Project(projectData);
+    await project.save();
+    res.status(201).json({ message: 'Project added successfully' });
+  } catch (error) {
+    res.status(400).json({ error: 'Failed to add project' });
+  }
+});
+
+module.exports = router;
 ```
 
-In this code, we define a BorrowerSerializer class that inherits from the ModelSerializer class provided by Django REST Framework. It specifies the model as Borrower and the fields to be included in the serialization response.
+4. In your main `app.js` or `index.js` file, configure the Express app and connect to MongoDB:
+```javascript
+const express = require('express');
+const mongoose = require('mongoose');
+const projectRouter = require('./src/routers/project');
 
-Make sure you have the necessary imports and files in your Django project directory. After implementing these changes, you can start your Django server and test the "/lends/borrower" endpoint by sending a POST request with the borrower details in the request body.
+const app = express();
+const port = 8000;
+
+// Middleware
+app.use(express.json());
+
+// Connect to MongoDB
+mongoose.connect('mongodb://localhost/project-confirmation', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true
+})
+  .then(() => {
+    console.log('Connected to MongoDB');
+  })
+  .catch(error => {
+    console.error('Failed to connect to MongoDB:', error);
+  });
+
+// Routes
+app.use(projectRouter);
+
+// Start the server
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
+```
+
+5. Make sure you have MongoDB installed and running on your local machine. You can use the provided MongoDB commands to interact with the database, such as viewing data, selecting the database, and more.
+
+6. To install project dependencies, run the `install.sh` script in the terminal. To run the application, use the `run.sh` script.
+
+You can now test the application using curl commands as mentioned in the instructions:
+- Get all projects: `curl --location
+
+ 'localhost:8000/project'`
+- Get projects with filters: `curl --location 'localhost:8000/project?title=project%20title&technology=tech&sortBy=desc'`
+
+These commands will allow you to interact with the application and test its functionality.
