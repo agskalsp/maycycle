@@ -28,3 +28,56 @@ python manage.py migrate
 These commands will create the necessary database tables based on the models you defined.
 
 Note: This code assumes you have Django installed and configured in your project.
+
+
+PART 2
+----------------------
+
+To assign the URL for the "/lends/borrower" endpoint in your Django project, you need to update the `lendingapi/urls.py` file. Here's an example of how you can define the endpoint and implement the POST method to store the borrower details in the Borrower model:
+
+In your `lendingapi/urls.py` file, add the following code:
+
+```python
+from django.urls import path
+from lendingapi.views import BorrowerView
+
+urlpatterns = [
+    path('lends/borrower', BorrowerView.as_view(), name='create_borrower'),
+]
+```
+
+Next, create a new file called `views.py` in the same directory as `urls.py`, and add the following code to implement the POST method for the "/lends/borrower" endpoint:
+
+```python
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from lendingapi.models import Borrower
+from lendingapi.serializers import BorrowerSerializer
+
+class BorrowerView(APIView):
+    def post(self, request):
+        serializer = BorrowerSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+```
+
+In this code, we import the necessary modules and classes from Django REST Framework. The BorrowerView class is derived from the APIView class provided by Django REST Framework. It implements the POST method, which receives the borrower details in the request data, validates the data using the BorrowerSerializer, saves the data in the Borrower model, and returns the serialized data in the response with a status code of 201 (Created) if the data is valid.
+
+You will also need to create a serializer class to handle the data serialization. Create a new file called `serializers.py` in the same directory as `views.py` and add the following code:
+
+```python
+from rest_framework import serializers
+from lendingapi.models import Borrower
+
+class BorrowerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Borrower
+        fields = ['name', 'email']
+```
+
+In this code, we define a BorrowerSerializer class that inherits from the ModelSerializer class provided by Django REST Framework. It specifies the model as Borrower and the fields to be included in the serialization response.
+
+Make sure you have the necessary imports and files in your Django project directory. After implementing these changes, you can start your Django server and test the "/lends/borrower" endpoint by sending a POST request with the borrower details in the request body.
